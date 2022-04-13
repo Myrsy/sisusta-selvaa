@@ -1,6 +1,6 @@
 package fi.tuni.prog3.sisu;
 
-public class GroupingModule extends DegreeProgramme {
+public class GroupingModule extends Module {
     
     private String name;
     private String groupId; 
