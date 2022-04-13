@@ -10,10 +10,12 @@ public class GroupingModule extends DegreeProgramme {
         this.groupId = groupId;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public String getGroupId() {
         return groupId;
     }
