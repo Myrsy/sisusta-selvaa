@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
@@ -19,6 +20,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Iterator;
+import org.apache.commons.codec.binary.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 
 
@@ -43,9 +47,12 @@ public class SearchTool {
             file.createNewFile(); 
                         
             URL url = new URL("https://sis-tuni.funidata.fi/kori/api/module-search?curriculumPeriodId=uta-lvv-2021&universityId=tuni-university-root-id&moduleType=DegreeProgramme&limit=1000");
-            String data = new String(url.openStream().readAllBytes());   
+            String data =new String(url.openStream().readAllBytes()); 
+            byte[] bytes = StringUtils.getBytesUtf8(data);
+            String utf8data = StringUtils.newStringUtf8(bytes);
+ 
             
-            JsonObject json = new JsonParser().parse(data).getAsJsonObject();
+            JsonObject json = new JsonParser().parse(utf8data).getAsJsonObject();
             JsonArray searchResults = json.getAsJsonArray("searchResults");
 
             JsonArray fileRoot = new JsonArray();
@@ -59,15 +66,15 @@ public class SearchTool {
                JsonPrimitive minCredits = credits.getAsJsonObject().getAsJsonPrimitive("min");
 
                JsonObject programme = new JsonObject();
-               programme.addProperty("name", name.getAsString());
-               programme.addProperty("groupId", groupId.getAsString());
+               programme.addProperty("name",name.getAsString());
+               programme.addProperty("groupId",groupId.getAsString());
                programme.addProperty("minCredits", minCredits.getAsString());
 
                fileRoot.add(programme);
             }
 
             try(FileWriter fw = new FileWriter("degreeprogrammesfile.txt", Charset.forName("UTF-8"))){
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                 gson.toJson(fileRoot, fw);
             }
             
@@ -84,10 +91,11 @@ public class SearchTool {
         
         URL url = new URL(urlStr);
         String data = new String(url.openStream().readAllBytes());
-        
+        byte[] bytes = StringUtils.getBytesUtf8(data);
+        String utf8data = StringUtils.newStringUtf8(bytes);
         JsonArray array = new JsonArray();
         
-        parseAndSaveModule(data, array);
+        parseAndSaveModule(utf8data, array);
         
     }
     
@@ -118,27 +126,33 @@ public class SearchTool {
             JsonObject jsonObj = x.getAsJsonObject();  
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
-//            JsonPrimitive code = jsonObj.getAsJsonPrimitive("code");
-//            JsonObject credits = jsonObj.getAsJsonObject("targetCredits");
-//            JsonPrimitive minCredits = credits.getAsJsonPrimitive("min");
-//            JsonObject learningOutcomes = jsonObj.getAsJsonObject("learningOutcomes");
-//            JsonPrimitive learningOutcomesFI = null;
-//            if(learningOutcomes != null){
-//                learningOutcomesFI = learningOutcomes.getAsJsonPrimitive("fi");
-//            }
+            JsonElement code = jsonObj.get("code");              
+            JsonObject credits = jsonObj.getAsJsonObject("targetCredits");
+            JsonPrimitive minCredits = null;
+            if(credits != null){
+                minCredits = credits.getAsJsonPrimitive("min");
+            }
+            JsonObject learningOutcomes = jsonObj.getAsJsonObject("learningOutcomes");
+            JsonPrimitive learningOutcomesFI = null;
+            if(learningOutcomes != null){
+                learningOutcomesFI = learningOutcomes.getAsJsonPrimitive("fi");
+            }
             
             JsonObject rule = jsonObj.getAsJsonObject("rule");
             JsonArray rules = parseRules(rule);
             
             JsonObject module = new JsonObject();
             module.addProperty("name", nameFI.getAsString());
-//            module.addProperty("code", code.getAsString());
-//            module.addProperty("minCredits", minCredits.getAsString());
-            
-            System.out.println(nameFI.getAsString());
-//            if(learningOutcomesFI != null){
-//                module.addProperty("learningOutcomes", learningOutcomesFI.getAsString());
-//            }
+            if(!(code instanceof JsonNull)){
+               module.addProperty("code",code.getAsString());
+            }
+
+            if(learningOutcomesFI != null){
+                module.addProperty("learningOutcomes",learningOutcomesFI.getAsString());
+            }
+            if(minCredits != null){
+                module.addProperty("minCredits", minCredits.getAsString());
+            }
             
 
             JsonArray ruleArray = new JsonArray();
@@ -155,15 +169,19 @@ public class SearchTool {
                                 + moduleGroupId + "&universityId=tuni-university-root-id";
                         URL url = new URL(urlStr);
                         String data2 = new String(url.openStream().readAllBytes());
-                        parseAndSaveModule(data2, ruleArray );
+                        byte[] bytes = StringUtils.getBytesUtf8(data2);
+                        String utf8data = StringUtils.newStringUtf8(bytes);
+                        parseAndSaveModule(utf8data, ruleArray );
                     }else if (ruleObj.getAsJsonPrimitive("type").getAsString().equals("CourseUnitRule")){
                         String courseUnitGroupId = ruleObj.getAsJsonPrimitive("courseUnitGroupId").getAsString();
                         String urlStr = "https://sis-tuni.funidata.fi/kori/api/course-units/by-group-id?groupId=" 
                                 + courseUnitGroupId + "&universityId=tuni-university-root-id";
                         URL url = new URL(urlStr);
                         String data2 = new String(url.openStream().readAllBytes());
+                        byte[] bytes = StringUtils.getBytesUtf8(data2);
+                        String utf8data = StringUtils.newStringUtf8(bytes);
 
-                        ruleArray.add(parseCourseUnit(data2));
+                        ruleArray.add(parseCourseUnit(utf8data));
 
                     }
                 }
@@ -171,7 +189,7 @@ public class SearchTool {
             
             try(FileWriter fw = new FileWriter("fulldegreesfile.txt", 
                     Charset.forName("UTF-8"))){
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                     gson.toJson(array, fw);
             }
             
@@ -187,27 +205,55 @@ public class SearchTool {
         
         for(JsonElement x : json){
             JsonObject jsonObj = x.getAsJsonObject();
-//            JsonObject credits = jsonObj.getAsJsonObject("targetCredits");
-//            JsonPrimitive minCredits = credits.getAsJsonPrimitive("min");
+            JsonObject credits = jsonObj.getAsJsonObject("credits");
+            JsonPrimitive minCredits = credits.getAsJsonPrimitive("min");
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
-//            JsonPrimitive code = jsonObj.getAsJsonPrimitive("code");
-//            JsonObject outcomes = jsonObj.getAsJsonObject("outcomes");
-//            JsonPrimitive outcomesFI = outcomes.getAsJsonPrimitive("fi");
-//            JsonObject content = jsonObj.getAsJsonObject("content");
-//            JsonPrimitive contentFI = content.getAsJsonPrimitive("fi");
+            JsonPrimitive code = jsonObj.getAsJsonPrimitive("code");
+            JsonElement outcomes = jsonObj.get("outcomes");
+            JsonPrimitive outcomesFI = null;
+            if(!(outcomes instanceof JsonNull)){
+                outcomesFI = outcomes.getAsJsonObject().getAsJsonPrimitive("fi");
+            }          
+            JsonElement content = jsonObj.get("content");
+            JsonPrimitive contentFI = null;
+            if(!(content instanceof JsonNull)){
+                contentFI = content.getAsJsonObject().getAsJsonPrimitive("fi");
+            }
             if (nameFI != null){
                 course.addProperty("name", nameFI.getAsString());
             }
-//            course.addProperty("code", code.getAsString());
-//            course.addProperty("minCredits", minCredits.getAsString());
-//            course.addProperty("outcomes", outcomesFI.getAsString());
-//            course.addProperty("content", contentFI.getAsString());          
+            course.addProperty("code", code.getAsString());
+            course.addProperty("minCredits", minCredits.getAsString());
+            if(contentFI != null){
+                course.addProperty("content", contentFI.getAsString());
+            }else{
+                if(!(content instanceof JsonNull)){
+                    JsonPrimitive contentEN = content.getAsJsonObject().getAsJsonPrimitive("en");
+                    if( contentEN != null){
+                        course.addProperty("content", contentEN.getAsString());
+                    }
+                }
+                
+            }     
+            if(outcomesFI != null ){
+               course.addProperty("outcomes",outcomesFI.getAsString()); 
+            }else{
+                if(!(outcomes instanceof JsonNull)){
+                    JsonPrimitive outcomesEN = outcomes.getAsJsonObject().getAsJsonPrimitive("en");
+                    if( outcomesEN != null){
+                        course.addProperty("content", outcomesEN.getAsString());
+                    }
+                }
+            }
+            
+                      
             
         }
         
         return course;
     }
+    
     
 }
 
