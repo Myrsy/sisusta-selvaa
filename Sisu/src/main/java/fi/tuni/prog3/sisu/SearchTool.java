@@ -13,9 +13,13 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -36,14 +40,38 @@ import org.jsoup.nodes.Document;
  */
 public class SearchTool {
     
+    private static final String ALL_DEGREES_FILENAME = "degreeprogrammesfile.txt";
+    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.txt";
+    
     public SearchTool(){
         
+    }
+    
+    private void writeArrayToFile(String filename, JsonArray array) 
+            throws IOException {
+        
+        /*Gson gson = new Gson();
+        JsonReader reader = new JsonReader(new FileReader(filename));
+        
+        Type type = new TypeToken<List<DegreeProgramme>>() {}.getType();
+        List<DegreeProgramme> list = gson.fromJson(reader, type);
+        
+        for (DegreeProgramme i: list) {
+            System.out.println(i.getGroupId() + " " + i.getName());
+        }
+        Ilmeisesti pitäisi aluksi lukea vanha Json-tiedosto muuttujaan, sitten 
+        lisätä uudet tiedot ja lopuksi kääntää muuttuja Json-tiedostoksi
+        */ 
+        try(FileWriter fw = new FileWriter(filename, Charset.forName("UTF-8"))){
+               Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+               gson.toJson(array, fw);
+        }
     }
     
     public void searchDegreeProgrammesURL() throws IOException {        
         
         try {
-            File file = new File("degreeprogrammesfile.txt");
+            File file = new File(ALL_DEGREES_FILENAME);
             file.createNewFile(); 
                         
             URL url = new URL("https://sis-tuni.funidata.fi/kori/api/module-search?curriculumPeriodId=uta-lvv-2021&universityId=tuni-university-root-id&moduleType=DegreeProgramme&limit=1000");
@@ -73,10 +101,8 @@ public class SearchTool {
                fileRoot.add(programme);
             }
 
-            try(FileWriter fw = new FileWriter("degreeprogrammesfile.txt", Charset.forName("UTF-8"))){
-                Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-                gson.toJson(fileRoot, fw);
-            }
+            writeArrayToFile(ALL_DEGREES_FILENAME, fileRoot);
+
             
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -187,12 +213,7 @@ public class SearchTool {
                 }
             }
             
-            try(FileWriter fw = new FileWriter("fulldegreesfile.txt", 
-                    Charset.forName("UTF-8"))){
-                    Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-                    gson.toJson(array, fw);
-            }
-            
+            writeArrayToFile(FULL_DEGREES_FILENAME, array);  
             
         }
         
