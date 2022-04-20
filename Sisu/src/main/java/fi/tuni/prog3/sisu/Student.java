@@ -30,20 +30,20 @@ public class Student {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getStudentNumber() {
         return studentNumber;
+    }
+    
+    public String getDegreeProgramme() {
+        return degreeProgramme;
     }
 
     public HashMap<CourseUnit, Integer> getCourses() {
         return courses;
     }
 
-    public void setCourses(HashMap<CourseUnit, Integer> courses) {
-        this.courses = courses;
+    public void addCourse(CourseUnit course, Integer grade) {
+        courses.put(course, grade);
     }
     
     
