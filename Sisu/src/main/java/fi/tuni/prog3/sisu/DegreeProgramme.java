@@ -5,6 +5,8 @@
  */
 package fi.tuni.prog3.sisu;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author pinja
@@ -13,12 +15,14 @@ public class DegreeProgramme extends Module{
     
     private String name;
     private String groupId;
-    private int minCredits;
-    
+    private int minCredits;    
+    private ArrayList<StudyModule> modules;
+
     public DegreeProgramme(String name, String groupId, int minCredits){
         this.name = name;
         this.groupId = groupId;
         this.minCredits = minCredits;
+        this.modules = new ArrayList<>();
     }
 
     @Override
@@ -34,7 +38,7 @@ public class DegreeProgramme extends Module{
     public int getMinCredits() {
         return minCredits;
     }
-    
+
     
         
 }
