@@ -15,7 +15,9 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,7 +25,9 @@ import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
 import java.util.Iterator;
+import javafx.util.Pair;
 import org.apache.commons.codec.binary.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -62,9 +66,10 @@ public class SearchTool {
         Ilmeisesti pitäisi aluksi lukea vanha Json-tiedosto muuttujaan, sitten 
         lisätä uudet tiedot ja lopuksi kääntää muuttuja Json-tiedostoksi
         */ 
+
         try(FileWriter fw = new FileWriter(filename, Charset.forName("UTF-8"))){
-               Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-               gson.toJson(array, fw);
+                    Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+                    gson.toJson(array, fw);
         }
     }
     
@@ -125,62 +130,82 @@ public class SearchTool {
         
     }
     
-    private JsonArray parseRules(JsonObject rule) throws MalformedURLException, IOException{
+    private Pair<JsonArray,String>parseRules(JsonObject rule) throws MalformedURLException, IOException{
         JsonArray rules = null;
+        String desc = "";
+        if(rule.getAsJsonPrimitive("type").getAsString().equals("CompositeRule")){
+            JsonElement description= rule.get("description");
+            JsonPrimitive descriptionFI = null;
+            if(!(description instanceof JsonNull)){
+                descriptionFI = description.getAsJsonObject().getAsJsonPrimitive("fi");
+                if(descriptionFI != null){
+                    desc = descriptionFI.getAsString();
+                }
+            }
+        }
         if((rule.getAsJsonObject("rule") != null) 
                 && (rule.getAsJsonArray("rules") == null)){
            rule = rule.getAsJsonObject("rule");
-           rules = parseRules(rule);
+           Pair rulesPair = parseRules(rule);
+           rules =(JsonArray) rulesPair.getKey();
         } else if ((rule.getAsJsonArray("rules") != null)){
             rules = rule.getAsJsonArray("rules");
             if (rules.get(0).getAsJsonObject().getAsJsonPrimitive("type").getAsString().equals("ModuleRule")
                     || rules.get(0).getAsJsonObject().getAsJsonPrimitive("type").getAsString().equals("CourseUnitRule")){
-                return rules;
+                Pair<JsonArray, String> pair = new Pair<>(rules, desc);
+                return pair;
             } else {
                 for(JsonElement r: rules){
-                    rules = parseRules(r.getAsJsonObject());
+                    
+                    Pair rulesPair = parseRules(r.getAsJsonObject());
+                    rules =(JsonArray) rulesPair.getKey();
                 }
             }
         }
-        
-        return rules;
+        Pair<JsonArray, String> pair = new Pair<>(rules, desc);
+        return pair;
     }
     
     public void parseAndSaveModule(String data, JsonArray array) throws IOException{
         JsonArray json = new JsonParser().parse(data).getAsJsonArray();
         for(JsonElement x: json){
             JsonObject jsonObj = x.getAsJsonObject();  
+            JsonObject module = new JsonObject();
+            
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
-            JsonElement code = jsonObj.get("code");              
+            module.addProperty("name", nameFI.getAsString());
+            JsonPrimitive type = jsonObj.getAsJsonPrimitive("type");
+            module.addProperty("type", type.getAsString());
+            
+            JsonElement code = jsonObj.get("code");
+            if(!(code instanceof JsonNull)){
+               module.addProperty("code",code.getAsString());
+            }
+            
             JsonObject credits = jsonObj.getAsJsonObject("targetCredits");
             JsonPrimitive minCredits = null;
             if(credits != null){
                 minCredits = credits.getAsJsonPrimitive("min");
+                if(minCredits != null){
+                    module.addProperty("minCredits", minCredits.getAsString());
+                }
             }
+            
             JsonObject learningOutcomes = jsonObj.getAsJsonObject("learningOutcomes");
             JsonPrimitive learningOutcomesFI = null;
             if(learningOutcomes != null){
                 learningOutcomesFI = learningOutcomes.getAsJsonPrimitive("fi");
+                if(learningOutcomesFI != null){
+                    module.addProperty("learningOutcomes",learningOutcomesFI.getAsString());
+                }
             }
+                       
             
             JsonObject rule = jsonObj.getAsJsonObject("rule");
-            JsonArray rules = parseRules(rule);
-            
-            JsonObject module = new JsonObject();
-            module.addProperty("name", nameFI.getAsString());
-            if(!(code instanceof JsonNull)){
-               module.addProperty("code",code.getAsString());
-            }
-
-            if(learningOutcomesFI != null){
-                module.addProperty("learningOutcomes",learningOutcomesFI.getAsString());
-            }
-            if(minCredits != null){
-                module.addProperty("minCredits", minCredits.getAsString());
-            }
-            
-
+            Pair rulesPair = parseRules(rule); 
+            JsonArray rules = (JsonArray) rulesPair.getKey();
+            module.addProperty("description", (String) rulesPair.getValue());
             JsonArray ruleArray = new JsonArray();
             module.add("modules", ruleArray);
             array.add(module);
@@ -238,6 +263,7 @@ public class SearchTool {
             }          
             JsonElement content = jsonObj.get("content");
             JsonPrimitive contentFI = null;
+            course.addProperty("type", "CourseUnitRule");
             if(!(content instanceof JsonNull)){
                 contentFI = content.getAsJsonObject().getAsJsonPrimitive("fi");
             }
@@ -246,6 +272,7 @@ public class SearchTool {
             }
             course.addProperty("code", code.getAsString());
             course.addProperty("minCredits", minCredits.getAsString());
+            
             if(contentFI != null){
                 course.addProperty("content", contentFI.getAsString());
             }else{
