@@ -8,14 +8,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 
 
 public class DegreeObjectData {
     
     private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.txt";
     private DegreeProgramme[] degreeObjs;
+    private HashMap<String, DegreeProgramme> degreeProgrammes;
 
     public DegreeObjectData() {
+        this.degreeProgrammes = new HashMap<>();
     }
     
     public void JsonToObjects() throws FileNotFoundException, IOException {
@@ -35,4 +38,12 @@ public class DegreeObjectData {
         }
     }
     
+    public void addProgramme(DegreeProgramme prog){
+        degreeProgrammes.put(prog.getGroupId(), prog);
+    }
+    
+    public void addStudyModuleToDegree(String groupIdParent, StudyModule mod){
+        this.degreeProgrammes.get(groupIdParent).addStudyModule(mod);
+    }
+        
 }

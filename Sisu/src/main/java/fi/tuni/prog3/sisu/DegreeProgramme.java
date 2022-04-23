@@ -38,6 +38,10 @@ public class DegreeProgramme extends Module{
     public int getMinCredits() {
         return minCredits;
     }
+    
+    public void addStudyModule(StudyModule module){
+        this.modules.add(module);
+    }
 
     
         
