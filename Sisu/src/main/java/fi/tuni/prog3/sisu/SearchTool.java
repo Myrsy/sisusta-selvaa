@@ -83,7 +83,7 @@ public class SearchTool {
         
         
         
-               
+             
         try(FileWriter fw = new FileWriter(filename, Charset.forName("UTF-8"))){
                     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                     gson.toJson(array, fw);
@@ -163,7 +163,7 @@ public class SearchTool {
             if(!(description instanceof JsonNull)){
                 descriptionFI = description.getAsJsonObject().getAsJsonPrimitive("fi");
                 if(descriptionFI != null){
-                    desc = descriptionFI.getAsString();
+                    desc = parseHtml(descriptionFI.getAsString());
                 }
             }
         }
@@ -202,7 +202,6 @@ public class SearchTool {
             module.addProperty("name", nameFI.getAsString());
             JsonPrimitive type = jsonObj.getAsJsonPrimitive("type");
             module.addProperty("type", type.getAsString());
-            System.out.println(nameFI.getAsString());
             JsonElement code = jsonObj.get("code");
             if(!(code instanceof JsonNull)){
                module.addProperty("code",code.getAsString());
@@ -222,7 +221,7 @@ public class SearchTool {
             if(learningOutcomes != null){
                 learningOutcomesFI = learningOutcomes.getAsJsonPrimitive("fi");
                 if(learningOutcomesFI != null){
-                    module.addProperty("learningOutcomes",learningOutcomesFI.getAsString());
+                    module.addProperty("learningOutcomes",parseHtml(learningOutcomesFI.getAsString()));
                 }
             }
                        
@@ -291,29 +290,29 @@ public class SearchTool {
                 contentFI = content.getAsJsonObject().getAsJsonPrimitive("fi");
             }
             if (nameFI != null){
-                course.addProperty("name", nameFI.getAsString());
+                course.addProperty("name", parseHtml(nameFI.getAsString()));
             }
             course.addProperty("code", code.getAsString());
             course.addProperty("minCredits", minCredits.getAsString());
             
             if(contentFI != null){
-                course.addProperty("content", contentFI.getAsString());
+                course.addProperty("content", parseHtml(contentFI.getAsString()));
             }else{
                 if(!(content instanceof JsonNull)){
                     JsonPrimitive contentEN = content.getAsJsonObject().getAsJsonPrimitive("en");
                     if( contentEN != null){
-                        course.addProperty("content", contentEN.getAsString());
+                        course.addProperty("content", parseHtml(contentEN.getAsString()));
                     }
                 }
                 
             }     
             if(outcomesFI != null ){
-               course.addProperty("outcomes",outcomesFI.getAsString()); 
+               course.addProperty("outcomes",parseHtml(outcomesFI.getAsString())); 
             }else{
                 if(!(outcomes instanceof JsonNull)){
                     JsonPrimitive outcomesEN = outcomes.getAsJsonObject().getAsJsonPrimitive("en");
                     if( outcomesEN != null){
-                        course.addProperty("content", outcomesEN.getAsString());
+                        course.addProperty("content", parseHtml(outcomesEN.getAsString()));
                     }
                 }
             }
@@ -323,6 +322,16 @@ public class SearchTool {
         }
         
         return course;
+    }
+    
+    private String parseHtml(String str){
+        String result = str.replaceAll("\\<.*?\\>", "\n");
+        String previousResult = "";
+        while(!previousResult.equals(result)){
+            previousResult = result;
+            result = result.replaceAll("\n\n","\n");
+        }
+        return result;
     }
     
     
