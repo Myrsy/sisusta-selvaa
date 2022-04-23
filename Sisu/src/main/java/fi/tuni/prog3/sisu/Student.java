@@ -6,6 +6,7 @@
 package fi.tuni.prog3.sisu;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -14,12 +15,13 @@ import java.util.HashMap;
  */
 public class Student {
     
-    private String name;
-    private String studentNumber;
-    private String degreeProgramme;
+    private final String name;
+    private final String studentNumber;
+    private DegreeProgramme degreeProgramme;
+    private int minCredits;
     private HashMap<CourseUnit, Integer> courses;
     
-    public Student(String name, String studentNumber, String degreeProgramme){
+    public Student(String name, String studentNumber, DegreeProgramme degreeProgramme){
         this.name = name;
         this.studentNumber = studentNumber;
         this.degreeProgramme = degreeProgramme;
@@ -34,8 +36,12 @@ public class Student {
         return studentNumber;
     }
     
-    public String getDegreeProgramme() {
+    public DegreeProgramme getDegreeProgramme() {
         return degreeProgramme;
+    }
+    
+    public void setDegreeProgramme(DegreeProgramme prog) {
+        this.degreeProgramme = prog;
     }
 
     public HashMap<CourseUnit, Integer> getCourses() {
@@ -44,6 +50,36 @@ public class Student {
 
     public void addCourse(CourseUnit course, Integer grade) {
         courses.put(course, grade);
+    }
+
+    public int getMinCredits() {
+        return minCredits;
+    }
+
+    public void setMinCredits(int minCredits) {
+        this.minCredits = minCredits;
+    }
+    
+    
+    
+    public Integer getProgression(){
+        int sumCredits = 0;
+        for(var course : courses.keySet()){
+            sumCredits += course.getMinCredits();
+        }
+        return sumCredits / this.degreeProgramme.getMinCredits();
+    }
+    
+    public double getGPA(){
+        double sumCompleted = 0.0;
+        double sumGrade = 0.0;
+        for (Map.Entry<CourseUnit, Integer> course : courses.entrySet()){
+            sumCompleted += course.getKey().getMinCredits();
+            sumGrade += course.getValue()*course.getKey().getMinCredits();
+        }
+        
+        return sumGrade/sumCompleted;
+    
     }
     
     
