@@ -25,6 +25,8 @@ import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Iterator;
 import javafx.util.Pair;
@@ -46,31 +48,48 @@ public class SearchTool {
     
     private static final String ALL_DEGREES_FILENAME = "degreeprogrammesfile.txt";
     private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.txt";
+    private DegreeObjectData degreeData;
     
     public SearchTool(){
-        
+        degreeData = new DegreeObjectData();
     }
     
     private void writeArrayToFile(String filename, JsonArray array) 
             throws IOException {
         
-        /*Gson gson = new Gson();
-        JsonReader reader = new JsonReader(new FileReader(filename));
         
-        Type type = new TypeToken<List<DegreeProgramme>>() {}.getType();
-        List<DegreeProgramme> list = gson.fromJson(reader, type);
         
-        for (DegreeProgramme i: list) {
-            System.out.println(i.getGroupId() + " " + i.getName());
+        String data = new String(Files.readAllBytes(Paths.get(filename)));
+        byte[] bytes = StringUtils.getBytesUtf8(data);
+        String utf8data = StringUtils.newStringUtf8(bytes);
+        JsonElement element = (JsonElement) new JsonParser().parse(utf8data);
+        
+        if(!(element instanceof JsonNull)){
+            JsonArray jsonArray = (JsonArray)element;
+            
+            jsonArray.addAll(array);
+            
+            try(FileWriter fw = new FileWriter(filename, Charset.forName("ISO-8859-1"))){
+                    Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+                    gson.toJson(jsonArray, fw);
+            }
+            
+        }else{
+            try(FileWriter fw = new FileWriter(filename, Charset.forName("ISO-8859-1"))){
+                    Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+                    gson.toJson(array, fw);
+            }
         }
-        Ilmeisesti pitäisi aluksi lukea vanha Json-tiedosto muuttujaan, sitten 
-        lisätä uudet tiedot ja lopuksi kääntää muuttuja Json-tiedostoksi
-        */ 
-
+        
+        
+        
+               
         try(FileWriter fw = new FileWriter(filename, Charset.forName("UTF-8"))){
                     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                     gson.toJson(array, fw);
-        }
+        } 
+        
+        
     }
     
     public void searchDegreeProgrammesURL() throws IOException {        
@@ -80,7 +99,7 @@ public class SearchTool {
             file.createNewFile(); 
                         
             URL url = new URL("https://sis-tuni.funidata.fi/kori/api/module-search?curriculumPeriodId=uta-lvv-2021&universityId=tuni-university-root-id&moduleType=DegreeProgramme&limit=1000");
-            String data =new String(url.openStream().readAllBytes()); 
+            String data = new String(url.openStream().readAllBytes()); 
             byte[] bytes = StringUtils.getBytesUtf8(data);
             String utf8data = StringUtils.newStringUtf8(bytes);
  
@@ -102,6 +121,10 @@ public class SearchTool {
                programme.addProperty("name",name.getAsString());
                programme.addProperty("groupId",groupId.getAsString());
                programme.addProperty("minCredits", minCredits.getAsString());
+               
+               //DegreeProgramme dProg = new DegreeProgramme(name.getAsString(),
+               //groupId.getAsString(), minCredits.getAsInt());
+               //this.degreeData.addProgramme(dProg);
 
                fileRoot.add(programme);
             }
@@ -122,11 +145,12 @@ public class SearchTool {
         
         URL url = new URL(urlStr);
         String data = new String(url.openStream().readAllBytes());
-        byte[] bytes = StringUtils.getBytesUtf8(data);
-        String utf8data = StringUtils.newStringUtf8(bytes);
+        byte[] isoBytes = data.getBytes(Charset.forName("ISO-8859-1"));
+        String isoData = new String (isoBytes, Charset.forName("ISO-8859-1") );
+        
         JsonArray array = new JsonArray();
         
-        parseAndSaveModule(utf8data, array);
+        parseAndSaveModule(isoData, array);
         
     }
     
@@ -165,6 +189,7 @@ public class SearchTool {
         Pair<JsonArray, String> pair = new Pair<>(rules, desc);
         return pair;
     }
+
     
     public void parseAndSaveModule(String data, JsonArray array) throws IOException{
         JsonArray json = new JsonParser().parse(data).getAsJsonArray();
@@ -177,7 +202,7 @@ public class SearchTool {
             module.addProperty("name", nameFI.getAsString());
             JsonPrimitive type = jsonObj.getAsJsonPrimitive("type");
             module.addProperty("type", type.getAsString());
-            
+            System.out.println(nameFI.getAsString());
             JsonElement code = jsonObj.get("code");
             if(!(code instanceof JsonNull)){
                module.addProperty("code",code.getAsString());
@@ -201,7 +226,7 @@ public class SearchTool {
                 }
             }
                        
-            
+ 
             JsonObject rule = jsonObj.getAsJsonObject("rule");
             Pair rulesPair = parseRules(rule); 
             JsonArray rules = (JsonArray) rulesPair.getKey();
@@ -209,6 +234,7 @@ public class SearchTool {
             JsonArray ruleArray = new JsonArray();
             module.add("modules", ruleArray);
             array.add(module);
+
 
             if (rules != null) {
                 for (JsonElement y : rules) {
@@ -220,29 +246,26 @@ public class SearchTool {
                                 + moduleGroupId + "&universityId=tuni-university-root-id";
                         URL url = new URL(urlStr);
                         String data2 = new String(url.openStream().readAllBytes());
-                        byte[] bytes = StringUtils.getBytesUtf8(data2);
-                        String utf8data = StringUtils.newStringUtf8(bytes);
-                        parseAndSaveModule(utf8data, ruleArray );
+                        byte[] isoBytes = data2.getBytes(Charset.forName("ISO-8859-1"));
+                        String isoData = new String (isoBytes, Charset.forName("ISO-8859-1") );
+                        parseAndSaveModule(isoData, ruleArray);
                     }else if (ruleObj.getAsJsonPrimitive("type").getAsString().equals("CourseUnitRule")){
                         String courseUnitGroupId = ruleObj.getAsJsonPrimitive("courseUnitGroupId").getAsString();
                         String urlStr = "https://sis-tuni.funidata.fi/kori/api/course-units/by-group-id?groupId=" 
                                 + courseUnitGroupId + "&universityId=tuni-university-root-id";
                         URL url = new URL(urlStr);
                         String data2 = new String(url.openStream().readAllBytes());
-                        byte[] bytes = StringUtils.getBytesUtf8(data2);
-                        String utf8data = StringUtils.newStringUtf8(bytes);
+                        byte[] isoBytes = data2.getBytes(Charset.forName("ISO-8859-1"));
+                        String isoData = new String (isoBytes, Charset.forName("ISO-8859-1") );
+        
 
-                        ruleArray.add(parseCourseUnit(utf8data));
-
+                        ruleArray.add(parseCourseUnit(isoData));
                     }
-                }
+                }         
             }
-            
-            writeArrayToFile(FULL_DEGREES_FILENAME, array);  
-            
+            writeArrayToFile(FULL_DEGREES_FILENAME, array);
         }
-        
-        
+                   
     }
     
     public JsonObject parseCourseUnit(String data){
