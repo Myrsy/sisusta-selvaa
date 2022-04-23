@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -69,13 +70,13 @@ public class SearchTool {
             
             jsonArray.addAll(array);
             
-            try(FileWriter fw = new FileWriter(filename, Charset.forName("ISO-8859-1"))){
+            try(FileWriter fw = new FileWriter(filename, Charset.forName("ISO-8859-15"))){
                     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                     gson.toJson(jsonArray, fw);
             }
             
         }else{
-            try(FileWriter fw = new FileWriter(filename, Charset.forName("ISO-8859-1"))){
+            try(FileWriter fw = new FileWriter(filename, Charset.forName("ISO-8859-15"))){
                     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                     gson.toJson(array, fw);
             }
@@ -83,11 +84,12 @@ public class SearchTool {
         
         
         
-             
+        /*     
         try(FileWriter fw = new FileWriter(filename, Charset.forName("UTF-8"))){
                     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                     gson.toJson(array, fw);
         } 
+        */
         
         
     }
@@ -145,8 +147,8 @@ public class SearchTool {
         
         URL url = new URL(urlStr);
         String data = new String(url.openStream().readAllBytes());
-        byte[] isoBytes = data.getBytes(Charset.forName("ISO-8859-1"));
-        String isoData = new String (isoBytes, Charset.forName("ISO-8859-1") );
+        byte[] isoBytes = data.getBytes(Charset.forName("ISO-8859-15"));
+        String isoData = new String (isoBytes, Charset.forName("ISO-8859-15") );
         
         JsonArray array = new JsonArray();
         
@@ -163,7 +165,7 @@ public class SearchTool {
             if(!(description instanceof JsonNull)){
                 descriptionFI = description.getAsJsonObject().getAsJsonPrimitive("fi");
                 if(descriptionFI != null){
-                    desc = parseHtml(descriptionFI.getAsString());
+                    desc = parseString(descriptionFI.getAsString());
                 }
             }
         }
@@ -199,7 +201,7 @@ public class SearchTool {
             
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
-            module.addProperty("name", nameFI.getAsString());
+            module.addProperty("name", parseString(nameFI.getAsString()));
             JsonPrimitive type = jsonObj.getAsJsonPrimitive("type");
             module.addProperty("type", type.getAsString());
             JsonElement code = jsonObj.get("code");
@@ -221,7 +223,7 @@ public class SearchTool {
             if(learningOutcomes != null){
                 learningOutcomesFI = learningOutcomes.getAsJsonPrimitive("fi");
                 if(learningOutcomesFI != null){
-                    module.addProperty("learningOutcomes",parseHtml(learningOutcomesFI.getAsString()));
+                    module.addProperty("learningOutcomes",parseString(learningOutcomesFI.getAsString()));
                 }
             }
                        
@@ -245,8 +247,8 @@ public class SearchTool {
                                 + moduleGroupId + "&universityId=tuni-university-root-id";
                         URL url = new URL(urlStr);
                         String data2 = new String(url.openStream().readAllBytes());
-                        byte[] isoBytes = data2.getBytes(Charset.forName("ISO-8859-1"));
-                        String isoData = new String (isoBytes, Charset.forName("ISO-8859-1") );
+                        byte[] isoBytes = data2.getBytes(Charset.forName("ISO-8859-15"));
+                        String isoData = new String (isoBytes, Charset.forName("ISO-8859-15") );
                         parseAndSaveModule(isoData, ruleArray);
                     }else if (ruleObj.getAsJsonPrimitive("type").getAsString().equals("CourseUnitRule")){
                         String courseUnitGroupId = ruleObj.getAsJsonPrimitive("courseUnitGroupId").getAsString();
@@ -254,8 +256,8 @@ public class SearchTool {
                                 + courseUnitGroupId + "&universityId=tuni-university-root-id";
                         URL url = new URL(urlStr);
                         String data2 = new String(url.openStream().readAllBytes());
-                        byte[] isoBytes = data2.getBytes(Charset.forName("ISO-8859-1"));
-                        String isoData = new String (isoBytes, Charset.forName("ISO-8859-1") );
+                        byte[] isoBytes = data2.getBytes(Charset.forName("ISO-8859-15"));
+                        String isoData = new String (isoBytes, Charset.forName("ISO-8859-15") );
         
 
                         ruleArray.add(parseCourseUnit(isoData));
@@ -290,29 +292,29 @@ public class SearchTool {
                 contentFI = content.getAsJsonObject().getAsJsonPrimitive("fi");
             }
             if (nameFI != null){
-                course.addProperty("name", parseHtml(nameFI.getAsString()));
+                course.addProperty("name", parseString(nameFI.getAsString()));
             }
             course.addProperty("code", code.getAsString());
             course.addProperty("minCredits", minCredits.getAsString());
             
             if(contentFI != null){
-                course.addProperty("content", parseHtml(contentFI.getAsString()));
+                course.addProperty("content", parseString(contentFI.getAsString()));
             }else{
                 if(!(content instanceof JsonNull)){
                     JsonPrimitive contentEN = content.getAsJsonObject().getAsJsonPrimitive("en");
                     if( contentEN != null){
-                        course.addProperty("content", parseHtml(contentEN.getAsString()));
+                        course.addProperty("content", parseString(contentEN.getAsString()));
                     }
                 }
                 
             }     
             if(outcomesFI != null ){
-               course.addProperty("outcomes",parseHtml(outcomesFI.getAsString())); 
+               course.addProperty("outcomes",parseString(outcomesFI.getAsString())); 
             }else{
                 if(!(outcomes instanceof JsonNull)){
                     JsonPrimitive outcomesEN = outcomes.getAsJsonObject().getAsJsonPrimitive("en");
                     if( outcomesEN != null){
-                        course.addProperty("content", parseHtml(outcomesEN.getAsString()));
+                        course.addProperty("content", parseString(outcomesEN.getAsString()));
                     }
                 }
             }
@@ -324,13 +326,20 @@ public class SearchTool {
         return course;
     }
     
-    private String parseHtml(String str){
+    private String parseString(String str) {
         String result = str.replaceAll("\\<.*?\\>", "\n");
         String previousResult = "";
         while(!previousResult.equals(result)){
             previousResult = result;
             result = result.replaceAll("\n\n","\n");
         }
+        
+        result = result.replace("Ã?", "ä");
+        result = result.replace("Ã¶", "ö");
+        result = result.replace("&#34;", "\"");
+        
+
+        
         return result;
     }
     
