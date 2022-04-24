@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
@@ -49,6 +50,7 @@ public class SearchTool {
     
     private static final String ALL_DEGREES_FILENAME = "degreeprogrammesfile.txt";
     private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.txt";
+    private static final String ISO_STRING = "ISO-8859-15";
     private DegreeObjectData degreeData;
     
     public SearchTool(){
@@ -58,7 +60,7 @@ public class SearchTool {
     private void writeArrayToFile(String filename, JsonArray array) 
             throws IOException {
         
-        
+        System.out.println("tulostetaan");
         
         String data = new String(Files.readAllBytes(Paths.get(filename)));
         byte[] bytes = StringUtils.getBytesUtf8(data);
@@ -70,27 +72,18 @@ public class SearchTool {
             
             jsonArray.addAll(array);
             
-            try(FileWriter fw = new FileWriter(filename, Charset.forName("ISO-8859-15"))){
+            try(FileWriter fw = new FileWriter(filename, Charset.forName(ISO_STRING))){
                     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                     gson.toJson(jsonArray, fw);
             }
             
         }else{
-            try(FileWriter fw = new FileWriter(filename, Charset.forName("ISO-8859-15"))){
+            try(FileWriter fw = new FileWriter(filename, Charset.forName(ISO_STRING))){
                     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
                     gson.toJson(array, fw);
             }
         }
-        
-        
-        
-        /*     
-        try(FileWriter fw = new FileWriter(filename, Charset.forName("UTF-8"))){
-                    Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-                    gson.toJson(array, fw);
-        } 
-        */
-        
+           
         
     }
     
@@ -124,10 +117,6 @@ public class SearchTool {
                programme.addProperty("groupId",groupId.getAsString());
                programme.addProperty("minCredits", minCredits.getAsString());
                
-               //DegreeProgramme dProg = new DegreeProgramme(name.getAsString(),
-               //groupId.getAsString(), minCredits.getAsInt());
-               //this.degreeData.addProgramme(dProg);
-
                fileRoot.add(programme);
             }
 
@@ -147,12 +136,14 @@ public class SearchTool {
         
         URL url = new URL(urlStr);
         String data = new String(url.openStream().readAllBytes());
-        byte[] isoBytes = data.getBytes(Charset.forName("ISO-8859-15"));
-        String isoData = new String (isoBytes, Charset.forName("ISO-8859-15") );
+        byte[] isoBytes = data.getBytes(Charset.forName(ISO_STRING));
+        String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
         
         JsonArray array = new JsonArray();
         
-        parseAndSaveModule(isoData, array);
+        array = parseAndSaveModule(isoData, array);
+        writeArrayToFile(FULL_DEGREES_FILENAME, array);
+
         
     }
     
@@ -193,7 +184,7 @@ public class SearchTool {
     }
 
     
-    public void parseAndSaveModule(String data, JsonArray array) throws IOException{
+    public JsonArray parseAndSaveModule(String data, JsonArray array) throws IOException{
         JsonArray json = new JsonParser().parse(data).getAsJsonArray();
         for(JsonElement x: json){
             JsonObject jsonObj = x.getAsJsonObject();  
@@ -247,26 +238,27 @@ public class SearchTool {
                                 + moduleGroupId + "&universityId=tuni-university-root-id";
                         URL url = new URL(urlStr);
                         String data2 = new String(url.openStream().readAllBytes());
-                        byte[] isoBytes = data2.getBytes(Charset.forName("ISO-8859-15"));
-                        String isoData = new String (isoBytes, Charset.forName("ISO-8859-15") );
-                        parseAndSaveModule(isoData, ruleArray);
+                        byte[] isoBytes = data2.getBytes(Charset.forName(ISO_STRING));
+                        String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
+                        ruleArray = parseAndSaveModule(isoData, ruleArray);
                     }else if (ruleObj.getAsJsonPrimitive("type").getAsString().equals("CourseUnitRule")){
                         String courseUnitGroupId = ruleObj.getAsJsonPrimitive("courseUnitGroupId").getAsString();
                         String urlStr = "https://sis-tuni.funidata.fi/kori/api/course-units/by-group-id?groupId=" 
                                 + courseUnitGroupId + "&universityId=tuni-university-root-id";
                         URL url = new URL(urlStr);
                         String data2 = new String(url.openStream().readAllBytes());
-                        byte[] isoBytes = data2.getBytes(Charset.forName("ISO-8859-15"));
-                        String isoData = new String (isoBytes, Charset.forName("ISO-8859-15") );
+                        byte[] isoBytes = data2.getBytes(Charset.forName(ISO_STRING));
+                        String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
         
 
                         ruleArray.add(parseCourseUnit(isoData));
+                    } else {
+                        return array;
                     }
                 }         
             }
-            writeArrayToFile(FULL_DEGREES_FILENAME, array);
         }
-                   
+        return array;         
     }
     
     public JsonObject parseCourseUnit(String data){
