@@ -3,7 +3,6 @@ package fi.tuni.prog3.sisu;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -13,13 +12,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
+
 
 
 
@@ -30,7 +25,7 @@ public class Sisu extends Application {
         public void start(Stage stage) {
             
             
-            /*GridPane grid = new GridPane();
+            GridPane grid = new GridPane();
             stage.setTitle("Lisää uusi opiskelija");
             Label nameLabel = new Label("Nimi:");
             Label numberLabel = new Label("  Opiskelijanumero:");
@@ -51,13 +46,13 @@ public class Sisu extends Application {
             /*RowConstraints row3 = new RowConstraints();
             row3.setPrefHeight(20);
             RowConstraints row4 = new RowConstraints();
-            row4.setPrefHeight(40);
+            row4.setPrefHeight(40);*/
             grid.getRowConstraints().addAll(row1, row2);
             grid.setHgap(10);
         
             Scene scene = new Scene(grid, 400, 200);
             stage.setScene(scene);
-            stage.show();*/
+            stage.show();
             
         }
     }
