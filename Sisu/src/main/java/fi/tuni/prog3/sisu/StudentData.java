@@ -1,7 +1,8 @@
 
 package fi.tuni.prog3.sisu;
 
-import java.util.ArrayList;
+
+import java.util.HashMap;
 
 
 /**
@@ -10,23 +11,25 @@ import java.util.ArrayList;
  */
 public class StudentData {
     
-    private ArrayList<String> students;
+    private HashMap<String, Student> students;
     
     public StudentData(){
-        this.students = new ArrayList<>();
+        this.students = new HashMap<>();
     }
     
-    public void addStudent(String studentNumber){
-        this.students.add(studentNumber);
+    public void addStudent(String studentNumber, Student student){
+        this.students.put(studentNumber, student);
     }
     
     public boolean searchStudent(String studentNumber){
-        for(String student : students){
-            if(student.equals(studentNumber)){
-               return true; 
-            }
+        if(students.containsKey(studentNumber)){
+            return true;
         }
         return false;
+    }
+    
+    public void getOldStudents(){
+        
     }
     
 }
