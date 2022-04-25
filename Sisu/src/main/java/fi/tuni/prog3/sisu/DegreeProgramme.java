@@ -42,6 +42,11 @@ public class DegreeProgramme extends Module{
     public void addStudyModule(StudyModule module){
         this.modules.add(module);
     }
+    
+    @Override
+    public String toString(){
+        return this.name;
+    }
 
     
         
