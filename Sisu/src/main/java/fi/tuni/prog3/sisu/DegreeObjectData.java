@@ -45,5 +45,9 @@ public class DegreeObjectData {
     public void addStudyModuleToDegree(String groupIdParent, StudyModule mod){
         this.degreeProgrammes.get(groupIdParent).addStudyModule(mod);
     }
+    
+    public HashMap getDegreeMap(){
+        return this.degreeProgrammes;
+    }
         
 }
