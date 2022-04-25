@@ -193,6 +193,8 @@ public class SearchTool {
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
             module.addProperty("name", parseString(nameFI.getAsString()));
+            JsonPrimitive groupId = jsonObj.getAsJsonPrimitive("groupId");
+            module.addProperty("groupId", groupId.getAsString());
             JsonPrimitive type = jsonObj.getAsJsonPrimitive("type");
             module.addProperty("type", type.getAsString());
             JsonElement code = jsonObj.get("code");
