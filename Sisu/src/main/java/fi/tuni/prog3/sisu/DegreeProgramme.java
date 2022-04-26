@@ -48,6 +48,11 @@ public class DegreeProgramme extends Module{
         return this.name;
     }
 
+    public ArrayList<StudyModule> getModules() {
+        return modules;
+    }
+
+    
     
         
 }
