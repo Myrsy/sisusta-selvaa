@@ -1,16 +1,23 @@
 package fi.tuni.prog3.sisu;
 
+import java.awt.Color;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -29,10 +36,14 @@ public class Sisu extends Application {
             stage.setTitle("Lisää uusi opiskelija");
             Label nameLabel = new Label("Nimi:");
             Label numberLabel = new Label("  Opiskelijanumero:");
+            Label degreeLabel = new Label("Valitse opintokokonaisuus:");
             grid.add(nameLabel, 0, 0, 1, 1);
             grid.add(numberLabel, 0, 1, 1, 1);
+            grid.add(degreeLabel, 0, 2, 1, 1);
             GridPane.setHalignment(nameLabel, HPos.RIGHT);
             GridPane.setHalignment(numberLabel, HPos.RIGHT);
+            GridPane.setHalignment(degreeLabel, HPos.RIGHT);
+            GridPane.setValignment(degreeLabel, VPos.TOP);
             
             TextField addNameField = new TextField();
             TextField addNumberField = new TextField();
@@ -49,13 +60,73 @@ public class Sisu extends Application {
             row4.setPrefHeight(40);*/
             grid.getRowConstraints().addAll(row1, row2);
             grid.setHgap(10);
-        
+            grid.setVgap(10);
+            
+            
+            DegreeObjectData degreeObjectData = new DegreeObjectData();
+            try{
+                degreeObjectData.jsonToObjects();
+
+            }catch(Exception e){
+
+            }
+            
+           
+            List<DegreeProgramme> values = 
+                    new ArrayList<DegreeProgramme>(degreeObjectData.getDegreeMap().values());
+            ObservableList<DegreeProgramme> degrees = FXCollections.observableList(values);
+            ComboBox degreeComboBox = new ComboBox(degrees);
+            grid.add(degreeComboBox, 1, 2, 1, 1);
+            GridPane.setValignment(degreeComboBox, VPos.TOP);
+           
+            RowConstraints row3 = new RowConstraints();
+            row3.setPrefHeight(80);
+            grid.getRowConstraints().addAll(row3);
+            
+            
+            
+            //grid.add(degreeComboBox, 1, 2, 1, 1);
+            
+            Button btnAddStudent = new Button("Lisää opiskelija");
+            grid.add(btnAddStudent, 1, 3, 1, 1);
+            
+            //Label errorLabel = new Label("");
+            //errorLabel.setTextFill(Color.RED);
+            //grid.add(errorLabel, )
+            
+            btnAddStudent.setOnAction(new EventHandler<ActionEvent>(){
+            
+            @Override
+            public void handle(ActionEvent e){
+                
+               String name = addNameField.getText();
+               String number = addNumberField.getText();
+               DegreeProgramme degree =(DegreeProgramme) degreeComboBox.getValue();
+               if(name == null){
+                   
+               }
+               Student student = new Student(name, number, degree);
+               StartingWindow startingWindow = new StartingWindow(student);
+               Stage stage = new Stage();
+               startingWindow.start(stage);
+                
+            }
+
+        });
+            
+            
+            
+            
+   
             Scene scene = new Scene(grid, 400, 200);
             stage.setScene(scene);
             stage.show();
             
         }
     }
+    
+
+    
     
     public StudentData findStudentData(){
         StudentData studentData = new StudentData();
@@ -65,6 +136,7 @@ public class Sisu extends Application {
 
     @Override
     public void start(Stage stage) {
+       
         
         StudentData studentData = findStudentData();
         
@@ -146,6 +218,16 @@ public class Sisu extends Application {
     
 
     public static void main(String[] args) throws IOException {
+        
+        SearchTool tool = new SearchTool();
+        try{
+            tool.searchDegreeProgrammesURL();
+        }catch(IOException e){
+                
+        }
+        
+        
+        
         
         launch();
     }
