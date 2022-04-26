@@ -59,9 +59,7 @@ public class SearchTool {
     
     private void writeArrayToFile(String filename, JsonArray array) 
             throws IOException {
-        
-        System.out.println("tulostetaan");
-        
+                
         String data = new String(Files.readAllBytes(Paths.get(filename)));
         byte[] bytes = StringUtils.getBytesUtf8(data);
         String utf8data = StringUtils.newStringUtf8(bytes);
@@ -271,6 +269,7 @@ public class SearchTool {
             JsonObject jsonObj = x.getAsJsonObject();
             JsonObject credits = jsonObj.getAsJsonObject("credits");
             JsonPrimitive minCredits = credits.getAsJsonPrimitive("min");
+            JsonPrimitive gradeScaleId = jsonObj.getAsJsonPrimitive("gradeScaleId");
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
             JsonPrimitive code = jsonObj.getAsJsonPrimitive("code");
@@ -289,6 +288,7 @@ public class SearchTool {
                 course.addProperty("name", parseString(nameFI.getAsString()));
             }
             course.addProperty("code", code.getAsString());
+            course.addProperty("gradeScaleId", gradeScaleId.getAsString());
             course.addProperty("minCredits", minCredits.getAsString());
             
             if(contentFI != null){
