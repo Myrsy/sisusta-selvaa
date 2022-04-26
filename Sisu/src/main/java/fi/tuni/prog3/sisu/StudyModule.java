@@ -25,4 +25,22 @@ public class StudyModule extends Module {
     public String getName(){
         return this.name;
     }
+
+    public ArrayList<CourseUnit> getCourses() {
+        return courses;
+    }
+
+    public ArrayList<StudyModule> getModules() {
+        return modules;
+    }
+    
+    public void addCourse(CourseUnit course){
+        courses.add(course);
+    }
+    
+    public void addModule(StudyModule mod){
+        this.modules.add(mod);
+    }
+    
+    
 }
