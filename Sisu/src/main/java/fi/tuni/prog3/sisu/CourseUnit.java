@@ -27,6 +27,7 @@ public class CourseUnit {
         this.minCredits = minCredits;
         this.content = content;
         this.outcomes = outcomes;
+        this.gradeScaleId = gradeScaleId;
     }
 
     public String getName() {
