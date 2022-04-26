@@ -18,7 +18,6 @@ public class Student {
     private final String name;
     private final String studentNumber;
     private DegreeProgramme degreeProgramme;
-    private int minCredits;
     private HashMap<CourseUnit, Integer> courses;
     
     public Student(String name, String studentNumber, DegreeProgramme degreeProgramme){
@@ -26,6 +25,7 @@ public class Student {
         this.studentNumber = studentNumber;
         this.degreeProgramme = degreeProgramme;
         this.courses = new HashMap<>();
+       
     }
 
     public String getName() {
@@ -41,6 +41,9 @@ public class Student {
     }
     
     public void setDegreeProgramme(DegreeProgramme prog) {
+        if(this.degreeProgramme != prog){
+            courses.clear();
+        }        
         this.degreeProgramme = prog;
     }
 
@@ -51,16 +54,7 @@ public class Student {
     public void addCourse(CourseUnit course, Integer grade) {
         courses.put(course, grade);
     }
-
-    public int getMinCredits() {
-        return minCredits;
-    }
-
-    public void setMinCredits(int minCredits) {
-        this.minCredits = minCredits;
-    }
-    
-    
+  
     
     public Integer getProgression(){
         int sumCredits = 0;
@@ -71,8 +65,8 @@ public class Student {
     }
     
     public double getGPA(){
-        double sumCompleted = 0.0;
-        double sumGrade = 0.0;
+        double sumCompleted = 0.00;
+        double sumGrade = 0.00;
         for (Map.Entry<CourseUnit, Integer> course : courses.entrySet()){
             sumCompleted += course.getKey().getMinCredits();
             sumGrade += course.getValue()*course.getKey().getMinCredits();
