@@ -32,4 +32,8 @@ public class StudentData {
         
     }
     
+    public Student getStudent(String studentNumber){
+        return students.get(studentNumber);
+    }
+    
 }

@@ -1,13 +1,20 @@
 package fi.tuni.prog3.sisu;
 
+import com.google.gson.Gson;
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -62,7 +69,7 @@ public class Sisu extends Application {
             grid.setHgap(10);
             grid.setVgap(10);
             
-            
+            /*
             DegreeObjectData degreeObjectData = new DegreeObjectData();
             try{
                 degreeObjectData.jsonToObjects();
@@ -70,10 +77,23 @@ public class Sisu extends Application {
             }catch(Exception e){
 
             }
+            */
             
            
-            List<DegreeProgramme> values = 
-                    new ArrayList<DegreeProgramme>(degreeObjectData.getDegreeMap().values());
+            List<DegreeProgramme> values = new ArrayList<>();
+            
+            Gson gson = new Gson();
+                try (Reader reader = new FileReader("degreeprogrammesfile.txt")) {
+                   DegreeProgramme[] progs = gson.fromJson(reader, DegreeProgramme[].class);
+                   for (DegreeProgramme prog: progs) {
+                       values.add(prog);
+                   }
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
             ObservableList<DegreeProgramme> degrees = FXCollections.observableList(values);
             ComboBox degreeComboBox = new ComboBox(degrees);
             grid.add(degreeComboBox, 1, 2, 1, 1);
@@ -98,18 +118,27 @@ public class Sisu extends Application {
             
             @Override
             public void handle(ActionEvent e){
-                
+                                
                String name = addNameField.getText();
                String number = addNumberField.getText();
                DegreeProgramme degree =(DegreeProgramme) degreeComboBox.getValue();
+               
+               DegreeObjectData data = new DegreeObjectData();
+                try {
+                    data.jsonFileToObjects();
+                } catch (IOException ex) {
+                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+               HashMap<String, DegreeProgramme> degrees = data.getDegreeMap();
+
                if(name == null){
                    
                }
-               Student student = new Student(name, number, degree);
+               Student student = new Student(name, number, degrees.get(degree.getGroupId()));
                StartingWindow startingWindow = new StartingWindow(student);
                Stage stage = new Stage();
                startingWindow.start(stage);
-                
+               ((Node)(e.getSource())).getScene().getWindow().hide(); 
             }
 
         });
@@ -225,8 +254,6 @@ public class Sisu extends Application {
         }catch(IOException e){
                 
         }
-        
-        
         
         
         launch();
