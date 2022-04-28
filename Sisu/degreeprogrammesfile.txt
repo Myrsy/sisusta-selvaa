@@ -1,21 +1,21 @@
 [
   {
-    "name": "AkuuttilÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Akuuttil��ketieteen erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-87fb9507-a6dd-41aa-b924-2f15eca3b7ae",
     "minCredits": "0"
   },
   {
-    "name": "AkuuttilÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Akuuttil��ketieteen erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-24b4aa6c-4533-40a8-8189-a51d83f5cc2b",
     "minCredits": "0"
   },
   {
-    "name": "Anestesiologian ja tehohoidon erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Anestesiologian ja tehohoidon erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-6ab4ce4a-4eb7-4c76-8ed7-9ab3a2faa5b6",
     "minCredits": "0"
   },
   {
-    "name": "Anestesiologian ja tehohoidon erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Anestesiologian ja tehohoidon erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-872015a5-14ce-46a4-a1e1-1932c975a856",
     "minCredits": "0"
   },
@@ -35,32 +35,32 @@
     "minCredits": "120"
   },
   {
-    "name": "Bachelor\u0027s Programme in Educational Studies, Early Childhood Education and Care Teacher",
+    "name": "Bachelor's Programme in Educational Studies, Early Childhood Education and Care Teacher",
     "groupId": "otm-7e90358a-dc37-4c5f-8144-00d9274c69b8",
     "minCredits": "180"
   },
   {
-    "name": "Bachelor\u0027s Programme in Science and Engineering",
+    "name": "Bachelor's Programme in Science and Engineering",
     "groupId": "otm-4d4c4575-a5ae-427e-a860-2f168ad4e8ba",
     "minCredits": "180"
   },
   {
-    "name": "Bachelor\u0027s Programme in Sustainable Urban Development",
+    "name": "Bachelor's Programme in Sustainable Urban Development",
     "groupId": "otm-a1076deb-33a5-457b-b32e-e4cb547445da",
     "minCredits": "180"
   },
   {
-    "name": "BiolÃ¤Ã¤ketieteen tekniikan tohtoriohjelma",
+    "name": "Biol��ketieteen tekniikan tohtoriohjelma",
     "groupId": "otm-f8182cab-5c38-4b93-8359-48bd95032b80",
     "minCredits": "240"
   },
   {
-    "name": "Bioteknologian ja biolÃ¤Ã¤ketieteen tekniikan kandidaattiohjelma",
+    "name": "Bioteknologian ja biol��ketieteen tekniikan kandidaattiohjelma",
     "groupId": "otm-cdbf8a1f-bc5e-4df7-b955-433357f0a416",
     "minCredits": "180"
   },
   {
-    "name": "Bioteknologian ja biolÃ¤Ã¤ketieteen tekniikan maisteriohjelma",
+    "name": "Bioteknologian ja biol��ketieteen tekniikan maisteriohjelma",
     "groupId": "otm-b4b6a459-f0f0-4dee-a1a4-10c1fd95376c",
     "minCredits": "120"
   },
@@ -75,27 +75,27 @@
     "minCredits": "240"
   },
   {
-    "name": "Endokrinologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Endokrinologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-2d061ef0-cad7-4996-b950-d4a9104c136b",
     "minCredits": "0"
   },
   {
-    "name": "Endokrinologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Endokrinologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-6ae5514b-8c14-424f-859f-93d686a9427d",
     "minCredits": "0"
   },
   {
-    "name": "ErikoishammaslÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Erikoishammasl��k�rikoulutus (55/2020)",
     "groupId": "otm-8253f483-cfd0-448d-bf1f-6fda45e93c80",
     "minCredits": "0"
   },
   {
-    "name": "ErikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-b47f9be9-90f2-4151-a945-9fe054206ad1",
     "minCredits": "0"
   },
   {
-    "name": "ErikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-d0986ba5-6f93-4796-b285-0d51aab8e518",
     "minCredits": "0"
   },
@@ -120,52 +120,52 @@
     "minCredits": "150"
   },
   {
-    "name": "Foniatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Foniatrian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-68524aff-7cb2-4930-b09d-002c6924621f",
     "minCredits": "0"
   },
   {
-    "name": "Foniatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Foniatrian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-297bdc50-3a65-44cf-9b0a-12e92c2bcbbe",
     "minCredits": "0"
   },
   {
-    "name": "Fysiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Fysiatrian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-a4afd682-efe0-4d7c-bbc7-4d6027827904",
     "minCredits": "0"
   },
   {
-    "name": "Fysiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Fysiatrian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-a80884dc-fdfd-473b-bbf0-c73680f680fe",
     "minCredits": "0"
   },
   {
-    "name": "Gastroenterologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Gastroenterologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-08f2291b-3958-4eda-8d9c-cbad7646355c",
     "minCredits": "0"
   },
   {
-    "name": "Gastroenterologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Gastroenterologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-e8326152-aaa3-4ff2-9330-653a73922c17",
     "minCredits": "0"
   },
   {
-    "name": "Gastroenterologisen kirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Gastroenterologisen kirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-16d34967-5a0b-4bf7-bc6b-9c1e6fbcd257",
     "minCredits": "0"
   },
   {
-    "name": "Gastroenterologisen kirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Gastroenterologisen kirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-6865a401-f2fe-4169-a110-81d148323079",
     "minCredits": "0"
   },
   {
-    "name": "Geriatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Geriatrian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-5780cf23-b162-48b3-9385-f4398f3135f1",
     "minCredits": "0"
   },
   {
-    "name": "Geriatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Geriatrian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-7eb812ae-2f0a-4e3a-ac06-bf4695df3fad",
     "minCredits": "0"
   },
@@ -190,42 +190,42 @@
     "minCredits": "120"
   },
   {
-    "name": "HammaslÃ¤Ã¤ketieteellisen diagnostiikan erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, suun mikrobiologia (55/2020)",
+    "name": "Hammasl��ketieteellisen diagnostiikan erikoishammasl��k�rikoulutus, suun mikrobiologia (55/2020)",
     "groupId": "otm-71e59546-a9d8-4bc5-af1f-a907ecd6bce4",
     "minCredits": "0"
   },
   {
-    "name": "HammaslÃ¤Ã¤ketieteellisen diagnostiikan erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, suun mikrobiologia (56/2015)",
+    "name": "Hammasl��ketieteellisen diagnostiikan erikoishammasl��k�rikoulutus, suun mikrobiologia (56/2015)",
     "groupId": "otm-5d3428a0-f87f-4773-9b07-27ef79db06fd",
     "minCredits": "0"
   },
   {
-    "name": "HammaslÃ¤Ã¤ketieteellisen diagnostiikan erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, suupatologia (55/2020)",
+    "name": "Hammasl��ketieteellisen diagnostiikan erikoishammasl��k�rikoulutus, suupatologia (55/2020)",
     "groupId": "otm-aaa48da1-8f02-47f6-9db6-e0710ae32cd7",
     "minCredits": "0"
   },
   {
-    "name": "HammaslÃ¤Ã¤ketieteellisen diagnostiikan erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, suupatologia (56/2015)",
+    "name": "Hammasl��ketieteellisen diagnostiikan erikoishammasl��k�rikoulutus, suupatologia (56/2015)",
     "groupId": "otm-4f68bdf6-aa4c-4f6e-8b73-55a447495da7",
     "minCredits": "0"
   },
   {
-    "name": "HammaslÃ¤Ã¤ketieteellisen diagnostiikan erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, suuradiologia (55/2020)",
+    "name": "Hammasl��ketieteellisen diagnostiikan erikoishammasl��k�rikoulutus, suuradiologia (55/2020)",
     "groupId": "otm-2d55ed63-7a67-4bbe-a014-d556fa9e18e4",
     "minCredits": "0"
   },
   {
-    "name": "HammaslÃ¤Ã¤ketieteellisen diagnostiikan erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, suuradiologia (56/2015)",
+    "name": "Hammasl��ketieteellisen diagnostiikan erikoishammasl��k�rikoulutus, suuradiologia (56/2015)",
     "groupId": "otm-d55b47f9-673d-454c-9f00-ef2744f0c5e0",
     "minCredits": "0"
   },
   {
-    "name": "Hampaiston oikomishoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Hampaiston oikomishoidon erikoishammasl��k�rikoulutus (55/2020)",
     "groupId": "otm-423f0e46-3cd6-43e0-9f99-36b1b593ce52",
     "minCredits": "0"
   },
   {
-    "name": "Hampaiston oikomishoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Hampaiston oikomishoidon erikoishammasl��k�rikoulutus (56/2015)",
     "groupId": "otm-7c52a467-ee85-4d60-922b-2d7f0743e858",
     "minCredits": "0"
   },
@@ -265,27 +265,27 @@
     "minCredits": "240"
   },
   {
-    "name": "Ihotautien ja allergologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Ihotautien ja allergologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-387ca5f7-39e3-4726-bf23-43ade219ddc6",
     "minCredits": "0"
   },
   {
-    "name": "Ihotautien ja allergologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Ihotautien ja allergologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-00a0051a-0baa-44f6-bd03-05209904a486",
     "minCredits": "0"
   },
   {
-    "name": "Infektiosairauksien erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Infektiosairauksien erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-e18a321c-19a5-4aa3-bc43-79493133e792",
     "minCredits": "0"
   },
   {
-    "name": "Infektiosairauksien erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Infektiosairauksien erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-c28ce152-1d64-4392-92c9-a73bf17c30f6",
     "minCredits": "0"
   },
   {
-    "name": "Informaatioteknologian ja viestinnÃ¤n tiedekunnan yleinen tohtoriohjelma",
+    "name": "Informaatioteknologian ja viestinn�n tiedekunnan yleinen tohtoriohjelma",
     "groupId": "otm-09d9556e-9144-4373-85b2-86f504f896d7",
     "minCredits": "240"
   },
@@ -310,12 +310,12 @@
     "minCredits": "120"
   },
   {
-    "name": "KansainvÃ¤linen epidemiologian ja kansanterveyden tohtoriohjelma",
+    "name": "Kansainv�linen epidemiologian ja kansanterveyden tohtoriohjelma",
     "groupId": "uta-tohjelma-1765",
     "minCredits": "240"
   },
   {
-    "name": "KansainvÃ¤linen epidemiologian ja kansanterveyden tohtoriohjelma, lisensiaatin tutkinto",
+    "name": "Kansainv�linen epidemiologian ja kansanterveyden tohtoriohjelma, lisensiaatin tutkinto",
     "groupId": "otm-39c21d10-418c-4392-8d9e-51f77719410a",
     "minCredits": "150"
   },
@@ -325,12 +325,12 @@
     "minCredits": "120"
   },
   {
-    "name": "Kardiologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Kardiologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-15e032b9-be6c-4414-b364-acfe81b4facf",
     "minCredits": "0"
   },
   {
-    "name": "Kardiologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Kardiologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-5d7ed46f-50b4-4e56-b635-cbd9355c6925",
     "minCredits": "0"
   },
@@ -380,12 +380,12 @@
     "minCredits": "120"
   },
   {
-    "name": "Keuhkosairauksien ja allergologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Keuhkosairauksien ja allergologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-d375b460-d99e-47d4-847d-9ba5dfaa557b",
     "minCredits": "0"
   },
   {
-    "name": "Keuhkosairauksien ja allergologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Keuhkosairauksien ja allergologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-c04cd957-3800-4ecc-820a-1ef2f55a48dd",
     "minCredits": "0"
   },
@@ -430,102 +430,102 @@
     "minCredits": "150"
   },
   {
-    "name": "Kliinisen farmakologian ja lÃ¤Ã¤kehoidon erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Kliinisen farmakologian ja l��kehoidon erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-e7e59ac1-02f3-483f-aaf2-a77048d6661b",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen farmakologian ja lÃ¤Ã¤kehoidon erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Kliinisen farmakologian ja l��kehoidon erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-a0e3fbc3-6a37-46c0-8655-f4365724f87b",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen fysiologian ja isotooppilÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Kliinisen fysiologian ja isotooppil��ketieteen erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-def4d3be-cc37-424d-89a7-e9c79c4929b3",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen fysiologian ja isotooppilÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Kliinisen fysiologian ja isotooppil��ketieteen erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-5d231adb-2ceb-4885-8230-293057095e20",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hammashoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Kliinisen hammashoidon erikoishammasl��k�rikoulutus (56/2015)",
     "groupId": "otm-aa298538-774e-46c8-84e6-7d54eb063a2b",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hammashoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, kariologia ja endodontia (55/2020)",
+    "name": "Kliinisen hammashoidon erikoishammasl��k�rikoulutus, kariologia ja endodontia (55/2020)",
     "groupId": "otm-d5015645-3c4d-4326-8245-33e5eaf4dd57",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hammashoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, lasten hammashoito (55/2020)",
+    "name": "Kliinisen hammashoidon erikoishammasl��k�rikoulutus, lasten hammashoito (55/2020)",
     "groupId": "otm-5bfc7ce5-ea33-4136-9d8d-2f732f826b17",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hammashoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, lasten hammashoito (56/2015)",
+    "name": "Kliinisen hammashoidon erikoishammasl��k�rikoulutus, lasten hammashoito (56/2015)",
     "groupId": "otm-e774b600-3ba0-4fc2-97bb-ed36193cde43",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hammashoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, parodontologia (55/2020)",
+    "name": "Kliinisen hammashoidon erikoishammasl��k�rikoulutus, parodontologia (55/2020)",
     "groupId": "otm-75f171e4-f987-4372-b758-4503ca8c5415",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hammashoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, parodontologia (56/2015)",
+    "name": "Kliinisen hammashoidon erikoishammasl��k�rikoulutus, parodontologia (56/2015)",
     "groupId": "otm-cbe77684-3959-48fb-af4a-efb9bf0b30dd",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hammashoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, protetiikka ja purentafysiologia (55/2020)",
+    "name": "Kliinisen hammashoidon erikoishammasl��k�rikoulutus, protetiikka ja purentafysiologia (55/2020)",
     "groupId": "otm-0eec44b1-6d85-4461-a4cf-e8f742f5d677",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hammashoidon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus, protetiikka ja purentafysiologia (56/2015)",
+    "name": "Kliinisen hammashoidon erikoishammasl��k�rikoulutus, protetiikka ja purentafysiologia (56/2015)",
     "groupId": "otm-a1883643-d6a9-46ed-a7e8-9a3c6e435d09",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hematologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Kliinisen hematologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-85999ff9-4089-44d3-a6a8-9bcd8aae1b8f",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen hematologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Kliinisen hematologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-b9a59584-3aad-4ba7-aa76-a38cafe2ee46",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen kemian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Kliinisen kemian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-4e0faa4e-4615-428c-8a22-d05094fca317",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen kemian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Kliinisen kemian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-6a11fb2e-2a8a-47e5-9633-27ffa4fbeaa2",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen mikrobiologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Kliinisen mikrobiologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-475d3fce-ecad-4da8-828e-d437305de57a",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen mikrobiologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Kliinisen mikrobiologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-d88c61e4-ceab-4420-9bb5-5bc89a42320d",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen neurofysiologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Kliinisen neurofysiologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-1fd64911-ea01-46e6-9b37-9db158505c92",
     "minCredits": "0"
   },
   {
-    "name": "Kliinisen neurofysiologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Kliinisen neurofysiologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-a2268f3e-03dc-4e82-8916-4674dace6bb5",
     "minCredits": "0"
   },
@@ -535,72 +535,72 @@
     "minCredits": "120"
   },
   {
-    "name": "Korva-, nenÃ¤- ja kurkkutautien erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Korva-, nen�- ja kurkkutautien erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-7abd7428-d7bc-472f-a110-6c60836de1e8",
     "minCredits": "0"
   },
   {
-    "name": "Korva-, nenÃ¤- ja kurkkutautien erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Korva-, nen�- ja kurkkutautien erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-1a8f3335-847b-4cfa-ae96-9de25766167b",
     "minCredits": "0"
   },
   {
-    "name": "KÃ¤sikirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "K�sikirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-d5efea4e-c894-4120-8bba-5509518dd7c3",
     "minCredits": "0"
   },
   {
-    "name": "KÃ¤sikirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "K�sikirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-d242fe33-9bd8-42fc-90b3-73ba8bbfb3a2",
     "minCredits": "0"
   },
   {
-    "name": "Lastenkirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Lastenkirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-3605c127-ed8d-4356-91b6-983f7ac85ecd",
     "minCredits": "0"
   },
   {
-    "name": "Lastenkirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Lastenkirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-7675c078-70dd-4b0f-b9b5-ab0a92425bd5",
     "minCredits": "0"
   },
   {
-    "name": "Lastenneurologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Lastenneurologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-b39cde78-43dc-407f-8bc0-d1c90bd93477",
     "minCredits": "0"
   },
   {
-    "name": "Lastenneurologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Lastenneurologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-0e7f08df-b697-4f21-85af-a610bdf278ff",
     "minCredits": "0"
   },
   {
-    "name": "Lastenpsykiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Lastenpsykiatrian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-9afd3ba9-c66e-4a0b-b1e7-00e0fa5bf76c",
     "minCredits": "0"
   },
   {
-    "name": "Lastenpsykiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Lastenpsykiatrian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-06a0c1ce-ab3e-40b2-942c-263b5b0ce713",
     "minCredits": "0"
   },
   {
-    "name": "Lastentautien erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Lastentautien erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-9ef2bbd6-e562-4709-9ccd-87db819e60d2",
     "minCredits": "0"
   },
   {
-    "name": "Lastentautien erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Lastentautien erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-44067ac6-9b83-4e1f-9007-8625b19913cc",
     "minCredits": "0"
   },
   {
-    "name": "LiikuntalÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Liikuntal��ketieteen erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-b78e296d-9957-4525-a5ca-1ccfb97731c0",
     "minCredits": "0"
   },
   {
-    "name": "LiikuntalÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Liikuntal��ketieteen erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-da47bd82-62ab-4c0c-b64b-e905ea85ca5d",
     "minCredits": "0"
   },
@@ -615,142 +615,142 @@
     "minCredits": "120"
   },
   {
-    "name": "LÃ¤Ã¤ketieteen, biotieteiden ja biolÃ¤Ã¤ketieteen tekniikan tohtoriohjelma",
+    "name": "L��ketieteen, biotieteiden ja biol��ketieteen tekniikan tohtoriohjelma",
     "groupId": "otm-f02bed81-02b0-4575-9329-65e0b53c572d",
     "minCredits": "240"
   },
   {
-    "name": "LÃ¤Ã¤ketieteen, biotieteiden ja biolÃ¤Ã¤ketieteen tekniikan tohtoriohjelma, lisensiaatin tutkinto",
+    "name": "L��ketieteen, biotieteiden ja biol��ketieteen tekniikan tohtoriohjelma, lisensiaatin tutkinto",
     "groupId": "otm-6873f5fb-dced-4acb-a109-a5c09fe7a4ca",
     "minCredits": "130"
   },
   {
-    "name": "LÃ¤Ã¤ketieteen ja biotieteiden tohtoriohjelma",
+    "name": "L��ketieteen ja biotieteiden tohtoriohjelma",
     "groupId": "otm-b500e8d3-8f2e-4eb5-8232-1fcb47a385de",
     "minCredits": "240"
   },
   {
-    "name": "LÃ¤Ã¤ketieteen ja terveysteknologian tiedekunnan yleinen tohtoriohjelma",
+    "name": "L��ketieteen ja terveysteknologian tiedekunnan yleinen tohtoriohjelma",
     "groupId": "otm-92b34765-46c1-4025-bab6-556282009c58",
     "minCredits": "240"
   },
   {
-    "name": "LÃ¤Ã¤ketieteen ja terveysteknologian tiedekunnan yleinen tohtoriohjelma, lisensiaatin tutkinto",
+    "name": "L��ketieteen ja terveysteknologian tiedekunnan yleinen tohtoriohjelma, lisensiaatin tutkinto",
     "groupId": "otm-601cffd3-e3a8-4ef3-9330-8e1cdedc2359",
     "minCredits": "120"
   },
   {
-    "name": "LÃ¤Ã¤ketieteen lisensiaatin tutkinto-ohjelma",
+    "name": "L��ketieteen lisensiaatin tutkinto-ohjelma",
     "groupId": "uta-tohjelma-1723",
     "minCredits": "360"
   },
   {
-    "name": "LÃ¤Ã¤ketieteen tohtoriohjelma",
+    "name": "L��ketieteen tohtoriohjelma",
     "groupId": "uta-tohjelma-1763",
     "minCredits": "240"
   },
   {
-    "name": "Master\u0027s Programme in Architecture",
+    "name": "Master's Programme in Architecture",
     "groupId": "tut-dp-g-1240",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Automation Engineering",
+    "name": "Master's Programme in Automation Engineering",
     "groupId": "tut-dp-g-1241",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Biomedical Sciences and Engineering",
+    "name": "Master's Programme in Biomedical Sciences and Engineering",
     "groupId": "tut-dp-g-1542",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Biomedical Technology",
+    "name": "Master's Programme in Biomedical Technology",
     "groupId": "uta-tohjelma-1719",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Computing Sciences",
+    "name": "Master's Programme in Computing Sciences",
     "groupId": "otm-73a93855-500a-432d-9c43-0696af85bde8",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Electrical Engineering",
+    "name": "Master's Programme in Electrical Engineering",
     "groupId": "tut-dp-g-1242",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Environmental Engineering",
+    "name": "Master's Programme in Environmental Engineering",
     "groupId": "otm-4efc0e5e-87ae-4dd9-aa94-05f2d8be8956",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Game Studies",
+    "name": "Master's Programme in Game Studies",
     "groupId": "otm-2bd4a666-537c-4a3d-8e29-98a8e6039d64",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Industrial Engineering and Management",
+    "name": "Master's Programme in Industrial Engineering and Management",
     "groupId": "tut-dp-g-1261",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Information Technology",
+    "name": "Master's Programme in Information Technology",
     "groupId": "tut-dp-g-1262",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Leadership for Change",
+    "name": "Master's Programme in Leadership for Change",
     "groupId": "uta-tohjelma-1698",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Materials Science and Engineering",
+    "name": "Master's Programme in Materials Science and Engineering",
     "groupId": "tut-dp-g-1502",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Photonics Technologies",
+    "name": "Master's Programme in Photonics Technologies",
     "groupId": "tut-dp-g-1584",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Public and Global Health",
+    "name": "Master's Programme in Public and Global Health",
     "groupId": "uta-tohjelma-1766",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Public Economics and Public Finance",
+    "name": "Master's Programme in Public Economics and Public Finance",
     "groupId": "uta-tohjelma-1692",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Research and Innovation in Higher Education",
+    "name": "Master's Programme in Research and Innovation in Higher Education",
     "groupId": "uta-tohjelma-1693",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Science and Engineering",
+    "name": "Master's Programme in Science and Engineering",
     "groupId": "tut-dp-g-1243",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Security and Safety Management",
+    "name": "Master's Programme in Security and Safety Management",
     "groupId": "otm-f056d57c-c4bd-4790-8a89-ab50c954ff64",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Social Science Research",
+    "name": "Master's Programme in Social Science Research",
     "groupId": "otm-6da8f96e-7a9d-4185-8170-6deb239e144d",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Sustainable Digital Life",
+    "name": "Master's Programme in Sustainable Digital Life",
     "groupId": "otm-98d22d7e-dc6e-4442-b8c9-71ba0d59d0af",
     "minCredits": "120"
   },
   {
-    "name": "Master\u0027s Programme in Teaching, Learning and Media Education",
+    "name": "Master's Programme in Teaching, Learning and Media Education",
     "groupId": "uta-tohjelma-1702",
     "minCredits": "120"
   },
@@ -770,7 +770,7 @@
     "minCredits": "120"
   },
   {
-    "name": "Media- ja viestintÃ¤tutkimuksen ja esittÃ¤vien taiteiden tohtoriohjelma",
+    "name": "Media- ja viestint�tutkimuksen ja esitt�vien taiteiden tohtoriohjelma",
     "groupId": "uta-tohjelma-1756",
     "minCredits": "240"
   },
@@ -780,117 +780,117 @@
     "minCredits": "120"
   },
   {
-    "name": "Monikielisen viestinnÃ¤n ja kÃ¤Ã¤nnÃ¶stieteen maisteriohjelma",
+    "name": "Monikielisen viestinn�n ja k��nn�stieteen maisteriohjelma",
     "groupId": "otm-11430137-90f9-4e13-9b78-8433eb66ea0a",
     "minCredits": "120"
   },
   {
-    "name": "Naistentautien ja synnytysten erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Naistentautien ja synnytysten erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-a808d2bd-2f3f-4114-8f0f-3b4bbeb7f518",
     "minCredits": "0"
   },
   {
-    "name": "Naistentautien ja synnytysten erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Naistentautien ja synnytysten erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-eae69ceb-8820-46d9-b0d7-49dce4fe90dc",
     "minCredits": "0"
   },
   {
-    "name": "Nefrologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Nefrologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-9cb19027-f6b5-47e7-a809-22de30595b90",
     "minCredits": "0"
   },
   {
-    "name": "Nefrologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Nefrologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-98160f33-f241-40d8-830a-958383bc58d2",
     "minCredits": "0"
   },
   {
-    "name": "Neurokirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Neurokirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-2ca6b7a0-d373-46b8-be0a-9d9787426374",
     "minCredits": "0"
   },
   {
-    "name": "Neurokirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Neurokirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-db4f06fc-6f8b-4bee-a7c1-40ca06afce07",
     "minCredits": "0"
   },
   {
-    "name": "Neurologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Neurologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-b20a15b9-a8d3-4b70-877c-ad176b4c01c2",
     "minCredits": "0"
   },
   {
-    "name": "Neurologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Neurologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-acf2c3d9-a0d4-4f14-a421-ab3ea065397c",
     "minCredits": "0"
   },
   {
-    "name": "Nuorisopsykiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Nuorisopsykiatrian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-6d1b66ca-a12c-415e-b9d9-e3cba438d3e9",
     "minCredits": "0"
   },
   {
-    "name": "Nuorisopsykiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Nuorisopsykiatrian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-d44487cc-5064-4d3a-9d02-5081e4eb7d45",
     "minCredits": "0"
   },
   {
-    "name": "OikeuslÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Oikeusl��ketieteen erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-66375c88-afa7-43a9-a565-60555122ca8f",
     "minCredits": "0"
   },
   {
-    "name": "OikeuslÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Oikeusl��ketieteen erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-d6ca5f27-f316-407d-890f-2875d6f456b0",
     "minCredits": "0"
   },
   {
-    "name": "Oikeuspsykiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Oikeuspsykiatrian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-cde7cb93-99ff-46a3-9c00-cf71ad2b12a0",
     "minCredits": "0"
   },
   {
-    "name": "Oikeuspsykiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Oikeuspsykiatrian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-9f5f5578-75ae-478e-b03a-d1e757b33172",
     "minCredits": "0"
   },
   {
-    "name": "Ortopedian ja traumatologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Ortopedian ja traumatologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-6a13d566-3b68-464d-828f-14e78384eb2e",
     "minCredits": "0"
   },
   {
-    "name": "Ortopedian ja traumatologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Ortopedian ja traumatologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-faec1e66-2eb0-4012-8ff6-b5693185fa12",
     "minCredits": "0"
   },
   {
-    "name": "Patologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Patologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-3940deea-aafe-4886-80e9-2b194874b73f",
     "minCredits": "0"
   },
   {
-    "name": "Patologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Patologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-a7b4667f-a5f9-4bd9-a67f-4eade7d47bac",
     "minCredits": "0"
   },
   {
-    "name": "PerinnÃ¶llisyyslÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Perinn�llisyysl��ketieteen erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-f3629d61-859e-46ef-a290-ea9fe82c3df8",
     "minCredits": "0"
   },
   {
-    "name": "PerinnÃ¶llisyyslÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Perinn�llisyysl��ketieteen erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-a60e34a3-f26d-4d25-a438-3fbe337ef522",
     "minCredits": "0"
   },
   {
-    "name": "Plastiikkakirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Plastiikkakirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-6a9cb8cb-8906-4573-93b0-6ddc861613ac",
     "minCredits": "0"
   },
   {
-    "name": "Plastiikkakirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Plastiikkakirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-f351ce33-11a6-42be-a15f-7544cb194bff",
     "minCredits": "0"
   },
@@ -905,12 +905,12 @@
     "minCredits": "120"
   },
   {
-    "name": "Psykiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Psykiatrian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-077867fd-272f-49c0-8e84-8f07a3d78907",
     "minCredits": "0"
   },
   {
-    "name": "Psykiatrian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Psykiatrian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-cce83cf0-d9bb-4787-a9e3-fc2018ddbc61",
     "minCredits": "0"
   },
@@ -940,32 +940,32 @@
     "minCredits": "150"
   },
   {
-    "name": "Radiologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Radiologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-2bd0df92-cffe-4ad7-ac7f-73206b9afe61",
     "minCredits": "0"
   },
   {
-    "name": "Radiologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Radiologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-390402b8-52e7-4f7e-8644-0fd0c6342a38",
     "minCredits": "0"
   },
   {
-    "name": "Rakennetun ympÃ¤ristÃ¶n tiedekunnan yleinen tohtoriohjelma",
+    "name": "Rakennetun ymp�rist�n tiedekunnan yleinen tohtoriohjelma",
     "groupId": "otm-045535c9-b290-4fe2-a82d-c8f1948d3663",
     "minCredits": "240"
   },
   {
-    "name": "Rakennetun ympÃ¤ristÃ¶n tiedekunnan yleinen tohtoriohjelma, lisensiaatin tutkinto",
+    "name": "Rakennetun ymp�rist�n tiedekunnan yleinen tohtoriohjelma, lisensiaatin tutkinto",
     "groupId": "otm-5508645b-4e76-4959-8152-61642e8f7249",
     "minCredits": "120"
   },
   {
-    "name": "Rakennetun ympÃ¤ristÃ¶n tohtoriohjelma",
+    "name": "Rakennetun ymp�rist�n tohtoriohjelma",
     "groupId": "otm-18939d1f-dc26-4854-bf0d-ca4fd2ca75bc",
     "minCredits": "240"
   },
   {
-    "name": "Rakennetun ympÃ¤ristÃ¶n tohtoriohjelma, lisensiaatin tutkinto",
+    "name": "Rakennetun ymp�rist�n tohtoriohjelma, lisensiaatin tutkinto",
     "groupId": "otm-774a7269-6fac-47ee-bb07-635e75ad06c0",
     "minCredits": "130"
   },
@@ -980,112 +980,112 @@
     "minCredits": "180"
   },
   {
-    "name": "Reumatologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Reumatologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-c7cf6b86-2d0b-46c1-8537-4a6abe553087",
     "minCredits": "0"
   },
   {
-    "name": "Reumatologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Reumatologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-3db5d562-8d53-491f-aade-0c608784883f",
     "minCredits": "0"
   },
   {
-    "name": "SilmÃ¤tautien erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Silm�tautien erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-622db03c-09d0-4cab-880a-8baa07a181c5",
     "minCredits": "0"
   },
   {
-    "name": "SilmÃ¤tautien erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Silm�tautien erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-d2948bcf-0eb4-44f9-8219-cf09f7efafb0",
     "minCredits": "0"
   },
   {
-    "name": "SisÃ¤tautien erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Sis�tautien erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-f1f42ced-9cfe-491d-81d3-a0bdecd14bee",
     "minCredits": "0"
   },
   {
-    "name": "SisÃ¤tautien erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Sis�tautien erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-c1ce97dd-bdd6-43e9-812e-ba2d824a6c08",
     "minCredits": "0"
   },
   {
-    "name": "SosiaalityÃ¶n kandidaattiohjelma",
+    "name": "Sosiaality�n kandidaattiohjelma",
     "groupId": "otm-36b9896c-2e3b-4f89-bbf3-983e168ca644",
     "minCredits": "180"
   },
   {
-    "name": "SosiaalityÃ¶n kandidaattiohjelma, Pori",
+    "name": "Sosiaality�n kandidaattiohjelma, Pori",
     "groupId": "otm-62d270c1-d71c-4e45-be76-adb12797151d",
     "minCredits": "180"
   },
   {
-    "name": "SosiaalityÃ¶n maisteriohjelma",
+    "name": "Sosiaality�n maisteriohjelma",
     "groupId": "uta-tohjelma-1770",
     "minCredits": "120"
   },
   {
-    "name": "SosiaalityÃ¶n maisteriohjelma, Pori",
+    "name": "Sosiaality�n maisteriohjelma, Pori",
     "groupId": "otm-74109818-6dbf-42fc-be29-7bcfe50edd91",
     "minCredits": "120"
   },
   {
-    "name": "SosiaalityÃ¶n maisteriohjelma, SeinÃ¤joki",
+    "name": "Sosiaality�n maisteriohjelma, Sein�joki",
     "groupId": "otm-b04baa71-e95f-466b-ba46-2a45ba22fe77",
     "minCredits": "120"
   },
   {
-    "name": "Suu- ja leukakirurgian erikoishammaslÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Suu- ja leukakirurgian erikoishammasl��k�rikoulutus (55/2020)",
     "groupId": "otm-85eee583-6771-4daf-93f0-39a4e33a72d6",
     "minCredits": "0"
   },
   {
-    "name": "Suu- ja leukakirurgian erikoishammaslÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Suu- ja leukakirurgian erikoishammasl��k�rikoulutus (56/2015)",
     "groupId": "otm-2b058177-71de-4531-9329-198fc334bb19",
     "minCredits": "0"
   },
   {
-    "name": "Suu- ja leukakirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Suu- ja leukakirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-505cc950-f92b-47e7-8256-0497790915d2",
     "minCredits": "0"
   },
   {
-    "name": "Suu- ja leukakirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Suu- ja leukakirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-b8aef5f8-6bde-489e-89cd-ab6b1f055aca",
     "minCredits": "0"
   },
   {
-    "name": "SydÃ¤n- ja rintaelinkirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Syd�n- ja rintaelinkirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-5f476a52-1f62-45b5-bdd5-8a1ab0cfb7fd",
     "minCredits": "0"
   },
   {
-    "name": "SydÃ¤n- ja rintaelinkirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Syd�n- ja rintaelinkirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-79f191f2-7a5a-4533-b6e3-0ecae608b68b",
     "minCredits": "0"
   },
   {
-    "name": "SyÃ¶pÃ¤tautien erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Sy�p�tautien erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-5c3262df-82a9-402f-b065-9cc01e8dbb44",
     "minCredits": "0"
   },
   {
-    "name": "SyÃ¶pÃ¤tautien erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Sy�p�tautien erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-64a86dfa-598d-43bd-8279-547948fd563a",
     "minCredits": "0"
   },
   {
-    "name": "SÃ¤hkÃ¶tekniikan DI-ohjelma",
+    "name": "S�hk�tekniikan DI-ohjelma",
     "groupId": "tut-dp-g-1165",
     "minCredits": "120"
   },
   {
-    "name": "TeatterityÃ¶n kandidaattiohjelma",
+    "name": "Teatterity�n kandidaattiohjelma",
     "groupId": "uta-tohjelma-1748",
     "minCredits": "180"
   },
   {
-    "name": "TeatterityÃ¶n maisteriohjelma",
+    "name": "Teatterity�n maisteriohjelma",
     "groupId": "uta-tohjelma-1749",
     "minCredits": "120"
   },
@@ -1150,22 +1150,22 @@
     "minCredits": "130"
   },
   {
-    "name": "Terveydenhuollon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Terveydenhuollon erikoishammasl��k�rikoulutus (55/2020)",
     "groupId": "otm-441c1251-c794-4bf4-b34d-3307ac99d112",
     "minCredits": "0"
   },
   {
-    "name": "Terveydenhuollon erikoishammaslÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Terveydenhuollon erikoishammasl��k�rikoulutus (56/2015)",
     "groupId": "otm-6a1b563a-5572-4c2d-b450-dfa598fe20b8",
     "minCredits": "0"
   },
   {
-    "name": "Terveydenhuollon erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Terveydenhuollon erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-61445e13-6325-4977-afaa-f5c94d0ff664",
     "minCredits": "0"
   },
   {
-    "name": "Terveydenhuollon erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Terveydenhuollon erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-bbcf580e-3999-4e79-be1b-49833afb90c5",
     "minCredits": "0"
   },
@@ -1185,27 +1185,27 @@
     "minCredits": "150"
   },
   {
-    "name": "Tieto- ja sÃ¤hkÃ¶tekniikan kandidaattiohjelma",
+    "name": "Tieto- ja s�hk�tekniikan kandidaattiohjelma",
     "groupId": "otm-fa02a1e7-4fe1-43e3-818b-810d8e723531",
     "minCredits": "180"
   },
   {
-    "name": "Tieto- ja sÃ¤hkÃ¶tekniikan tohtoriohjelma",
+    "name": "Tieto- ja s�hk�tekniikan tohtoriohjelma",
     "groupId": "otm-265f0c13-82ad-4764-a7fe-1283c1a4837a",
     "minCredits": "240"
   },
   {
-    "name": "Tieto- ja sÃ¤hkÃ¶tekniikan tohtoriohjelma, lisensiaatin tutkinto",
+    "name": "Tieto- ja s�hk�tekniikan tohtoriohjelma, lisensiaatin tutkinto",
     "groupId": "otm-b709d833-e453-4a8f-bcf5-daeca57d9cf9",
     "minCredits": "130"
   },
   {
-    "name": "TietojenkÃ¤sittelyopin maisteriohjelma",
+    "name": "Tietojenk�sittelyopin maisteriohjelma",
     "groupId": "uta-tohjelma-1707",
     "minCredits": "120"
   },
   {
-    "name": "TietojenkÃ¤sittelytieteiden kandidaattiohjelma",
+    "name": "Tietojenk�sittelytieteiden kandidaattiohjelma",
     "groupId": "uta-tohjelma-1705",
     "minCredits": "180"
   },
@@ -1230,32 +1230,32 @@
     "minCredits": "120"
   },
   {
-    "name": "TyÃ¶n ja hyvinvoinnin maisteriohjelma",
+    "name": "Ty�n ja hyvinvoinnin maisteriohjelma",
     "groupId": "uta-tohjelma-1793",
     "minCredits": "120"
   },
   {
-    "name": "TyÃ¶n ja hyvinvoinnin maisteriohjelma, Pori",
+    "name": "Ty�n ja hyvinvoinnin maisteriohjelma, Pori",
     "groupId": "otm-c9ad1e20-7435-40d0-aace-0bf30436c7d9",
     "minCredits": "120"
   },
   {
-    "name": "TyÃ¶terveyshuollon erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Ty�terveyshuollon erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-5e4d66b8-e356-4c8a-afbf-33b38608163e",
     "minCredits": "0"
   },
   {
-    "name": "TyÃ¶terveyshuollon erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Ty�terveyshuollon erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-aa32e739-e08e-496e-be95-deb043232236",
     "minCredits": "0"
   },
   {
-    "name": "Urologian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Urologian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-09a48164-f5f3-49d9-9820-ea73fc3d5d8a",
     "minCredits": "0"
   },
   {
-    "name": "Urologian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Urologian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-72940867-8b0e-48c4-a6ec-80c80b855d80",
     "minCredits": "0"
   },
@@ -1265,22 +1265,22 @@
     "minCredits": "120"
   },
   {
-    "name": "Verisuonikirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Verisuonikirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-b8875bb3-0a77-4cdd-800e-9d9d9d62068e",
     "minCredits": "0"
   },
   {
-    "name": "Verisuonikirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Verisuonikirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-416dcdc3-17a2-4ec5-b62e-a53479e0c3b9",
     "minCredits": "0"
   },
   {
-    "name": "ViestinnÃ¤n maisteriohjelma",
+    "name": "Viestinn�n maisteriohjelma",
     "groupId": "otm-35a1b328-4012-4dc4-8c3a-ef275f8c958f",
     "minCredits": "120"
   },
   {
-    "name": "ViestinnÃ¤n monitieteinen kandidaattiohjelma",
+    "name": "Viestinn�n monitieteinen kandidaattiohjelma",
     "groupId": "otm-82e1f1f8-f0ef-48f0-9854-f4f7837d9955",
     "minCredits": "180"
   },
@@ -1325,27 +1325,27 @@
     "minCredits": "150"
   },
   {
-    "name": "Yleiskirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Yleiskirurgian erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-884da816-94ad-4f49-ac9c-8639914e4a82",
     "minCredits": "0"
   },
   {
-    "name": "Yleiskirurgian erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Yleiskirurgian erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-64750edd-e55c-4fa5-97ae-ce39de1fe89d",
     "minCredits": "0"
   },
   {
-    "name": "YleislÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (55/2020)",
+    "name": "Yleisl��ketieteen erikoisl��k�rikoulutus (55/2020)",
     "groupId": "otm-9be0eade-b726-454a-ae00-edd3e718460d",
     "minCredits": "0"
   },
   {
-    "name": "YleislÃ¤Ã¤ketieteen erikoislÃ¤Ã¤kÃ¤rikoulutus (56/2015)",
+    "name": "Yleisl��ketieteen erikoisl��k�rikoulutus (56/2015)",
     "groupId": "otm-acbc297d-b1a8-4d9a-997f-edf43a4e277e",
     "minCredits": "0"
   },
   {
-    "name": "YmpÃ¤ristÃ¶- ja energiatekniikan DI-ohjelma",
+    "name": "Ymp�rist�- ja energiatekniikan DI-ohjelma",
     "groupId": "tut-dp-g-1162",
     "minCredits": "120"
   }
