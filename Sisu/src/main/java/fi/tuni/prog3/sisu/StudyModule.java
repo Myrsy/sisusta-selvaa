@@ -53,6 +53,36 @@ public class StudyModule extends Module {
     public void addModule(StudyModule mod){
         this.modules.add(mod);
     }
+
+    public String getAllMandatory() {
+        return allMandatory;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getGradeScaleId() {
+        return gradeScaleId;
+    }
+
+    public String getMinCredits() {
+        return minCredits;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getOutcomes() {
+        return outcomes;
+    }
+    
+    
     
     
 }
