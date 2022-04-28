@@ -196,8 +196,14 @@ public class SearchTool {
                     moduleArray = parseAndSaveModule(subObj, moduleArray);
                 }
             }       
-        } else if (type.getAsString().equals("CreditsRule") 
-                || type.getAsString().equals("GroupingModule")) {
+        } else if (type.getAsString().equals("GroupingModule")) {
+            JsonObject name = jsonObj.getAsJsonObject("name");
+            JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
+            module.addProperty("name", parseString(nameFI.getAsString()));
+            JsonObject subObject = jsonObj.getAsJsonObject("rule");
+            module.addProperty("type", type.getAsString());
+            moduleArray = parseAndSaveModule(subObject, moduleArray);
+        } else if (type.getAsString().equals("CreditsRule")) {
             JsonObject subObject = jsonObj.getAsJsonObject("rule");
             module.addProperty("type", type.getAsString());
             moduleArray = parseAndSaveModule(subObject, moduleArray);

@@ -4,8 +4,15 @@ import java.util.ArrayList;
 
 
 public class StudyModule extends Module {
+    private String allMandatory;
+    private String type;
     private String groupId;
     private String name;
+    private String code;
+    private String gradeScaleId;
+    private String minCredits;
+    private String content;
+    private String outcomes;
     private ArrayList<CourseUnit> courses;
     private ArrayList<StudyModule> modules;
     
@@ -23,6 +30,11 @@ public class StudyModule extends Module {
     
     @Override
     public String getName(){
+        return this.name;
+    }
+    
+    @Override
+    public String toString(){
         return this.name;
     }
 
