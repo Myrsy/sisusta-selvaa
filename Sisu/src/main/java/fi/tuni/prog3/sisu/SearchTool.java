@@ -30,7 +30,9 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 import javafx.util.Pair;
 import org.apache.commons.codec.binary.StringUtils;
 import org.jsoup.Jsoup;
@@ -53,8 +55,10 @@ public class SearchTool {
     private static final String ISO_STRING = "ISO-8859-15";
     private DegreeObjectData degreeData;
     
-    public SearchTool(){
+    public SearchTool() throws IOException{
         degreeData = new DegreeObjectData();
+        degreeData.jsonFileToObjects();
+
     }
     
     /**
@@ -146,24 +150,32 @@ public class SearchTool {
      * @throws MalformedURLException
      * @throws IOException 
      */
-    public void searchDegreeURL(String groupId) throws MalformedURLException, IOException{
+    public void searchDegreeURL(String newGroupId) throws MalformedURLException, IOException{
         
-        String urlStr = "https://sis-tuni.funidata.fi/kori/api/modules/by-group-id?groupId="
-                + groupId + "&universityId=tuni-university-root-id";
+        Set<String> savedGroupIds = degreeData.getDegreeMap().keySet();
         
-        URL url = new URL(urlStr);
-        String data = new String(url.openStream().readAllBytes());
-        byte[] isoBytes = data.getBytes(Charset.forName(ISO_STRING));
-        String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
-        
-        JsonArray json = new JsonParser().parse(isoData).getAsJsonArray();
-        JsonObject jsonObj = json.get(0).getAsJsonObject();
-        
-        JsonArray array = new JsonArray();
-        
-        array = parseAndSaveModule(jsonObj, array);
-        writeArrayToFile(FULL_DEGREES_FILENAME, array);
+        if (savedGroupIds.contains(newGroupId)) {
+            System.out.println("tutkinto " + newGroupId + " on jo tiedostossa");
+        } else {
+            String urlStr = "https://sis-tuni.funidata.fi/kori/api/modules/by-group-id?groupId="
+                    + newGroupId + "&universityId=tuni-university-root-id";
 
+            URL url = new URL(urlStr);
+            String data = new String(url.openStream().readAllBytes());
+            byte[] isoBytes = data.getBytes(Charset.forName(ISO_STRING));
+            String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
+
+            JsonArray json = new JsonParser().parse(isoData).getAsJsonArray();
+            JsonObject jsonObj = json.get(0).getAsJsonObject();
+
+            JsonArray array = new JsonArray();
+
+            array = parseAndSaveModule(jsonObj, array);
+            
+            degreeData.jsonArrayToObject(array);
+            writeArrayToFile(FULL_DEGREES_FILENAME, array);
+            
+        }
         
     }
     

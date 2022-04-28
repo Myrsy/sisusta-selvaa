@@ -2,6 +2,7 @@ package fi.tuni.prog3.sisu;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -22,16 +23,24 @@ public class DegreeObjectData {
         this.degreeProgrammes = new HashMap<>();
     }
     
-    public void jsonToObjects() throws FileNotFoundException, IOException {
+    public void jsonFileToObjects() throws FileNotFoundException, IOException {
         
         Gson gson = new Gson();
         try (Reader reader = new FileReader(FULL_DEGREES_FILENAME)) {
            DegreeProgramme[] progs = gson.fromJson(reader, DegreeProgramme[].class);
-           for (DegreeProgramme prog: progs) {
-               System.out.println(prog.getName());
-               addProgramme(prog);
-           }
+            if (progs != null) {
+                for (DegreeProgramme prog: progs) {
+                    addProgramme(prog);
+                }
+            }
         }
+    }
+    
+    public void jsonArrayToObject(JsonArray jsonArray) {
+        
+        Gson gson = new Gson();
+        DegreeProgramme prog = gson.fromJson(jsonArray, DegreeProgramme[].class)[0];
+        addProgramme(prog);               
     }
     
     public void objectsToJson() throws IOException {     
@@ -59,5 +68,5 @@ public class DegreeObjectData {
     public HashMap getDegreeMap(){
         return this.degreeProgrammes;
     }
-        
+            
 }
