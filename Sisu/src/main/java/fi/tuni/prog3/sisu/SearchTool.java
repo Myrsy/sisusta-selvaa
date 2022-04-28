@@ -57,11 +57,16 @@ public class SearchTool {
         degreeData = new DegreeObjectData();
     }
     
+    /**
+     * 
+     * @param filename
+     * @param array
+     * @throws IOException 
+     */
     private void writeArrayToFile(String filename, JsonArray array) 
             throws IOException {
-        
-        System.out.println("tulostetaan");
-        
+                
+        System.out.println("kirjoitetaan");
         String data = new String(Files.readAllBytes(Paths.get(filename)));
         byte[] bytes = StringUtils.getBytesUtf8(data);
         String utf8data = StringUtils.newStringUtf8(bytes);
@@ -71,6 +76,8 @@ public class SearchTool {
             JsonArray jsonArray = (JsonArray)element;
             
             jsonArray.addAll(array);
+            
+          
             
             try(FileWriter fw = new FileWriter(filename, Charset.forName(ISO_STRING))){
                     Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
@@ -87,6 +94,10 @@ public class SearchTool {
         
     }
     
+    /**
+     * 
+     * @throws IOException 
+     */
     public void searchDegreeProgrammesURL() throws IOException {        
         
         try {
@@ -129,8 +140,14 @@ public class SearchTool {
     
     }
     
-
+    /**
+     * 
+     * @param groupId
+     * @throws MalformedURLException
+     * @throws IOException 
+     */
     public void searchDegreeURL(String groupId) throws MalformedURLException, IOException{
+        
         String urlStr = "https://sis-tuni.funidata.fi/kori/api/modules/by-group-id?groupId="
                 + groupId + "&universityId=tuni-university-root-id";
         
@@ -139,69 +156,78 @@ public class SearchTool {
         byte[] isoBytes = data.getBytes(Charset.forName(ISO_STRING));
         String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
         
+        JsonArray json = new JsonParser().parse(isoData).getAsJsonArray();
+        JsonObject jsonObj = json.get(0).getAsJsonObject();
+        
         JsonArray array = new JsonArray();
         
-        array = parseAndSaveModule(isoData, array);
+        array = parseAndSaveModule(jsonObj, array);
         writeArrayToFile(FULL_DEGREES_FILENAME, array);
 
         
     }
     
-    private Pair<JsonArray,String>parseRules(JsonObject rule) throws MalformedURLException, IOException{
-        JsonArray rules = null;
-        String desc = "";
-        if(rule.getAsJsonPrimitive("type").getAsString().equals("CompositeRule")){
-            JsonElement description= rule.get("description");
-            JsonPrimitive descriptionFI = null;
-            if(!(description instanceof JsonNull)){
-                descriptionFI = description.getAsJsonObject().getAsJsonPrimitive("fi");
-                if(descriptionFI != null){
-                    desc = parseString(descriptionFI.getAsString());
-                }
-            }
-        }
-        if((rule.getAsJsonObject("rule") != null) 
-                && (rule.getAsJsonArray("rules") == null)){
-           rule = rule.getAsJsonObject("rule");
-           Pair rulesPair = parseRules(rule);
-           rules =(JsonArray) rulesPair.getKey();
-        } else if ((rule.getAsJsonArray("rules") != null)){
-            rules = rule.getAsJsonArray("rules");
-            if (rules.get(0).getAsJsonObject().getAsJsonPrimitive("type").getAsString().equals("ModuleRule")
-                    || rules.get(0).getAsJsonObject().getAsJsonPrimitive("type").getAsString().equals("CourseUnitRule")){
-                Pair<JsonArray, String> pair = new Pair<>(rules, desc);
-                return pair;
-            } else {
-                for(JsonElement r: rules){
-                    
-                    Pair rulesPair = parseRules(r.getAsJsonObject());
-                    rules =(JsonArray) rulesPair.getKey();
-                }
-            }
-        }
-        Pair<JsonArray, String> pair = new Pair<>(rules, desc);
-        return pair;
-    }
+    /**
+     * 
+     * @param jsonObj
+     * @param array
+     * @return
+     * @throws IOException 
+     */
+    private JsonArray parseAndSaveModule(JsonObject jsonObj, JsonArray array) throws IOException{ 
+        
+        JsonObject module = new JsonObject();
+        JsonArray moduleArray = new JsonArray();
 
-    
-    public JsonArray parseAndSaveModule(String data, JsonArray array) throws IOException{
-        JsonArray json = new JsonParser().parse(data).getAsJsonArray();
-        for(JsonElement x: json){
-            JsonObject jsonObj = x.getAsJsonObject();  
-            JsonObject module = new JsonObject();
+        JsonPrimitive type = jsonObj.getAsJsonPrimitive("type");
+
+        if (type.getAsString().equals("CompositeRule")) {
+            JsonPrimitive allMandatory = jsonObj.getAsJsonPrimitive("allMandatory");
+            module.addProperty("allMandatory", allMandatory.getAsString());
+            module.addProperty("type", type.getAsString());
             
+            JsonArray ruleArray = jsonObj.getAsJsonArray("rules");
+            for (JsonElement subElement: ruleArray) {
+                JsonObject subObj = subElement.getAsJsonObject();
+                JsonPrimitive subType = subObj.getAsJsonPrimitive("type");
+                if (subType.getAsString().equals("CourseUnitRule")) {
+                    moduleArray.add(parseCourseUnit(subObj));
+                } else {
+                    moduleArray = parseAndSaveModule(subObj, moduleArray);
+                }
+            }       
+        } else if (type.getAsString().equals("CreditsRule") 
+                || type.getAsString().equals("GroupingModule")) {
+            JsonObject subObject = jsonObj.getAsJsonObject("rule");
+            module.addProperty("type", type.getAsString());
+            moduleArray = parseAndSaveModule(subObject, moduleArray);
+        } else if (type.getAsString().equals("CourseUnitRule")) {
+            moduleArray.add(parseCourseUnit(jsonObj));                    
+        } else if (type.getAsString().equals("ModuleRule")) {
+            module.addProperty("type", type.getAsString());
+            String moduleGroupId = jsonObj.getAsJsonPrimitive("moduleGroupId").getAsString();
+            String urlStr = "https://sis-tuni.funidata.fi/kori/api/modules/by-group-id?groupId="
+                    + moduleGroupId + "&universityId=tuni-university-root-id";
+            URL url = new URL(urlStr);
+            String moduleData = new String(url.openStream().readAllBytes());
+            byte[] isoBytes = moduleData.getBytes(Charset.forName(ISO_STRING));
+            String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
+            JsonArray json = new JsonParser().parse(isoData).getAsJsonArray();
+            JsonArray subObjArray = json.getAsJsonArray();
+            for (JsonElement subObj: subObjArray) {
+                moduleArray = parseAndSaveModule(subObj.getAsJsonObject(), moduleArray);
+            }
+        } else if (type.getAsString().equals("DegreeProgramme") || type.getAsString().equals("StudyModule")){
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
             module.addProperty("name", parseString(nameFI.getAsString()));
             JsonPrimitive groupId = jsonObj.getAsJsonPrimitive("groupId");
             module.addProperty("groupId", groupId.getAsString());
-            JsonPrimitive type = jsonObj.getAsJsonPrimitive("type");
             module.addProperty("type", type.getAsString());
             JsonElement code = jsonObj.get("code");
             if(!(code instanceof JsonNull)){
                module.addProperty("code",code.getAsString());
             }
-            
             JsonObject credits = jsonObj.getAsJsonObject("targetCredits");
             JsonPrimitive minCredits = null;
             if(credits != null){
@@ -210,7 +236,6 @@ public class SearchTool {
                     module.addProperty("minCredits", minCredits.getAsString());
                 }
             }
-            
             JsonObject learningOutcomes = jsonObj.getAsJsonObject("learningOutcomes");
             JsonPrimitive learningOutcomesFI = null;
             if(learningOutcomes != null){
@@ -219,106 +244,86 @@ public class SearchTool {
                     module.addProperty("learningOutcomes",parseString(learningOutcomesFI.getAsString()));
                 }
             }
-                       
- 
-            JsonObject rule = jsonObj.getAsJsonObject("rule");
-            Pair rulesPair = parseRules(rule); 
-            JsonArray rules = (JsonArray) rulesPair.getKey();
-            module.addProperty("description", (String) rulesPair.getValue());
-            JsonArray ruleArray = new JsonArray();
-            module.add("modules", ruleArray);
-            array.add(module);
+            JsonObject subObj = jsonObj.getAsJsonObject("rule");
+            moduleArray = parseAndSaveModule(subObj, moduleArray);        
 
-
-            if (rules != null) {
-                for (JsonElement y : rules) {
-                    JsonObject ruleObj = y.getAsJsonObject();
-
-                    if(ruleObj.getAsJsonPrimitive("type").getAsString().equals("ModuleRule")){
-                        String moduleGroupId = ruleObj.getAsJsonPrimitive("moduleGroupId").getAsString();
-                        String urlStr = "https://sis-tuni.funidata.fi/kori/api/modules/by-group-id?groupId="
-                                + moduleGroupId + "&universityId=tuni-university-root-id";
-                        URL url = new URL(urlStr);
-                        String data2 = new String(url.openStream().readAllBytes());
-                        byte[] isoBytes = data2.getBytes(Charset.forName(ISO_STRING));
-                        String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
-                        ruleArray = parseAndSaveModule(isoData, ruleArray);
-                    }else if (ruleObj.getAsJsonPrimitive("type").getAsString().equals("CourseUnitRule")){
-                        String courseUnitGroupId = ruleObj.getAsJsonPrimitive("courseUnitGroupId").getAsString();
-                        String urlStr = "https://sis-tuni.funidata.fi/kori/api/course-units/by-group-id?groupId=" 
-                                + courseUnitGroupId + "&universityId=tuni-university-root-id";
-                        URL url = new URL(urlStr);
-                        String data2 = new String(url.openStream().readAllBytes());
-                        byte[] isoBytes = data2.getBytes(Charset.forName(ISO_STRING));
-                        String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
-        
-
-                        ruleArray.add(parseCourseUnit(isoData));
-                    } else {
-                        return array;
-                    }
-                }         
-            }
+        } else {
+            return array;
         }
+            
+        module.add("modules", moduleArray);
+        array.add(module);
+        
         return array;         
     }
     
-    public JsonObject parseCourseUnit(String data){
-        JsonArray json = new JsonParser().parse(data).getAsJsonArray();
+    /**
+     * 
+     * @param jsonObj1
+     * @return
+     * @throws MalformedURLException
+     * @throws IOException 
+     */
+    private JsonObject parseCourseUnit(JsonObject courseObj) throws MalformedURLException, IOException{
+        String courseUnitGroupId = courseObj.getAsJsonPrimitive("courseUnitGroupId").getAsString();
+        String urlStr = "https://sis-tuni.funidata.fi/kori/api/course-units/by-group-id?groupId=" 
+                + courseUnitGroupId + "&universityId=tuni-university-root-id";
+        URL url = new URL(urlStr);
+        String data2 = new String(url.openStream().readAllBytes());
+        byte[] isoBytes = data2.getBytes(Charset.forName(ISO_STRING));
+        String isoData = new String (isoBytes, Charset.forName(ISO_STRING));
+        JsonArray json = new JsonParser().parse(isoData).getAsJsonArray();
         JsonObject course = new JsonObject();
         
-        for(JsonElement x : json){
-            JsonObject jsonObj = x.getAsJsonObject();
-            JsonObject credits = jsonObj.getAsJsonObject("credits");
-            JsonPrimitive minCredits = credits.getAsJsonPrimitive("min");
-            JsonObject name = jsonObj.getAsJsonObject("name");
-            JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
-            JsonPrimitive code = jsonObj.getAsJsonPrimitive("code");
-            JsonElement outcomes = jsonObj.get("outcomes");
-            JsonPrimitive outcomesFI = null;
-            if(!(outcomes instanceof JsonNull)){
-                outcomesFI = outcomes.getAsJsonObject().getAsJsonPrimitive("fi");
-            }          
-            JsonElement content = jsonObj.get("content");
-            JsonPrimitive contentFI = null;
-            course.addProperty("type", "CourseUnitRule");
-            if(!(content instanceof JsonNull)){
-                contentFI = content.getAsJsonObject().getAsJsonPrimitive("fi");
-            }
-            if (nameFI != null){
-                course.addProperty("name", parseString(nameFI.getAsString()));
-            }
-            course.addProperty("code", code.getAsString());
-            course.addProperty("minCredits", minCredits.getAsString());
-            
-            if(contentFI != null){
-                course.addProperty("content", parseString(contentFI.getAsString()));
-            }else{
-                if(!(content instanceof JsonNull)){
-                    JsonPrimitive contentEN = content.getAsJsonObject().getAsJsonPrimitive("en");
-                    if( contentEN != null){
-                        course.addProperty("content", parseString(contentEN.getAsString()));
-                    }
-                }
-                
-            }     
-            if(outcomesFI != null ){
-               course.addProperty("outcomes",parseString(outcomesFI.getAsString())); 
-            }else{
-                if(!(outcomes instanceof JsonNull)){
-                    JsonPrimitive outcomesEN = outcomes.getAsJsonObject().getAsJsonPrimitive("en");
-                    if( outcomesEN != null){
-                        course.addProperty("content", parseString(outcomesEN.getAsString()));
-                    }
-                }
-            }
-            
-                      
-            
+        JsonObject jsonObj = json.get(0).getAsJsonObject();
+        JsonObject credits = jsonObj.getAsJsonObject("credits");
+        JsonPrimitive minCredits = credits.getAsJsonPrimitive("min");
+        JsonPrimitive gradeScaleId = jsonObj.getAsJsonPrimitive("gradeScaleId");
+        JsonObject name = jsonObj.getAsJsonObject("name");
+        JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
+        JsonPrimitive code = jsonObj.getAsJsonPrimitive("code");
+        JsonElement outcomes = jsonObj.get("outcomes");
+        JsonPrimitive outcomesFI = null;
+        if(!(outcomes instanceof JsonNull)){
+            outcomesFI = outcomes.getAsJsonObject().getAsJsonPrimitive("fi");
+        }          
+        JsonElement content = jsonObj.get("content");
+        JsonPrimitive contentFI = null;
+        course.addProperty("type", "CourseUnitRule");
+        if(!(content instanceof JsonNull)){
+            contentFI = content.getAsJsonObject().getAsJsonPrimitive("fi");
         }
-        
+        if (nameFI != null){
+            course.addProperty("name", parseString(nameFI.getAsString()));
+        }
+        course.addProperty("code", code.getAsString());
+        course.addProperty("gradeScaleId", gradeScaleId.getAsString());
+        course.addProperty("minCredits", minCredits.getAsString());
+
+        if(contentFI != null){
+            course.addProperty("content", parseString(contentFI.getAsString()));
+        }else{
+            if(!(content instanceof JsonNull)){
+                JsonPrimitive contentEN = content.getAsJsonObject().getAsJsonPrimitive("en");
+                if( contentEN != null){
+                    course.addProperty("content", parseString(contentEN.getAsString()));
+                }
+            }
+        }     
+        if(outcomesFI != null ){
+           course.addProperty("outcomes",parseString(outcomesFI.getAsString())); 
+        }else{
+            if(!(outcomes instanceof JsonNull)){
+                JsonPrimitive outcomesEN = outcomes.getAsJsonObject().getAsJsonPrimitive("en");
+                if( outcomesEN != null){
+                    course.addProperty("content", parseString(outcomesEN.getAsString()));
+                }
+            }
+        }
+             
         return course;
     }
+    
     
     private String parseString(String str) {
         String result = str.replaceAll("\\<.*?\\>", "\n");
@@ -331,8 +336,6 @@ public class SearchTool {
         result = result.replace("Ã?", "ä");
         result = result.replace("Ã¶", "ö");
         result = result.replace("&#34;", "\"");
-        
-
         
         return result;
     }
