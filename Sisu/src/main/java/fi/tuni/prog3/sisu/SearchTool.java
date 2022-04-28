@@ -70,7 +70,6 @@ public class SearchTool {
     private void writeArrayToFile(String filename, JsonArray array) 
             throws IOException {
                 
-        System.out.println("kirjoitetaan");
         String data = new String(Files.readAllBytes(Paths.get(filename)));
         byte[] bytes = StringUtils.getBytesUtf8(data);
         String utf8data = StringUtils.newStringUtf8(bytes);
@@ -107,36 +106,39 @@ public class SearchTool {
         try {
             File file = new File(ALL_DEGREES_FILENAME);
             file.createNewFile(); 
-                        
-            URL url = new URL("https://sis-tuni.funidata.fi/kori/api/module-search?curriculumPeriodId=uta-lvv-2021&universityId=tuni-university-root-id&moduleType=DegreeProgramme&limit=1000");
-            String data = new String(url.openStream().readAllBytes()); 
-            byte[] bytes = StringUtils.getBytesUtf8(data);
-            String utf8data = StringUtils.newStringUtf8(bytes);
- 
             
-            JsonObject json = new JsonParser().parse(utf8data).getAsJsonObject();
-            JsonArray searchResults = json.getAsJsonArray("searchResults");
+            BufferedReader br = new BufferedReader(new FileReader(ALL_DEGREES_FILENAME));
+            if (br.readLine() != null) {
+                System.out.println("Kaikki tutkinnot ovat jo tiedostossa " + ALL_DEGREES_FILENAME);
+            } else {
+                URL url = new URL("https://sis-tuni.funidata.fi/kori/api/module-search?curriculumPeriodId=uta-lvv-2021&universityId=tuni-university-root-id&moduleType=DegreeProgramme&limit=1000");
+                String data = new String(url.openStream().readAllBytes());
+                byte[] isoBytes = data.getBytes(Charset.forName(ISO_STRING));
+                String isoData = new String(isoBytes, Charset.forName(ISO_STRING));          
 
-            JsonArray fileRoot = new JsonArray();
+                JsonObject json = new JsonParser().parse(isoData).getAsJsonObject();
+                JsonArray searchResults = json.getAsJsonArray("searchResults");
 
-            for(JsonElement x : searchResults){
+                JsonArray fileRoot = new JsonArray();
 
-               JsonObject result = x.getAsJsonObject();
-               JsonPrimitive groupId = result.getAsJsonPrimitive("groupId");
-               JsonPrimitive name = result.getAsJsonPrimitive("name");
-               JsonObject credits = result.getAsJsonObject("credits");
-               JsonPrimitive minCredits = credits.getAsJsonObject().getAsJsonPrimitive("min");
+                for(JsonElement x : searchResults){
 
-               JsonObject programme = new JsonObject();
-               programme.addProperty("name",name.getAsString());
-               programme.addProperty("groupId",groupId.getAsString());
-               programme.addProperty("minCredits", minCredits.getAsString());
-               
-               fileRoot.add(programme);
+                   JsonObject result = x.getAsJsonObject();
+                   JsonPrimitive groupId = result.getAsJsonPrimitive("groupId");
+                   JsonPrimitive name = result.getAsJsonPrimitive("name");
+                   JsonObject credits = result.getAsJsonObject("credits");
+                   JsonPrimitive minCredits = credits.getAsJsonObject().getAsJsonPrimitive("min");
+
+                   JsonObject programme = new JsonObject();
+                   programme.addProperty("name", parseString(name.getAsString()));
+                   programme.addProperty("groupId",groupId.getAsString());
+                   programme.addProperty("minCredits", minCredits.getAsString());
+
+                   fileRoot.add(programme);
+                }
+
+                writeArrayToFile(ALL_DEGREES_FILENAME, fileRoot);
             }
-
-            writeArrayToFile(ALL_DEGREES_FILENAME, fileRoot);
-
             
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -163,7 +165,7 @@ public class SearchTool {
             URL url = new URL(urlStr);
             String data = new String(url.openStream().readAllBytes());
             byte[] isoBytes = data.getBytes(Charset.forName(ISO_STRING));
-            String isoData = new String (isoBytes, Charset.forName(ISO_STRING) );
+            String isoData = new String(isoBytes, Charset.forName(ISO_STRING));
 
             JsonArray json = new JsonParser().parse(isoData).getAsJsonArray();
             JsonObject jsonObj = json.get(0).getAsJsonObject();
