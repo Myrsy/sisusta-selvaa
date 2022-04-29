@@ -35,7 +35,10 @@ public class StudyModule extends Module {
     
     @Override
     public String toString(){
-        return this.name;
+        if (this.name != null) {
+            return this.name;  
+        }
+        return "kaikki pakollisia: " + this.allMandatory;
     }
 
     public ArrayList<CourseUnit> getCourses() {

@@ -112,13 +112,13 @@ public class StartingWindow extends Application {
         values.add(student.getDegreeProgramme());
         
         ObservableList<DegreeProgramme> degrees = FXCollections.observableList(values);
-        TreeItem rootItem = new TreeItem ();
+        TreeItem rootItem = new TreeItem (degrees.get(0));
         //Ottaa ensimmäisen degreen
         ObservableList<StudyModule> degreeOb = FXCollections.observableList(degrees.get(0).getModules());
 
 
-        rootItem = getTreeItem(rootItem, degreeOb);
-        TreeView tree = new TreeView (rootItem);  
+        rootItem.getChildren().add(getTree(student.getDegreeProgramme().getModules().get(0)));
+        TreeView tree = new TreeView (rootItem);
  
         
         leftControl.getChildren().add(tree);
@@ -130,32 +130,25 @@ public class StartingWindow extends Application {
     
     }
     
-    public TreeItem getTreeItem(TreeItem treeIt, ObservableList<StudyModule> obsList){
+        public TreeItem<StudyModule> getTree(StudyModule root) {
+        TreeItem<StudyModule> result = new TreeItem<>(root);
         
-        for(var mod : obsList){
-            if(mod.getType().equals("CourseUnitRule")){
-               TreeItem item = new TreeItem (mod);
-               treeIt.getChildren().add(item);
-            }else{
-                ObservableList<StudyModule> degreeObs = FXCollections.observableList(mod.getModules());
-                if(mod.getName() == null){
-                    return getTreeItem(treeIt, degreeObs);
-                }else{
-                    TreeItem item = new TreeItem (mod);
-                    treeIt.getChildren().add(item);
-                }
-            } 
-   
-            
-            
+        System.out.println(root.getName());
+        if (root.getModules() != null && !root.getType().equals("ModuleRule") 
+                && !root.getType().equals("CreditsRule")) {
+            for (StudyModule module: root.getModules()) {
+                result.getChildren().add(getTree(module));
+            }
+        } else {
+            if (root.getModules() != null) {
+                result = getTree(root.getModules().get(0));
+            }
         }
-  
-        return treeIt;
-
-  
+        
+        return result;
     }
-
     
+        
     
     
     public static void main(String args[]) {
