@@ -14,18 +14,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  *
@@ -48,12 +52,46 @@ public class StartingWindow extends Application {
                 
         stage.setTitle("SISU");
         GridPane gridStart = new GridPane();
-        GridPane gridDegree = new GridPane();
         TabPane tabPane = new TabPane();
         Tab startPage = new Tab("Aloitus");
         tabPane.getTabs().add(startPage);
-        startPage.setContent(gridStart);
         startPage.setClosable(false); 
+        
+        Label nameLabel = new Label("Hei " + student.getName() + "!");
+        nameLabel.setFont(new Font("Arial", 30)); 
+        Label studentNumberLabel = new Label(student.getStudentNumber());
+        studentNumberLabel.setFont(new Font("Arial", 18));
+        VBox statbox = new VBox();
+        statbox.getChildren().add(nameLabel);
+        statbox.getChildren().add(studentNumberLabel);
+        gridStart.add(statbox, 0, 0);
+        
+        VBox progBox = new VBox();
+        ProgressBar progression = new ProgressBar();
+        progression.setProgress(student.getProgression());
+        Label progLabel = new Label(student.getCompletedCredits() + "/" 
+                + student.getDegreeProgramme().getMinCredits());
+        progBox.getChildren().add(progression);
+        progBox.getChildren().add(progLabel);
+        
+        
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setPercentWidth(100);
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setPercentWidth(100);
+        gridStart.getColumnConstraints().addAll(column1, column2); 
+       
+        RowConstraints row1 = new RowConstraints();
+        row1.setPrefHeight(100);
+        RowConstraints row2 = new RowConstraints();
+        row2.setPrefHeight(100);    
+        gridStart.getRowConstraints().addAll(row1, row2);
+        gridStart.setHgap(10);
+        gridStart.setPadding(new Insets(10, 10, 0, 0));
+        gridStart.add(progBox, 1, 0);
+        
+        startPage.setContent(gridStart);
+        
         
         
         Tab degreePage = new Tab("Tutkinto");
@@ -75,6 +113,7 @@ public class StartingWindow extends Application {
         
         ObservableList<DegreeProgramme> degrees = FXCollections.observableList(values);
         TreeItem rootItem = new TreeItem ();
+        //Ottaa ensimmäisen degreen
         ObservableList<StudyModule> degreeOb = FXCollections.observableList(degrees.get(0).getModules());
 
 
@@ -84,7 +123,7 @@ public class StartingWindow extends Application {
         
         leftControl.getChildren().add(tree);
         
-        Scene scene = new Scene(tabPane, 1000, 500);
+        Scene scene = new Scene(tabPane, 500, 500);
         stage.setScene(scene);
         stage.show();
     

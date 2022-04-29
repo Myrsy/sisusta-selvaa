@@ -56,12 +56,21 @@ public class Student {
     }
   
     
-    public Integer getProgression(){
-        int sumCredits = 0;
+    public double getProgression(){
+        double sumCredits = 0.0;
         for(var course : courses.keySet()){
             sumCredits += course.getMinCredits();
         }
         return sumCredits / this.degreeProgramme.getMinCredits();
+    }
+    
+    public Integer getCompletedCredits(){
+        int sumCredits = 0;
+        for(var course : courses.keySet()){
+            sumCredits += course.getMinCredits();
+        }
+        
+        return sumCredits;
     }
     
     public double getGPA(){
