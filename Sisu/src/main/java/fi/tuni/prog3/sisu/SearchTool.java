@@ -213,11 +213,15 @@ public class SearchTool {
         } else if (type.getAsString().equals("GroupingModule")) {
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
-            module.addProperty("name", parseString(nameFI.getAsString()));
+            if(nameFI == null){
+                JsonPrimitive nameEN = name.getAsJsonPrimitive("en");
+                module.addProperty("name", parseString(nameEN.getAsString()));
+            }else{
+                module.addProperty("name", parseString(nameFI.getAsString()));
+            }
             JsonObject subObject = jsonObj.getAsJsonObject("rule");
             module.addProperty("type", type.getAsString());
             moduleArray = parseAndSaveModule(subObject, moduleArray);
-            System.out.println(nameFI.getAsString());
         } else if (type.getAsString().equals("CreditsRule")) {
             JsonObject subObject = jsonObj.getAsJsonObject("rule");
             module.addProperty("type", type.getAsString());
@@ -241,8 +245,13 @@ public class SearchTool {
         } else if (type.getAsString().equals("DegreeProgramme") || type.getAsString().equals("StudyModule")){
             JsonObject name = jsonObj.getAsJsonObject("name");
             JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
-            module.addProperty("name", parseString(nameFI.getAsString()));
-            System.out.println(nameFI.getAsString());
+            if(nameFI == null){
+                JsonPrimitive nameEN = name.getAsJsonPrimitive("en");
+                module.addProperty("name", parseString(nameEN.getAsString()));
+            }else{
+                module.addProperty("name", parseString(nameFI.getAsString()));
+            }
+
             JsonPrimitive groupId = jsonObj.getAsJsonPrimitive("groupId");
             module.addProperty("groupId", groupId.getAsString());
             module.addProperty("type", type.getAsString());
