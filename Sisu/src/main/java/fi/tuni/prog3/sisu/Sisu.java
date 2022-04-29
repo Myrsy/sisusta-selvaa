@@ -23,6 +23,8 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -149,15 +151,28 @@ public class Sisu extends Application {
 
                 }
                 Student student = new Student(name, number, degree.getGroupId());//degrees.get(degree.getGroupId()));
-                try {
-                    studentData.addStudent(student);
-                } catch (IOException ex){
+                
+                if(studentData.searchStudent(number) == true){
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("Virhe");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Opiskelijanumero on varattu!");
 
-                }
-                StartingWindow startingWindow = new StartingWindow(student);
-                Stage stage = new Stage();
-                startingWindow.start(stage);
-                ((Node)(e.getSource())).getScene().getWindow().hide(); 
+                    alert.showAndWait();
+                }else{
+                    
+                   try {
+                       studentData.addStudent(student);
+                   } catch (IOException ex) {
+                       Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                   }
+                    
+                    StartingWindow startingWindow = new StartingWindow(student);
+                    Stage stage = new Stage();
+                    startingWindow.start(stage);
+                    ((Node)(e.getSource())).getScene().getWindow().hide(); 
+                    }
+                
             }
 
         });
