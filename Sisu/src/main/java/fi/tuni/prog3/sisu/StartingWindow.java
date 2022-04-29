@@ -132,17 +132,26 @@ public class StartingWindow extends Application {
     
         public TreeItem<StudyModule> getTree(StudyModule root) {
         TreeItem<StudyModule> result = new TreeItem<>(root);
-        
-        System.out.println(root.getName());
-        if (root.getModules() != null && !root.getType().equals("ModuleRule") 
-                && !root.getType().equals("CreditsRule")) {
-            for (StudyModule module: root.getModules()) {
-                result.getChildren().add(getTree(module));
-            }
-        } else {
-            if (root.getModules() != null) {
+                
+        if (root.getModules() != null) {
+            if (root.getName() != null) {
+                for (StudyModule module: root.getModules()) {
+                    result.getChildren().add(getTree(module));
+                }
+            } else if (root.getType().equals("CompositeRule")){
+                if (root.getModules().size() > 1) {
+                    for (StudyModule module: root.getModules()) {
+                        result.getChildren().add(getTree(module));
+                    }
+                } else if (root.getModules().size() == 1){
+                    result = getTree(root.getModules().get(0));
+                }
+
+            } else {
                 result = getTree(root.getModules().get(0));
+                
             }
+        
         }
         
         return result;

@@ -37,8 +37,10 @@ public class StudyModule extends Module {
     public String toString(){
         if (this.name != null) {
             return this.name;  
+        } else if (this.allMandatory != null && this.allMandatory.equals("true")) {
+            return "Kaikki suoritettava";
         }
-        return "kaikki pakollisia: " + this.allMandatory;
+        return "Vain osa suoritettava";
     }
 
     public ArrayList<CourseUnit> getCourses() {
