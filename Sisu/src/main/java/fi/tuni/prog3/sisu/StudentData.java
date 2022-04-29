@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 public class StudentData {
     
-    private static final String STUDENTS_TO_JSON_FILENAME = "sudentsfile.txt";
+    private static final String STUDENTS_TO_JSON_FILENAME = "studentsfile.txt";
     private static HashMap<String, Student> students;
     
     public StudentData(){
@@ -51,6 +51,9 @@ public class StudentData {
                     addStudent(student);
                 }
             }
+        } catch (FileNotFoundException ex) {
+            System.err.println("Tiedostoa " + STUDENTS_TO_JSON_FILENAME + 
+                    " ei löytynyt, joten se luodaan.");
         }
         
     }
