@@ -148,7 +148,7 @@ public class Sisu extends Application {
                 if(name == null){
 
                 }
-                Student student = new Student(name, number, degree.getGroupId());//degrees.get(degree.getGroupId()));
+                Student student = new Student(name, number, degrees.get(degree.getGroupId()));
                 try {
                     studentData.addStudent(student);
                 } catch (IOException ex){
