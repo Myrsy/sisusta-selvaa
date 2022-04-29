@@ -199,7 +199,16 @@ public class SearchTool {
             JsonPrimitive allMandatory = jsonObj.getAsJsonPrimitive("allMandatory");
             module.addProperty("allMandatory", allMandatory.getAsString());
             module.addProperty("type", type.getAsString());
-            
+            String desc = "";
+            JsonElement description = jsonObj.get("description");
+            JsonPrimitive descriptionFI = null;
+            if(!(description instanceof JsonNull)) {
+                descriptionFI = description.getAsJsonObject().getAsJsonPrimitive("fi");
+                    if(descriptionFI != null){
+                        desc = parseString(descriptionFI.getAsString());
+                    }
+            }
+            module.addProperty("description", desc);
             JsonArray ruleArray = jsonObj.getAsJsonArray("rules");
             for (JsonElement subElement: ruleArray) {
                 JsonObject subObj = subElement.getAsJsonObject();
