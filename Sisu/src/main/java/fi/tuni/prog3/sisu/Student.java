@@ -17,13 +17,15 @@ public class Student {
     
     private final String name;
     private final String studentNumber;
-    private DegreeProgramme degreeProgramme;
+    //private DegreeProgramme degreeProgramme;
+    private String degreeGroupId;
     private HashMap<CourseUnit, Integer> courses;
     
-    public Student(String name, String studentNumber, DegreeProgramme degreeProgramme){
+    public Student(String name, String studentNumber, String groupId){
         this.name = name;
         this.studentNumber = studentNumber;
-        this.degreeProgramme = degreeProgramme;
+        //this.degreeProgramme = degreeProgramme;
+        this.degreeGroupId = groupId;
         this.courses = new HashMap<>();
        
     }
@@ -36,15 +38,15 @@ public class Student {
         return studentNumber;
     }
     
-    public DegreeProgramme getDegreeProgramme() {
-        return degreeProgramme;
+   public DegreeProgramme getDegreeProgramme() {
+        return new DegreeObjectData().getDegreeMap().get(degreeGroupId);
     }
     
     public void setDegreeProgramme(DegreeProgramme prog) {
-        if(this.degreeProgramme != prog){
+        if(!this.degreeGroupId.equals(prog.getGroupId())){
             courses.clear();
         }        
-        this.degreeProgramme = prog;
+        this.degreeGroupId = prog.getGroupId();
     }
 
     public HashMap<CourseUnit, Integer> getCourses() {
@@ -61,7 +63,7 @@ public class Student {
         for(var course : courses.keySet()){
             sumCredits += course.getMinCredits();
         }
-        return sumCredits / this.degreeProgramme.getMinCredits();
+        return sumCredits / new DegreeObjectData().getDegreeMap().get(degreeGroupId).getMinCredits();
     }
     
     public Integer getCompletedCredits(){

@@ -17,11 +17,8 @@ public class DegreeObjectData {
     
     private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.txt";
     private static final String OBJECTS_TO_JSON_FILENAME = "objsJson.txt";
-    private HashMap<String, DegreeProgramme> degreeProgrammes;
+    private static HashMap<String, DegreeProgramme> degreeProgrammes = new HashMap<>();
 
-    public DegreeObjectData() {
-        this.degreeProgrammes = new HashMap<>();
-    }
     
     public void jsonFileToObjects() throws FileNotFoundException, IOException {
         
@@ -62,11 +59,11 @@ public class DegreeObjectData {
     }
     
     public void addStudyModuleToDegree(String groupIdParent, StudyModule mod){
-        this.degreeProgrammes.get(groupIdParent).addStudyModule(mod);
+        degreeProgrammes.get(groupIdParent).addStudyModule(mod);
     }
     
-    public HashMap getDegreeMap(){
-        return this.degreeProgrammes;
+    public static  HashMap<String, DegreeProgramme> getDegreeMap(){
+        return degreeProgrammes;
     }
             
 }
