@@ -129,7 +129,20 @@ public class Sisu extends Application {
                 } catch (IOException ex) {
                     Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
                 }
-               HashMap<String, DegreeProgramme> degrees = data.getDegreeMap();
+                
+                HashMap<String, DegreeProgramme> degrees = data.getDegreeMap();
+               
+                if(!(degrees.containsKey(degree.getGroupId()))){
+                   try {
+                       SearchTool tool = new SearchTool();
+                       tool.searchDegreeURL(degree.getGroupId());
+                       data.jsonFileToObjects();
+                       degrees = data.getDegreeMap();
+                   } catch (IOException ex) {
+                       Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                   }
+
+                }
 
                if(name == null){
                    
