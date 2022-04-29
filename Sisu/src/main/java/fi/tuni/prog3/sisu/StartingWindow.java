@@ -33,6 +33,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -190,14 +191,10 @@ public class StartingWindow extends Application {
         splitPaneR.setOrientation(Orientation.VERTICAL);
         
         VBox upperControl  = new VBox();
-        VBox lowerControl = new VBox();
-        splitPaneR.getItems().addAll(upperControl, lowerControl);
-        rightControl.getChildren().add(splitPaneR);
-
-        splitPane.getItems().addAll(leftControl, rightControl);
-        
-        degreePage.setContent(splitPane);
-        
+        upperControl.setPrefHeight(240);
+        GridPane lowerControl = new GridPane();
+        lowerControl.setPrefHeight(240);
+        rightControl.getChildren().add(splitPaneR); 
         
         List<DegreeProgramme> degs = new ArrayList<>(); 
         degs.add(student.getDegreeProgramme());
@@ -207,12 +204,23 @@ public class StartingWindow extends Application {
         rootItem.getChildren().add(getTree(student.getDegreeProgramme().getModules().get(0)));
         TreeView tree = new TreeView (rootItem);
         
+        Label addGradeLabel = new Label("Syötä arvosana: ");
+        addGradeLabel.setVisible(false);
+        Spinner<Integer> addGradeSpinner = new Spinner<>(1, 5, 0, 1);
+        addGradeSpinner.setVisible(false);
+        lowerControl.add(addGradeLabel, 0, 1, 1, 1);
+        lowerControl.add(addGradeSpinner, 1, 1, 1, 1);
+        Label infoModule = new Label(); 
+        ScrollPane scroll = new ScrollPane();
+        Label courseInfo = new Label();
+        Button btnAddCourse= new Button("Lisää kurssi");
+        btnAddCourse.setVisible(false);
+        lowerControl.add(btnAddCourse, 0, 2, 1, 1);
+        
+        
         tree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-        
-            
-        private Label info = new Label(); 
-        private ScrollPane scroll = new ScrollPane();
+         
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 
@@ -223,29 +231,70 @@ public class StartingWindow extends Application {
                 String content = mod.getContent();
                 String outcome = mod.getOutcomes();
                 String desc = mod.getDescription();
+                String type = mod.getType();
                 
                 if(content == null){
                     content = "";
+                }else{
+                    content = "\nSisältö: " + mod.getContent();
                 }
                 
                 if(outcome == null){
                     outcome = "";
+                }else{
+                    outcome = "\nOppismistavoitteet: " + mod.getOutcomes();
                 }
                 String text = String.format("%s (%s)\n%s\n%s",
                         name, code, content, outcome);
                 if(name != null){
-                    info.setText(text);
+                    infoModule.setText(text);
                 }else if(desc != null){
-                    info.setText(desc);
-                    info.setMaxWidth(350);
-                    info.setWrapText(true);
-                    scroll.setContent(info);
+                    infoModule.setText(desc);
+                    infoModule.setMaxWidth(480);
+                    infoModule.setWrapText(true);
+                    scroll.setContent(infoModule);
+                    scroll.setPrefHeight(240);
                     upperControl.getChildren().add(scroll);
                 }
                 
-               
-                
-   
+                if(type.equals("CourseUnitRule")){
+                    String textComplete = 
+                            String.format("Merkitse kurssi suoritetuksi: %s", name);
+                    courseInfo.setText(textComplete);
+                    courseInfo.setVisible(true);
+                    addGradeSpinner.setVisible(true);
+                    addGradeLabel.setVisible(true);
+                    btnAddCourse.setVisible(true);
+                    lowerControl.add(courseInfo, 0,0,2,1);
+                    
+                    addCourseBBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod);
+                       
+                }else{
+                    addGradeSpinner.setVisible(false);
+                    addGradeLabel.setVisible(false);
+                    courseInfo.setVisible(false);
+                    btnAddCourse.setVisible(false);
+                }
+
+            }
+
+            private void addCourseBBtnClicked(Button btnAddCourse, Integer grade, StudyModule mod) {
+                btnAddCourse.setOnAction(new EventHandler<ActionEvent>(){
+            
+                @Override
+                public void handle(ActionEvent e){
+
+                    CourseUnit course = new CourseUnit(mod.getName(),
+                            mod.getGroupId(), Integer.valueOf(mod.getMinCredits()));
+                    student.addCourse(course, grade);
+                    progLabel.setText(student.getCompletedCredits() + "/" 
+                + student.getDegreeProgramme().getMinCredits());
+                    System.out.println(student.getCompletedCredits() + "/" 
+                + student.getDegreeProgramme().getMinCredits());
+
+                }
+
+            });
             }
             
             
@@ -253,10 +302,9 @@ public class StartingWindow extends Application {
  
         
         leftControl.getChildren().add(tree);
-        
-        
-        
-        
+        splitPaneR.getItems().addAll(upperControl, lowerControl);
+        splitPane.getItems().addAll(leftControl, rightControl);
+        degreePage.setContent(splitPane);
         Scene scene = new Scene(tabPane, 1000, 500);
         stage.setScene(scene);
         stage.show();
@@ -264,7 +312,7 @@ public class StartingWindow extends Application {
     
     }
     
-    public TreeItem<StudyModule> getTree(StudyModule root) {
+    private TreeItem<StudyModule> getTree(StudyModule root) {
         TreeItem<StudyModule> result = new TreeItem<>(root);
 
         if (root.getModules() != null) {
@@ -290,8 +338,7 @@ public class StartingWindow extends Application {
 
         return result;
     }
-    
-        
+   
     
     
     public static void main(String args[]) {

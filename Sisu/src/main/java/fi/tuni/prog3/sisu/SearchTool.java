@@ -376,6 +376,8 @@ public class SearchTool {
         result = result.replace("Ã?", "ä");
         result = result.replace("Ã¶", "ö");
         result = result.replace("&#34;", "\"");
+        result = result.replace("&#43", "+");
+        result = result.replace("&#64", "@");
         
         return result;
     }

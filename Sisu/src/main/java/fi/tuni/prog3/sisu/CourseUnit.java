@@ -29,6 +29,14 @@ public class CourseUnit {
         this.outcomes = outcomes;
         this.gradeScaleId = gradeScaleId;
     }
+    
+    public CourseUnit(String name, String groupId, int minCredits) {
+        this.name = name;
+        this.groupId = groupId;
+        this.minCredits = minCredits;
+    }
+    
+
 
     public String getName() {
         return name;
