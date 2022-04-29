@@ -34,6 +34,8 @@ import javafx.scene.layout.RowConstraints;
 
 public class Sisu extends Application {
     
+    private StudentData studentData = new StudentData();
+
     public class NewStudent extends Application {
         @Override
         public void start(Stage stage) {
@@ -113,7 +115,6 @@ public class Sisu extends Application {
             //Label errorLabel = new Label("");
             //errorLabel.setTextFill(Color.RED);
             //grid.add(errorLabel, )
-            
             btnAddStudent.setOnAction(new EventHandler<ActionEvent>(){
             
             @Override
@@ -144,14 +145,19 @@ public class Sisu extends Application {
 
                 }
 
-               if(name == null){
-                   
-               }
-               Student student = new Student(name, number, degrees.get(degree.getGroupId()));
-               StartingWindow startingWindow = new StartingWindow(student);
-               Stage stage = new Stage();
-               startingWindow.start(stage);
-               ((Node)(e.getSource())).getScene().getWindow().hide(); 
+                if(name == null){
+
+                }
+                Student student = new Student(name, number, degree.getGroupId());//degrees.get(degree.getGroupId()));
+                try {
+                    studentData.addStudent(student);
+                } catch (IOException ex){
+
+                }
+                StartingWindow startingWindow = new StartingWindow(student);
+                Stage stage = new Stage();
+                startingWindow.start(stage);
+                ((Node)(e.getSource())).getScene().getWindow().hide(); 
             }
 
         });
@@ -170,17 +176,19 @@ public class Sisu extends Application {
 
     
     
-    public StudentData findStudentData(){
+    /*public StudentData findStudentData() throws IOException{
         StudentData studentData = new StudentData();
         studentData.getOldStudents();
         return studentData;
-    }
+    }*/
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
        
         
-        StudentData studentData = findStudentData();
+        //StudentData studentData = findStudentData();
+        //StudentData studentData = new StudentData();
+        studentData.getOldStudents();
         
         GridPane grid = new GridPane();
 
