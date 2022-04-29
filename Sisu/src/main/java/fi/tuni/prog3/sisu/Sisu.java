@@ -150,7 +150,7 @@ public class Sisu extends Application {
                 if(name == null){
 
                 }
-                Student student = new Student(name, number, degree.getGroupId());//degrees.get(degree.getGroupId()));
+                Student student = new Student(name, number, degrees.get(degree.getGroupId()));
                 
                 if(studentData.searchStudent(number) == true){
                     Alert alert = new Alert(AlertType.WARNING);
