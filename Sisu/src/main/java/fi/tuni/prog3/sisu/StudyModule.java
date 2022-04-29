@@ -13,6 +13,7 @@ public class StudyModule extends Module {
     private String minCredits;
     private String content;
     private String outcomes;
+    private String description;
     private ArrayList<CourseUnit> courses;
     private ArrayList<StudyModule> modules;
     
@@ -86,7 +87,10 @@ public class StudyModule extends Module {
     public String getOutcomes() {
         return outcomes;
     }
-    
+
+    public String getDescription() {
+        return description;
+    }
     
     
     
