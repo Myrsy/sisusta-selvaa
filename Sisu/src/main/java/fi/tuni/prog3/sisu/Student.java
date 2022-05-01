@@ -76,7 +76,16 @@ public class Student {
     }
 
     public void addCourse(CourseUnit course, Integer grade) {
-        courses.put(course, grade);
+        if(courses.isEmpty()){
+            courses.put(course, grade);
+        }
+        for(var course1 : this.courses.keySet()){
+            if(!(course1.getName().equals(course.getName()))){
+                courses.put(course, grade);
+            }
+        }
+       
+        
     }
   
     

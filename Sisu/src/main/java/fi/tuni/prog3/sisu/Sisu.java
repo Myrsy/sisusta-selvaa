@@ -37,6 +37,10 @@ import javafx.scene.layout.RowConstraints;
 public class Sisu extends Application {
     
     private StudentData studentData = new StudentData();
+    public Sisu(){
+        
+    }
+            
 
     public class NewStudent extends Application {
         @Override
@@ -177,10 +181,7 @@ public class Sisu extends Application {
 
         });
             
-            
-            
-            
-   
+
             Scene scene = new Scene(grid, 400, 200);
             stage.setScene(scene);
             stage.show();
