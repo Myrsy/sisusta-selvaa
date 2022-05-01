@@ -121,7 +121,10 @@ public class StartingWindow extends Application {
 
         ObservableList<DegreeProgramme> degrees = FXCollections.observableList(values);
         ComboBox degreeComboBox = new ComboBox(degrees);
-       
+        
+        Label gpaLabel = new Label("Keskiarvo: " + student.getGPA());
+        gpaLabel.setFont(new Font("Arial", 18));
+        gridStart.add(gpaLabel, 1, 0);
         
         Label degreeLabel = new Label("Tutkinnon vaihtaminen: ");
         degreeLabel.setFont(new Font("Arial", 18));
@@ -274,6 +277,7 @@ public class StartingWindow extends Application {
                     addGradeSpinner.setVisible(true);
                     addGradeLabel.setVisible(true);
                     btnAddCourse.setVisible(true);
+                   
                     lowerControl.add(courseInfo, 0,0,2,1);
                     
                     addCourseBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod);
@@ -298,8 +302,10 @@ public class StartingWindow extends Application {
                     student.addCourse(course, grade);
                     progLabel.setText(student.getCompletedCredits() + "/" 
                 + student.getDegreeProgramme().getMinCredits());
+                    gpaLabel.setText("Keskiarvo: " + student.getGPA());
                     
                     progression.setProgress(student.getProgression());
+                    addGradeSpinner.
 
                 }
 
