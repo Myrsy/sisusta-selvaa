@@ -130,45 +130,54 @@ public class StartingWindow extends Application {
         Button btnChangeDegree = new Button("Vaihda tutkintoa");
         degreeBox.getChildren().addAll(degreeLabel, degreeComboBox,
                 warningLabel, btnChangeDegree);
-        gridStart.add(degreeBox, 0, 2, 1, 1);
+        gridStart.add(degreeBox, 0, 2, 1, 2);
         GridPane.setValignment(degreeComboBox, VPos.TOP);
         
-        btnChangeDegree.setOnAction(new EventHandler<ActionEvent>(){
-            
-            @Override
-            public void handle(ActionEvent e){
-               
-                DegreeProgramme degree =(DegreeProgramme) degreeComboBox.getValue();
-               
-               DegreeObjectData data = new DegreeObjectData();
+        Button saveExitBtn = new Button("Tallenna ja poistu");
+        Button saveBackBtn = new Button("Tallenna ja palaa\nkirjautumissivulle");
+        gridStart.add(saveExitBtn, 1, 1);
+        gridStart.add(saveBackBtn, 1, 2);
+        
+        saveBackBtn.setOnAction((ActionEvent e) -> {
+            //Tallennus tähän väliin  
+            Sisu sisu = new Sisu();
+            try {
+                sisu.start(stage);
+            } catch (IOException ex) {
+                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ((Node)(e.getSource())).getScene().getWindow().hide();
+        });
+        
+        saveExitBtn.setOnAction((ActionEvent e) -> {
+            //Tallennus tähän väliin      
+            ((Node)(e.getSource())).getScene().getWindow().hide();
+        });
+        
+        btnChangeDegree.setOnAction((ActionEvent e) -> {
+            DegreeProgramme degree =(DegreeProgramme) degreeComboBox.getValue();
+            DegreeObjectData data = new DegreeObjectData();
+            try {
+                data.jsonFileToObjects();
+            } catch (IOException ex) {
+                Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            HashMap<String, DegreeProgramme> degrees1 = data.getDegreeMap();
+            if (!(degrees1.containsKey(degree.getGroupId()))) {
                 try {
+                    SearchTool tool = new SearchTool();
+                    tool.searchDegreeURL(degree.getGroupId());
                     data.jsonFileToObjects();
-                } catch (IOException ex) {
+                    degrees1 = data.getDegreeMap();
+                }catch (IOException ex) {
                     Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                HashMap<String, DegreeProgramme> degrees = data.getDegreeMap();
-               
-                if(!(degrees.containsKey(degree.getGroupId()))){
-                   try {
-                       SearchTool tool = new SearchTool();
-                       tool.searchDegreeURL(degree.getGroupId());
-                       data.jsonFileToObjects();
-                       degrees = data.getDegreeMap();
-                   } catch (IOException ex) {
-                       Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                   }
-
-                }
-                student.setDegreeProgramme(degrees.get(degree.getGroupId()));
-
-                StartingWindow startingWindow = new StartingWindow(student);
-                Stage stage = new Stage();
-                startingWindow.start(stage);
-                ((Node)(e.getSource())).getScene().getWindow().hide();
-               
             }
-
+            student.changeDegreeProgramme(degrees1.get(degree.getGroupId()));
+            StartingWindow startingWindow = new StartingWindow(student);
+            Stage stage1 = new Stage();
+            startingWindow.start(stage1);
+            ((Node)(e.getSource())).getScene().getWindow().hide();
         });
         
         
@@ -236,13 +245,13 @@ public class StartingWindow extends Application {
                 if(content == null){
                     content = "";
                 }else{
-                    content = "\nSisältö: " + mod.getContent();
+                    content = "\nSisältö:\n" + mod.getContent();
                 }
                 
                 if(outcome == null){
                     outcome = "";
                 }else{
-                    outcome = "\nOppismistavoitteet: " + mod.getOutcomes();
+                    outcome = "\nOppismistavoitteet:\n" + mod.getOutcomes();
                 }
                 String text = String.format("%s (%s)\n%s\n%s",
                         name, code, content, outcome);
@@ -267,7 +276,7 @@ public class StartingWindow extends Application {
                     btnAddCourse.setVisible(true);
                     lowerControl.add(courseInfo, 0,0,2,1);
                     
-                    addCourseBBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod);
+                    addCourseBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod);
                        
                 }else{
                     addGradeSpinner.setVisible(false);
@@ -278,7 +287,7 @@ public class StartingWindow extends Application {
 
             }
 
-            private void addCourseBBtnClicked(Button btnAddCourse, Integer grade, StudyModule mod) {
+            private void addCourseBtnClicked(Button btnAddCourse, Integer grade, StudyModule mod) {
                 btnAddCourse.setOnAction(new EventHandler<ActionEvent>(){
             
                 @Override
@@ -289,8 +298,8 @@ public class StartingWindow extends Application {
                     student.addCourse(course, grade);
                     progLabel.setText(student.getCompletedCredits() + "/" 
                 + student.getDegreeProgramme().getMinCredits());
-                    System.out.println(student.getCompletedCredits() + "/" 
-                + student.getDegreeProgramme().getMinCredits());
+                    
+                    progression.setProgress(student.getProgression());
 
                 }
 
