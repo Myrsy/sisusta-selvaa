@@ -5,6 +5,9 @@
  */
 package fi.tuni.prog3.sisu;
 
+import com.google.gson.InstanceCreator;
+import com.google.gson.annotations.Expose;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,19 +18,32 @@ import java.util.Map;
  */
 public class Student {
     
-    private final String name;
-    private final String studentNumber;
+    private String name;
+    private String studentNumber;
+    // Tätä ei taideta luoda automaattisesti tiedostosta, 
+    // ongelmia ainakin sisun getOldStudentsissa
+    // transient
     private transient DegreeProgramme degreeProgramme;
     private String degreeGroupId;
+    private String degreeName;
     private HashMap<CourseUnit, Integer> courses;
+    private transient DegreeObjectData degreeData = new DegreeObjectData();
+    
     
     public Student(String name, String studentNumber, DegreeProgramme degreeProgramme){
+        System.out.println("Opiskelijan " + name + " ensimmäinen rakentaja");
         this.name = name;
         this.studentNumber = studentNumber;
         this.degreeProgramme = degreeProgramme;
         this.degreeGroupId = degreeProgramme.getGroupId();
+        this.degreeName = degreeProgramme.getName();
         this.courses = new HashMap<>();
        
+    }
+
+ 
+    public void setDegreeProgramme(String groupId) {
+        this.degreeProgramme = new DegreeObjectData().getDegreeMap().get(groupId);
     }
 
     public String getName() {
@@ -41,8 +57,12 @@ public class Student {
    public DegreeProgramme getDegreeProgramme() {
         return degreeProgramme;//new DegreeObjectData().getDegreeMap().get(degreeGroupId);
     }
+   
+    public String getDegreeGroupId(){
+        return degreeGroupId;
+    }
     
-    public void setDegreeProgramme(DegreeProgramme prog) {
+    public void changeDegreeProgramme(DegreeProgramme prog) {
         if(!this.degreeGroupId.equals(prog.getGroupId())){
             courses.clear();
         }
