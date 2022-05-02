@@ -27,7 +27,6 @@ public class Student {
     private transient DegreeProgramme degreeProgramme;
     private String degreeGroupId;
     private HashMap<CourseUnit, Integer> courses;
-    private transient DegreeObjectData degreeData = new DegreeObjectData();
     
     
     public Student(String name, String studentNumber, DegreeProgramme degreeProgramme){
@@ -42,7 +41,7 @@ public class Student {
 
  
     public void setDegreeProgramme(String groupId) {
-        this.degreeProgramme = new DegreeObjectData().getDegreeMap().get(groupId);
+        this.degreeProgramme = DegreeObjectData.getDegreeMap().get(groupId);
     }
 
     public String getName() {

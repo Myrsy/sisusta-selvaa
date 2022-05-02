@@ -129,7 +129,6 @@ public class Sisu extends Application {
                String number = addNumberField.getText();
                DegreeProgramme degree =(DegreeProgramme) degreeComboBox.getValue();
                
-               DegreeObjectData data = new DegreeObjectData();
                 try {
                     DegreeObjectData.jsonFileToObjects();
                 } catch (IOException ex) {
@@ -140,9 +139,7 @@ public class Sisu extends Application {
                
                 if(!(degrees.containsKey(degree.getGroupId()))){
                    try {
-                       SearchTool tool = new SearchTool();
-                       tool.searchDegreeURL(degree.getGroupId());
-                       DegreeObjectData.jsonFileToObjects();
+                       SearchTool.searchDegreeURL(degree.getGroupId());
                        degrees = DegreeObjectData.getDegreeMap();
                    } catch (IOException ex) {
                        Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
@@ -153,6 +150,7 @@ public class Sisu extends Application {
                 if(name == null){
 
                 }
+                System.out.println("tutkinto " + degrees.get(degree.getGroupId()));
                 Student student = new Student(name, number, degrees.get(degree.getGroupId()));
                 
                 if(StudentData.searchStudent(number) == true){
@@ -207,6 +205,7 @@ public class Sisu extends Application {
         
         //StudentData studentData = findStudentData();
         //StudentData studentData = new StudentData();
+        DegreeObjectData.jsonFileToObjects();
         StudentData.getOldStudents();
         
         GridPane grid = new GridPane();
@@ -292,9 +291,8 @@ public class Sisu extends Application {
 
     public static void main(String[] args) throws IOException {
         
-        SearchTool tool = new SearchTool();
         try{
-            tool.searchDegreeProgrammesURL();
+            SearchTool.searchDegreeProgrammesURL();
         }catch(IOException e){
                 
         }

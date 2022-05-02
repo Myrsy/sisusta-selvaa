@@ -159,20 +159,14 @@ public class StartingWindow extends Application {
         });
         
         btnChangeDegree.setOnAction((ActionEvent e) -> {
-            DegreeProgramme degree =(DegreeProgramme) degreeComboBox.getValue();
-            DegreeObjectData data = new DegreeObjectData();
-            try {
-                data.jsonFileToObjects();
-            } catch (IOException ex) {
-                Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            HashMap<String, DegreeProgramme> degrees1 = data.getDegreeMap();
+            DegreeProgramme degree = (DegreeProgramme) degreeComboBox.getValue();
+
+            HashMap<String, DegreeProgramme> degrees1 = DegreeObjectData.getDegreeMap();
             if (!(degrees1.containsKey(degree.getGroupId()))) {
                 try {
-                    SearchTool tool = new SearchTool();
-                    tool.searchDegreeURL(degree.getGroupId());
-                    data.jsonFileToObjects();
-                    degrees1 = data.getDegreeMap();
+                    SearchTool.searchDegreeURL(degree.getGroupId());
+                    DegreeObjectData.jsonFileToObjects();
+                    degrees1 = DegreeObjectData.getDegreeMap();
                 }catch (IOException ex) {
                     Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
                 }
