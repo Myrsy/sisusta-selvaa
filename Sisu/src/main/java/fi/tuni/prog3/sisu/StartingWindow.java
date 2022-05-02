@@ -235,6 +235,8 @@ public class StartingWindow extends Application {
         Button btnAddCourse= new Button("Lisää kurssi");
         btnAddCourse.setVisible(false);
         lowerControl.add(btnAddCourse, 0, 2, 1, 1);
+        lowerControl.add(courseInfo, 0,0,2,1);
+        upperControl.getChildren().add(scroll);
         
         
         tree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -244,58 +246,60 @@ public class StartingWindow extends Application {
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 
                 TreeItem treeItem = (TreeItem)newValue;
-                StudyModule mod = (StudyModule) treeItem.getValue();
-                String name = mod.getName();
-                String code = mod.getCode();
-                String content = mod.getContent();
-                String outcome = mod.getOutcomes();
-                String desc = mod.getDescription();
-                String type = mod.getType();
                 
-                if(content == null){
-                    content = "";
-                }else{
-                    content = "\nSisältö:\n" + mod.getContent();
-                }
-                
-                if(outcome == null){
-                    outcome = "";
-                }else{
-                    outcome = "\nOppismistavoitteet:\n" + mod.getOutcomes();
-                }
-                String text = String.format("%s (%s)\n%s\n%s",
-                        name, code, content, outcome);
-                if(name != null){
-                    infoModule.setText(text);
-                }else if(desc != null){
-                    infoModule.setText(desc);
-                    infoModule.setMaxWidth(480);
-                    infoModule.setWrapText(true);
-                    scroll.setContent(infoModule);
-                    scroll.setPrefHeight(240);
-                    upperControl.getChildren().add(scroll);
-                }
-                
-                if(type.equals("CourseUnitRule")){
-                    String textComplete = 
-                            String.format("Merkitse kurssi suoritetuksi: %s", name);
-                    courseInfo.setText(textComplete);
-                    courseInfo.setVisible(true);
-                    addGradeSpinner.setVisible(true);
-                    addGradeLabel.setVisible(true);
-                    btnAddCourse.setVisible(true);
-                   
-                    lowerControl.add(courseInfo, 0,0,2,1);
-                    
-                    addCourseBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod);
-                       
-                }else{
-                    addGradeSpinner.setVisible(false);
-                    addGradeLabel.setVisible(false);
-                    courseInfo.setVisible(false);
-                    btnAddCourse.setVisible(false);
-                }
+                if (treeItem.getValue() instanceof StudyModule) {
+                    StudyModule mod = (StudyModule) treeItem.getValue();
+                    String name = mod.getName();
+                    String code = mod.getCode();
+                    String content = mod.getContent();
+                    String outcome = mod.getOutcomes();
+                    String desc = mod.getDescription();
+                    String type = mod.getType();
 
+                    if(content == null){
+                        content = "";
+                    }else{
+                        content = "\nSisältö:\n" + mod.getContent();
+                    }
+
+                    if(outcome == null){
+                        outcome = "";
+                    }else{
+                        outcome = "\nOppismistavoitteet:\n" + mod.getOutcomes();
+                    }
+                    String text = String.format("%s (%s)\n%s\n%s",
+                            name, code, content, outcome);
+                    if(name != null){
+                        infoModule.setText(text);
+                    }else if(desc != null){
+                        infoModule.setText(desc);
+                        infoModule.setMaxWidth(480);
+                        infoModule.setWrapText(true);
+                        scroll.setContent(infoModule);
+                        scroll.setPrefHeight(240);
+         //               upperControl.getChildren().add(scroll);
+                    }
+
+
+                    if(type.equals("CourseUnitRule")){
+                        String textComplete = 
+                                String.format("Merkitse kurssi suoritetuksi: %s", name);
+                        courseInfo.setText(textComplete);
+                        courseInfo.setVisible(true);
+                        addGradeSpinner.setVisible(true);
+                        addGradeLabel.setVisible(true);
+                        btnAddCourse.setVisible(true);
+
+
+                        addCourseBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod);
+
+                    }else{
+                        addGradeSpinner.setVisible(false);
+                        addGradeLabel.setVisible(false);
+                        courseInfo.setVisible(false);
+                        btnAddCourse.setVisible(false);
+                    }
+                }
             }
 
             private void addCourseBtnClicked(Button btnAddCourse, Integer grade, StudyModule mod) {
