@@ -32,9 +32,10 @@ public class CourseUnit {
         this.gradeScaleId = gradeScaleId;
     }
     
-    public CourseUnit(String name, String groupId, int minCredits, int grade) {
+    public CourseUnit(String name, String groupId, String code, int minCredits, int grade) {
         this.name = name;
         this.groupId = groupId;
+        this.code = code;
         this.minCredits = minCredits;
         this.grade = grade;
     }

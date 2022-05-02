@@ -2,6 +2,8 @@
 package fi.tuni.prog3.sisu;
 
 import com.google.gson.Gson;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import javafx.application.Application;
@@ -41,12 +43,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -55,10 +60,19 @@ import javafx.scene.text.Font;
 public class StartingWindow extends Application {
 
     //private StudentData studentData;
+    //private static Node CHECK_MARK  = new ImageView(new Image("Sisu/check.png"));
+    private Image CHECK_MARK = new Image(new File("check.png").toURI().toString());
+    
     private Student student;
     StartingWindow(Student student){
       //  this.studentData = new StudentData();
         this.student = student;
+        //Image image = new Image("/check.png");
+       // CHECK_MARK.setImage(image);
+        /*try {
+            CHECK_MARK = ImageIO.read(new File("ckeck.png"));
+        } catch (IOException e) {
+        }*/
     }
 
     
@@ -319,7 +333,7 @@ public class StartingWindow extends Application {
                 public void handle(ActionEvent e){
 
                     CourseUnit course = new CourseUnit(mod.getName(),
-                            mod.getGroupId(), Integer.valueOf(mod.getMinCredits()), grade);
+                            mod.getGroupId(), mod.getCode(), Integer.valueOf(mod.getMinCredits()), grade);
                     student.addCourse(course);
                     try {
                         progLabel.setText(student.getCompletedCredits() + "/"
@@ -353,6 +367,16 @@ public class StartingWindow extends Application {
     
     private TreeItem<StudyModule> getTree(StudyModule root) {
         TreeItem<StudyModule> result = new TreeItem<>(root);
+        
+        if (root.getType().equals("CourseUnitRule")) {
+            for (CourseUnit course: student.getCourses()) {
+                if (root.getCode().equals(course.getCode())) {
+                    result.setGraphic(new ImageView(CHECK_MARK)); //= new TreeItem<>(root, new ImageView(CHECK_MARK));                   
+                }
+            }
+        } else {
+            //result = new TreeItem<>(root);
+        }
 
         if (root.getModules() != null) {
             if (root.getName() != null) {
