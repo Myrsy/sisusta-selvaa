@@ -143,7 +143,12 @@ public class StartingWindow extends Application {
         gridStart.add(saveBackBtn, 1, 2);
         
         saveBackBtn.setOnAction((ActionEvent e) -> {
-            //Tallennus tähän väliin  
+            try {
+                //Tallennus tähän väliin
+                StudentData.studentsToFile();
+            } catch (IOException ex) {
+                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Sisu sisu = new Sisu();
             try {
                 sisu.start(stage);
@@ -154,7 +159,12 @@ public class StartingWindow extends Application {
         });
         
         saveExitBtn.setOnAction((ActionEvent e) -> {
-            //Tallennus tähän väliin      
+            try {
+                //Tallennus tähän väliin
+                StudentData.studentsToFile();
+            } catch (IOException ex) {
+                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
             ((Node)(e.getSource())).getScene().getWindow().hide();
         });
         
@@ -309,8 +319,8 @@ public class StartingWindow extends Application {
                 public void handle(ActionEvent e){
 
                     CourseUnit course = new CourseUnit(mod.getName(),
-                            mod.getGroupId(), Integer.valueOf(mod.getMinCredits()));
-                    student.addCourse(course, grade);
+                            mod.getGroupId(), Integer.valueOf(mod.getMinCredits()), grade);
+                    student.addCourse(course);
                     try {
                         progLabel.setText(student.getCompletedCredits() + "/"
                                 + student.getDegreeProgramme().getMinCredits());

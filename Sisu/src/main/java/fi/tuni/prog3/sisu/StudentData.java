@@ -33,7 +33,6 @@ public class StudentData {
     
     public static void addStudent(Student student) throws IOException{
         students.put(student.getStudentNumber(), student);        
-        studentsToFile();
     }
     
     public static void changeStudentProgramme(Student student, DegreeProgramme degree) throws IOException {
@@ -72,7 +71,7 @@ public class StudentData {
         
     }
     
-    private static void studentsToFile() throws IOException {
+    public static void studentsToFile() throws IOException {
         
         try (FileWriter fw = new FileWriter(STUDENTS_TO_JSON_FILENAME, Charset.forName("UTF-8"))){
             ArrayList<Student> studentObjs = new ArrayList<>();

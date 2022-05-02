@@ -9,6 +9,7 @@ import com.google.gson.InstanceCreator;
 import com.google.gson.annotations.Expose;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,12 +22,9 @@ public class Student {
     
     private String name;
     private String studentNumber;
-    // Tätä ei taideta luoda automaattisesti tiedostosta, 
-    // ongelmia ainakin sisun getOldStudentsissa
-    // transient
     private transient DegreeProgramme degreeProgramme;
     private String degreeGroupId;
-    private HashMap<CourseUnit, Integer> courses;
+    private ArrayList<CourseUnit> courses;
     
     
     public Student(String name, String studentNumber, DegreeProgramme degreeProgramme){
@@ -35,7 +33,7 @@ public class Student {
         this.studentNumber = studentNumber;
         this.degreeProgramme = degreeProgramme;
         this.degreeGroupId = degreeProgramme.getGroupId();
-        this.courses = new HashMap<>();
+        this.courses = new ArrayList<>();
        
     }
 
@@ -69,27 +67,33 @@ public class Student {
         
     }
 
-    public HashMap<CourseUnit, Integer> getCourses() {
+    public ArrayList<CourseUnit> getCourses() {
         return courses;
     }
 
-    public void addCourse(CourseUnit course, Integer grade) {
-        if(courses.isEmpty()){
-            courses.put(course, grade);
-        }
-        for(var course1 : this.courses.keySet()){
-            if(!(course1.getName().equals(course.getName()))){
-                courses.put(course, grade);
+    public void addCourse(CourseUnit newCourse) {//, Integer grade) {
+
+        Boolean alreadyCompleted = false;
+        for (CourseUnit completedCourse: courses) {
+            if (completedCourse.getName().equals(newCourse.getName())) {
+                alreadyCompleted = true;
             }
         }
-       
+        
+        if (alreadyCompleted) {
+            System.out.println("kurssi " + newCourse.toString() + " on jo käyty");
+        } else {
+            courses.add(newCourse);
+            System.out.println("kurssi " + newCourse.toString() + " lisätty");
+        }
+      
         
     }
   
     
     public double getProgression(){
         double sumCredits = 0.0;
-        for(var course : this.courses.keySet()){
+        for(var course : this.courses){
             sumCredits += course.getMinCredits();
         }
         return sumCredits / this.degreeProgramme.getMinCredits();
@@ -97,7 +101,7 @@ public class Student {
     
     public Integer getCompletedCredits(){
         int sumCredits = 0;
-        for(var course : this.courses.keySet()){
+        for(var course : this.courses){
             sumCredits += course.getMinCredits();
         }
         
@@ -107,9 +111,10 @@ public class Student {
     public double getGPA(){
         double sumCompleted = 0.00;
         double sumGrade = 0.00;
-        for (Map.Entry<CourseUnit, Integer> course : courses.entrySet()){
-            sumCompleted += course.getKey().getMinCredits();
-            sumGrade += course.getValue()*course.getKey().getMinCredits();
+
+        for (CourseUnit course: courses) {
+            sumCompleted += course.getMinCredits();
+            sumGrade += course.getGrade()*course.getMinCredits();
         }
         
         return sumGrade/sumCompleted;
