@@ -54,15 +54,16 @@ import javafx.scene.text.Font;
  */
 public class StartingWindow extends Application {
 
-   
+    //private StudentData studentData;
     private Student student;
     StartingWindow(Student student){
+      //  this.studentData = new StudentData();
         this.student = student;
     }
 
     
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
                 
         stage.setTitle("SISU");
         GridPane gridStart = new GridPane();
@@ -176,10 +177,18 @@ public class StartingWindow extends Application {
                     Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            student.changeDegreeProgramme(degrees1.get(degree.getGroupId()));
+            try {
+                StudentData.changeStudentProgramme(student, degrees1.get(degree.getGroupId()));
+            } catch (IOException ex) {
+                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
             StartingWindow startingWindow = new StartingWindow(student);
             Stage stage1 = new Stage();
-            startingWindow.start(stage1);
+            try {
+                startingWindow.start(stage1);
+            } catch (IOException ex) {
+                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
             ((Node)(e.getSource())).getScene().getWindow().hide();
         });
         
@@ -213,7 +222,11 @@ public class StartingWindow extends Application {
         
         ObservableList<DegreeProgramme> deg = FXCollections.observableList(degs);
         TreeItem rootItem = new TreeItem (deg.get(0));
-        rootItem.getChildren().add(getTree(student.getDegreeProgramme().getModules().get(0)));
+        if (student.getDegreeProgramme().getModules() == null) {
+            System.out.println("null");
+        } else {
+            rootItem.getChildren().add(getTree(student.getDegreeProgramme().getModules().get(0)));
+        }
         TreeView tree = new TreeView (rootItem);
         
         Label addGradeLabel = new Label("Syötä arvosana: ");
@@ -224,7 +237,7 @@ public class StartingWindow extends Application {
         lowerControl.add(addGradeSpinner, 1, 1, 1, 1);
         Label infoModule = new Label(); 
         ScrollPane scroll = new ScrollPane();
-        Label courseInfo = new Label();
+        Label courseInfo = new Label("");
         Button btnAddCourse= new Button("Lisää kurssi");
         btnAddCourse.setVisible(false);
         lowerControl.add(btnAddCourse, 0, 2, 1, 1);
@@ -300,13 +313,16 @@ public class StartingWindow extends Application {
                     CourseUnit course = new CourseUnit(mod.getName(),
                             mod.getGroupId(), Integer.valueOf(mod.getMinCredits()));
                     student.addCourse(course, grade);
-                    progLabel.setText(student.getCompletedCredits() + "/" 
-                + student.getDegreeProgramme().getMinCredits());
+                    try {
+                        progLabel.setText(student.getCompletedCredits() + "/"
+                                + student.getDegreeProgramme().getMinCredits());
+                    } catch (IOException ex) {
+                        Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     gpaLabel.setText("Keskiarvo: " + student.getGPA());
                     
                     progression.setProgress(student.getProgression());
-                    addGradeSpinner.
-
+                    //addGradeSpinner.
                 }
 
             });

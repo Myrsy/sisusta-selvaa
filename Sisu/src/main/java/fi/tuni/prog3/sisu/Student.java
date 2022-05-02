@@ -7,6 +7,7 @@ package fi.tuni.prog3.sisu;
 
 import com.google.gson.InstanceCreator;
 import com.google.gson.annotations.Expose;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +26,6 @@ public class Student {
     // transient
     private transient DegreeProgramme degreeProgramme;
     private String degreeGroupId;
-    private String degreeName;
     private HashMap<CourseUnit, Integer> courses;
     private transient DegreeObjectData degreeData = new DegreeObjectData();
     
@@ -36,7 +36,6 @@ public class Student {
         this.studentNumber = studentNumber;
         this.degreeProgramme = degreeProgramme;
         this.degreeGroupId = degreeProgramme.getGroupId();
-        this.degreeName = degreeProgramme.getName();
         this.courses = new HashMap<>();
        
     }
@@ -54,7 +53,7 @@ public class Student {
         return studentNumber;
     }
     
-   public DegreeProgramme getDegreeProgramme() {
+   public DegreeProgramme getDegreeProgramme() throws IOException {
         return degreeProgramme;//new DegreeObjectData().getDegreeMap().get(degreeGroupId);
     }
    

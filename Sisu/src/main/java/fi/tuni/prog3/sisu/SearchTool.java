@@ -53,11 +53,10 @@ public class SearchTool {
     private static final String ALL_DEGREES_FILENAME = "degreeprogrammesfile.txt";
     private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.txt";
     private static final String ISO_STRING = "ISO-8859-15";
-    private DegreeObjectData degreeData;
+   // private DegreeObjectData degreeData;
     
     public SearchTool() throws IOException{
-        degreeData = new DegreeObjectData();
-        degreeData.jsonFileToObjects();
+        DegreeObjectData.jsonFileToObjects();
 
     }
     
@@ -67,7 +66,7 @@ public class SearchTool {
      * @param array
      * @throws IOException 
      */
-    private void writeArrayToFile(String filename, JsonArray array) 
+    private static void writeArrayToFile(String filename, JsonArray array) 
             throws IOException {
                 
         String data = new String(Files.readAllBytes(Paths.get(filename)));
@@ -101,7 +100,7 @@ public class SearchTool {
      * 
      * @throws IOException 
      */
-    public void searchDegreeProgrammesURL() throws IOException {        
+    public static void searchDegreeProgrammesURL() throws IOException {        
         
         try {
             File file = new File(ALL_DEGREES_FILENAME);
@@ -152,9 +151,9 @@ public class SearchTool {
      * @throws MalformedURLException
      * @throws IOException 
      */
-    public void searchDegreeURL(String newGroupId) throws MalformedURLException, IOException{
+    public static void searchDegreeURL(String newGroupId) throws MalformedURLException, IOException{
         
-        Set<String> savedGroupIds = degreeData.getDegreeMap().keySet();
+        Set<String> savedGroupIds = DegreeObjectData.getDegreeMap().keySet();
         
         if (savedGroupIds.contains(newGroupId)) {
             System.out.println("tutkinto " + newGroupId + " on jo tiedostossa");
@@ -174,7 +173,7 @@ public class SearchTool {
 
             array = parseAndSaveModule(jsonObj, array);
             
-            degreeData.jsonArrayToObject(array);
+            DegreeObjectData.jsonArrayToObject(array);
             writeArrayToFile(FULL_DEGREES_FILENAME, array);
             
         }
@@ -188,7 +187,7 @@ public class SearchTool {
      * @return
      * @throws IOException 
      */
-    private JsonArray parseAndSaveModule(JsonObject jsonObj, JsonArray array) throws IOException{ 
+    private static JsonArray parseAndSaveModule(JsonObject jsonObj, JsonArray array) throws IOException{ 
         
         JsonObject module = new JsonObject();
         JsonArray moduleArray = new JsonArray();
@@ -304,7 +303,7 @@ public class SearchTool {
      * @throws MalformedURLException
      * @throws IOException 
      */
-    private JsonObject parseCourseUnit(JsonObject courseObj) throws MalformedURLException, IOException{
+    private static JsonObject parseCourseUnit(JsonObject courseObj) throws MalformedURLException, IOException{
         String courseUnitGroupId = courseObj.getAsJsonPrimitive("courseUnitGroupId").getAsString();
         String urlStr = "https://sis-tuni.funidata.fi/kori/api/course-units/by-group-id?groupId=" 
                 + courseUnitGroupId + "&universityId=tuni-university-root-id";
@@ -365,7 +364,7 @@ public class SearchTool {
     }
     
     
-    private String parseString(String str) {
+    private static String parseString(String str) {
         String result = str.replaceAll("\\<.*?\\>", "\n");
         String previousResult = "";
         while(!previousResult.equals(result)){

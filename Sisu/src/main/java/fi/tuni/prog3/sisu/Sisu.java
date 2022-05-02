@@ -36,7 +36,6 @@ import javafx.scene.layout.RowConstraints;
 
 public class Sisu extends Application {
     
-    private StudentData studentData = new StudentData();
     public Sisu(){
         
     }
@@ -132,19 +131,19 @@ public class Sisu extends Application {
                
                DegreeObjectData data = new DegreeObjectData();
                 try {
-                    data.jsonFileToObjects();
+                    DegreeObjectData.jsonFileToObjects();
                 } catch (IOException ex) {
                     Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                HashMap<String, DegreeProgramme> degrees = data.getDegreeMap();
+                HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
                
                 if(!(degrees.containsKey(degree.getGroupId()))){
                    try {
                        SearchTool tool = new SearchTool();
                        tool.searchDegreeURL(degree.getGroupId());
-                       data.jsonFileToObjects();
-                       degrees = data.getDegreeMap();
+                       DegreeObjectData.jsonFileToObjects();
+                       degrees = DegreeObjectData.getDegreeMap();
                    } catch (IOException ex) {
                        Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
                    }
@@ -156,7 +155,7 @@ public class Sisu extends Application {
                 }
                 Student student = new Student(name, number, degrees.get(degree.getGroupId()));
                 
-                if(studentData.searchStudent(number) == true){
+                if(StudentData.searchStudent(number) == true){
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Virhe");
                     alert.setHeaderText(null);
@@ -166,14 +165,18 @@ public class Sisu extends Application {
                 }else{
                     
                    try {
-                       studentData.addStudent(student);
+                       StudentData.addStudent(student);
                    } catch (IOException ex) {
                        Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
                    }
                     
                     StartingWindow startingWindow = new StartingWindow(student);
                     Stage stage = new Stage();
-                    startingWindow.start(stage);
+                   try {
+                       startingWindow.start(stage);
+                   } catch (IOException ex) {
+                       Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                   }
                     ((Node)(e.getSource())).getScene().getWindow().hide(); 
                     }
                 
@@ -204,7 +207,7 @@ public class Sisu extends Application {
         
         //StudentData studentData = findStudentData();
         //StudentData studentData = new StudentData();
-        studentData.getOldStudents();
+        StudentData.getOldStudents();
         
         GridPane grid = new GridPane();
 
@@ -247,14 +250,18 @@ public class Sisu extends Application {
             public void handle(ActionEvent e){
                 
                 String studentNumber = addNumberField.getText();
-                if(!studentData.searchStudent(studentNumber)){
+                if(!StudentData.searchStudent(studentNumber)){
                     logInErrorLabel.setText("Virhe! Opiskelijanumerolla ei löytynyt opiskelijaa.");
                     
                 }else{
                     Stage stage = new Stage();
                     StartingWindow start = 
-                            new StartingWindow(studentData.getStudent(studentNumber));
-                    start.start(stage);
+                            new StartingWindow(StudentData.getStudent(studentNumber));
+                    try {
+                        start.start(stage);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     ((Node)(e.getSource())).getScene().getWindow().hide();
                 }

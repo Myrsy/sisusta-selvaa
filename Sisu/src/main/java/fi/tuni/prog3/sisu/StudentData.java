@@ -26,46 +26,36 @@ import java.util.HashMap;
 public class StudentData {
     
     private static final String STUDENTS_TO_JSON_FILENAME = "studentsfile.txt";
-    private static HashMap<String, Student> students;
+    private static HashMap<String, Student> students = new HashMap<>();
     
     public StudentData(){
-        students = new HashMap<>();
     }
     
     public static void addStudent(Student student) throws IOException{
-        students.put(student.getStudentNumber(), student);
-//        System.out.println(student.getDegreeProgramme().toString());
+        students.put(student.getStudentNumber(), student);        
         studentsToFile();
     }
     
-    public static void updateStudent(Student student) throws IOException {
-        String studentNum = student.getStudentNumber();
-        if(students.get(studentNum) != null) {
-            students.replace(studentNum, student);
-            System.out.println("Päivitetty");
+    public static void changeStudentProgramme(Student student, DegreeProgramme degree) throws IOException {
+        if (students.keySet().contains(student.getStudentNumber())) {
+            students.get(student.getStudentNumber()).changeDegreeProgramme(degree);
             studentsToFile();
-
-        }else{
+        } else {
             System.out.println("Opiskelijaa " + student.getStudentNumber() 
                     + " ei löytynyt");
         }
     }
     
-    public boolean searchStudent(String studentNumber){
+    public static boolean searchStudent(String studentNumber){
         if(students.containsKey(studentNumber)){
             return true;
         }
         return false;
     }
     
-    public void getOldStudents() throws FileNotFoundException, IOException{
-        // HUOM! jokaisen lisäyksen jälkeen kirjoitetaan tiedosto uusiksi
-        // pitäisiköhän tehdä paremmin?
-        //Gson gson = new Gson();
-        
-        
-        //gsonBuilder.registerTypeAdapter(Student.class, new StudentCreator());
-        Gson gson = new Gson(); //gsonBuilder.create();
+    public static void getOldStudents() throws FileNotFoundException, IOException{
+
+        Gson gson = new Gson();
         
         try (Reader reader = new FileReader(STUDENTS_TO_JSON_FILENAME)) {
            Student[] studentsList = gson.fromJson(reader, Student[].class);
@@ -73,9 +63,6 @@ public class StudentData {
                 for (Student student: studentsList) {
                     student.setDegreeProgramme(student.getDegreeGroupId());
                     addStudent(student);
-                    System.out.println(student.getName() + 
-                            "\n groupId " + student.getDegreeGroupId() +
-                            "\n tutkinto " + student.getDegreeProgramme());
                 }
             }
         } catch (FileNotFoundException ex) {

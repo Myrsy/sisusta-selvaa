@@ -20,7 +20,7 @@ public class DegreeObjectData {
     private static HashMap<String, DegreeProgramme> degreeProgrammes = new HashMap<>();
 
     
-    public void jsonFileToObjects() throws FileNotFoundException, IOException {
+    public static void jsonFileToObjects() throws FileNotFoundException, IOException {
         
         Gson gson = new Gson();
         try (Reader reader = new FileReader(FULL_DEGREES_FILENAME)) {
@@ -33,20 +33,19 @@ public class DegreeObjectData {
         }
     }
     
-    public void jsonArrayToObject(JsonArray jsonArray) {
+    public static void jsonArrayToObject(JsonArray jsonArray) {
         
         Gson gson = new Gson();
         DegreeProgramme prog = gson.fromJson(jsonArray, DegreeProgramme[].class)[0];
         addProgramme(prog);               
     }
     
-    public void objectsToJson() throws IOException {     
+    public static void objectsToJson() throws IOException {     
                 
         try (FileWriter fw = new FileWriter(OBJECTS_TO_JSON_FILENAME, Charset.forName("UTF-8"))){
             ArrayList<DegreeProgramme> degreeObjs = new ArrayList<>();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             for (String id: degreeProgrammes.keySet()) {
-                System.out.println(id);
                 degreeObjs.add(degreeProgrammes.get(id));
             }
             gson.toJson(degreeObjs, fw);
@@ -54,11 +53,11 @@ public class DegreeObjectData {
         }
     }
     
-    public void addProgramme(DegreeProgramme prog){
+    public static void addProgramme(DegreeProgramme prog){
         degreeProgrammes.put(prog.getGroupId(), prog);
     }
     
-    public void addStudyModuleToDegree(String groupIdParent, StudyModule mod){
+    public static void addStudyModuleToDegree(String groupIdParent, StudyModule mod){
         degreeProgrammes.get(groupIdParent).addStudyModule(mod);
     }
     
