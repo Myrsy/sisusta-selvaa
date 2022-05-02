@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
@@ -59,20 +60,11 @@ import javax.imageio.ImageIO;
  */
 public class StartingWindow extends Application {
 
-    //private StudentData studentData;
-    //private static Node CHECK_MARK  = new ImageView(new Image("Sisu/check.png"));
     private Image CHECK_MARK = new Image(new File("check.png").toURI().toString());
-    
     private Student student;
+    
     StartingWindow(Student student){
-      //  this.studentData = new StudentData();
         this.student = student;
-        //Image image = new Image("/check.png");
-       // CHECK_MARK.setImage(image);
-        /*try {
-            CHECK_MARK = ImageIO.read(new File("ckeck.png"));
-        } catch (IOException e) {
-        }*/
     }
 
     
@@ -315,7 +307,7 @@ public class StartingWindow extends Application {
                         btnAddCourse.setVisible(true);
 
 
-                        addCourseBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod);
+                        addCourseBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod, treeItem);
 
                     }else{
                         addGradeSpinner.setVisible(false);
@@ -326,7 +318,7 @@ public class StartingWindow extends Application {
                 }
             }
 
-            private void addCourseBtnClicked(Button btnAddCourse, Integer grade, StudyModule mod) {
+            private void addCourseBtnClicked(Button btnAddCourse, Integer grade, StudyModule mod, TreeItem treeItem) {
                 btnAddCourse.setOnAction(new EventHandler<ActionEvent>(){
             
                 @Override
@@ -342,7 +334,8 @@ public class StartingWindow extends Application {
                         Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     gpaLabel.setText("Keskiarvo: " + student.getGPA());
-                    
+                    treeItem.setGraphic(new ImageView(CHECK_MARK));
+                                
                     progression.setProgress(student.getProgression());
                     //addGradeSpinner.
                 }
@@ -371,12 +364,10 @@ public class StartingWindow extends Application {
         if (root.getType().equals("CourseUnitRule")) {
             for (CourseUnit course: student.getCourses()) {
                 if (root.getCode().equals(course.getCode())) {
-                    result.setGraphic(new ImageView(CHECK_MARK)); //= new TreeItem<>(root, new ImageView(CHECK_MARK));                   
+                    result.setGraphic(new ImageView(CHECK_MARK));                    
                 }
             }
-        } else {
-            //result = new TreeItem<>(root);
-        }
+        } 
 
         if (root.getModules() != null) {
             if (root.getName() != null) {
