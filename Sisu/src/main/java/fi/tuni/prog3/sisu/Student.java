@@ -28,7 +28,6 @@ public class Student {
     
     
     public Student(String name, String studentNumber, DegreeProgramme degreeProgramme){
-        System.out.println("Opiskelijan " + name + " ensimmäinen rakentaja");
         this.name = name;
         this.studentNumber = studentNumber;
         this.degreeProgramme = degreeProgramme;
@@ -38,7 +37,10 @@ public class Student {
     }
 
  
-    public void setDegreeProgramme(String groupId) {
+    public void setDegreeProgramme(String groupId) throws IOException {
+        if (DegreeObjectData.getDegreeMap().get(groupId) == null) {
+            SearchTool.searchDegreeURL(groupId);
+        }
         this.degreeProgramme = DegreeObjectData.getDegreeMap().get(groupId);
     }
 
@@ -51,7 +53,7 @@ public class Student {
     }
     
    public DegreeProgramme getDegreeProgramme() throws IOException {
-        return degreeProgramme;//new DegreeObjectData().getDegreeMap().get(degreeGroupId);
+        return degreeProgramme;
     }
    
     public String getDegreeGroupId(){

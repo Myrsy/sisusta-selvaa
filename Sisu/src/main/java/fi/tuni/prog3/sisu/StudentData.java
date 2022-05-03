@@ -8,7 +8,9 @@ import com.google.gson.InstanceCreator;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,7 +40,7 @@ public class StudentData {
     public static void changeStudentProgramme(Student student, DegreeProgramme degree) throws IOException {
         if (students.keySet().contains(student.getStudentNumber())) {
             students.get(student.getStudentNumber()).changeDegreeProgramme(degree);
-            studentsToFile();
+           // studentsToFile();
         } else {
             System.out.println("Opiskelijaa " + student.getStudentNumber() 
                     + " ei löytynyt");
@@ -54,9 +56,9 @@ public class StudentData {
     
     public static void getOldStudents() throws FileNotFoundException, IOException{
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
         
-        try (Reader reader = new FileReader(STUDENTS_TO_JSON_FILENAME)) {
+        try (Reader reader = new FileReader(STUDENTS_TO_JSON_FILENAME, Charset.forName("UTF-8"))) {
            Student[] studentsList = gson.fromJson(reader, Student[].class);
             if (studentsList != null) {
                 for (Student student: studentsList) {
@@ -75,12 +77,12 @@ public class StudentData {
         
         try (FileWriter fw = new FileWriter(STUDENTS_TO_JSON_FILENAME, Charset.forName("UTF-8"))){
             ArrayList<Student> studentObjs = new ArrayList<>();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
             for (String id: students.keySet()) {
                 studentObjs.add(students.get(id));
-            }
+            }            
             gson.toJson(studentObjs, fw);
-            
+           
         }
     }
 
