@@ -11,27 +11,12 @@ package fi.tuni.prog3.sisu;
  */
 public class CourseUnit {
     
-    private String name;
-    private String groupId;
-    private String code;
-    //private int minCredits;
-    private int credits;
-    private int grade;
-    private String content;
-    private String outcomes;
-    private String gradeScaleId;
+    private final String name;
+    private final String groupId;
+    private final String code;
+    private final int credits;
+    private final int grade;
 
-    public CourseUnit(String name, String groupId, String code, int credits, 
-             int grade, String content, String outcomes, String gradeScaleId) {
-        this.name = name;
-        this.groupId = groupId;
-        this.code = code;
-        this.credits = credits;
-        this.grade = grade;
-        this.content = content;
-        this.outcomes = outcomes;
-        this.gradeScaleId = gradeScaleId;
-    }
     
     public CourseUnit(String name, String groupId, String code, int credits, int grade) {
         this.name = name;
@@ -59,19 +44,9 @@ public class CourseUnit {
         return credits;
     }
     
+    
     public int getGrade() {
         return grade;
     }
     
-    public String getContent() {
-        return content;
-    }
-
-    public String getOutcomes() {
-        return outcomes;
-    }
-    
-    public String getGradeScaleId() {
-        return gradeScaleId;
-    }
 }

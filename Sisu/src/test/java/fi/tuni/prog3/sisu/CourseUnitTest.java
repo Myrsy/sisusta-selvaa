@@ -43,8 +43,7 @@ public class CourseUnitTest {
     @Test
     public void testGetName() {
 
-        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
+        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 5);
         String expResult = "tetapk";
         String result = instance.getName();
         assertEquals(expResult, result);
@@ -57,8 +56,7 @@ public class CourseUnitTest {
     @Test
     public void testGetGroupId() {
 
-        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
+        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 5);
         String expResult = "zz2";
         String result = instance.getGroupId();
         assertEquals(expResult, result);
@@ -70,66 +68,32 @@ public class CourseUnitTest {
      */
     @Test
     public void testGetCode() {
-        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
+        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 5);
         String expResult = "tuta123";
         String result = instance.getCode();
         assertEquals(expResult, result);
-
     }
 
     /**
-     * Test of getMinCredits method, of class CourseUnit.
+     * Test of getCredits method, of class CourseUnit.
      */
     @Test
-    public void testGetMinCredits() {
-
-        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
+    public void testGetCredits() {
+        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 5);
         int expResult = 5;
-        int result = instance.getMinCredits();
+        int result = instance.getCredits();
         assertEquals(expResult, result);
-
     }
 
     /**
-     * Test of getContent method, of class CourseUnit.
+     * Test of getGrade method, of class CourseUnit.
      */
     @Test
-    public void testGetContent() {
-
-        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        String expResult = "jee";
-        String result = instance.getContent();
+    public void testGetGrade() {
+        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 5);
+        int expResult = 5;
+        int result = instance.getGrade();
         assertEquals(expResult, result);
-
-    }
-
-    /**
-     * Test of getOutcomes method, of class CourseUnit.
-     */
-    @Test
-    public void testGetOutcomes() {
-        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        String expResult = "pöö";
-        String result = instance.getOutcomes();
-        assertEquals(expResult, result);
-
-    }
-
-    /**
-     * Test of getGradeScaleId method, of class CourseUnit.
-     */
-    @Test
-    public void testGetGradeScaleId() {
-        CourseUnit instance = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        String expResult = "1-5";
-        String result = instance.getGradeScaleId();
-        assertEquals(expResult, result);
-
     }
     
 }
