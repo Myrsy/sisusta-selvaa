@@ -183,7 +183,7 @@ public class Sisu extends Application {
         });
             
 
-            Scene scene = new Scene(grid, 400, 200);
+            Scene scene = new Scene(grid, 800, 200);
             stage.setScene(scene);
             stage.show();
             
@@ -213,9 +213,9 @@ public class Sisu extends Application {
         
 
         Label logInLabel = new Label("  Kirjaudu sisään:");
-        Label logInErrorLabel = new Label("");
+        //Label logInErrorLabel = new Label("");
         grid.add(logInLabel, 0, 0, 1, 1);
-        grid.add(logInErrorLabel, 1, 0, 2, 1);
+        //grid.add(logInErrorLabel, 1, 0, 2, 1);
         
         
         Label numberLabel = new Label("  Opiskelijanumero:");
@@ -250,7 +250,13 @@ public class Sisu extends Application {
                 
                 String studentNumber = addNumberField.getText();
                 if(!StudentData.searchStudent(studentNumber)){
-                    logInErrorLabel.setText("Virhe! Opiskelijanumerolla ei löytynyt opiskelijaa.");
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setTitle("Virhe!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Opiskelijanumerolla ei löytynyt opiskelijaa.");
+
+                    alert.showAndWait();
+
                     
                 }else{
                     Stage stage = new Stage();
