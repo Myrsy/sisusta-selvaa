@@ -244,13 +244,26 @@ public class StartingWindow extends Application {
         addGradeSpinner.setVisible(false);
         lowerControl.add(addGradeLabel, 0, 1, 1, 1);
         lowerControl.add(addGradeSpinner, 1, 1, 1, 1);
+
+        
+        Label addCreditsLabel = new Label("Syötä opintopisteet: ");
+        addCreditsLabel.setVisible(false);
+        Spinner<Integer> addCreditsSpinner = new Spinner<>(1, 6, 0, 1);
+        addCreditsSpinner.setVisible(false);
+        lowerControl.add(addCreditsLabel, 0, 2, 1, 1);
+        lowerControl.add(addCreditsSpinner, 1, 2, 1, 1);
+        
         Label infoModule = new Label(); 
+        infoModule.setMaxWidth(480);
+        infoModule.setWrapText(true);
         ScrollPane scroll = new ScrollPane();
+        scroll.setContent(infoModule);
+        scroll.setPrefHeight(240);
         Label courseInfo = new Label("");
         Button btnAddCourse= new Button("Lisää kurssi");
         btnAddCourse.setVisible(false);
-        lowerControl.add(btnAddCourse, 0, 2, 1, 1);
-        lowerControl.add(courseInfo, 0,0,2,1);
+        lowerControl.add(btnAddCourse, 0, 3, 1, 1);
+        lowerControl.add(courseInfo, 0, 0, 2, 1);
         upperControl.getChildren().add(scroll);
         
         
@@ -260,7 +273,7 @@ public class StartingWindow extends Application {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 
-                TreeItem treeItem = (TreeItem)newValue;
+                TreeItem treeItem = (TreeItem) newValue;
                 
                 if (treeItem.getValue() instanceof StudyModule) {
                     StudyModule mod = (StudyModule) treeItem.getValue();
@@ -270,6 +283,9 @@ public class StartingWindow extends Application {
                     String outcome = mod.getOutcomes();
                     String desc = mod.getDescription();
                     String type = mod.getType();
+                    String minCredits = mod.getMinCredits();
+                    String maxCredits = mod.getMaxCredits();
+                    String credits = "";
 
                     if(content == null){
                         content = "";
@@ -282,16 +298,23 @@ public class StartingWindow extends Application {
                     }else{
                         outcome = "\nOppismistavoitteet:\n" + mod.getOutcomes();
                     }
-                    String text = String.format("%s (%s)\n%s\n%s",
-                            name, code, content, outcome);
+                    
+                    if(minCredits != null && maxCredits != null){
+                        if(!minCredits.equals(maxCredits) && !maxCredits.equals("999")){
+                            credits = minCredits + "-" + maxCredits + " op";
+                        } else if (maxCredits.equals("999")){
+                            credits = "väh. " + minCredits + " op";
+                        } else {
+                            credits = minCredits + " op";
+                        }
+                    }
+
+                    String text = String.format("%s (%s) %s \n%s\n%s",
+                            name, code, credits, content, outcome);
                     if(name != null){
                         infoModule.setText(text);
                     }else if(desc != null){
                         infoModule.setText(desc);
-                        infoModule.setMaxWidth(480);
-                        infoModule.setWrapText(true);
-                        scroll.setContent(infoModule);
-                        scroll.setPrefHeight(240);
          //               upperControl.getChildren().add(scroll);
                     }
 
@@ -304,27 +327,42 @@ public class StartingWindow extends Application {
                         addGradeSpinner.setVisible(true);
                         addGradeLabel.setVisible(true);
                         btnAddCourse.setVisible(true);
+                        
+                        if (!minCredits.equals(maxCredits)) {
+                            addCreditsLabel.setVisible(true);
+                            addCreditsSpinner.setVisible(true);
+                        } else {
+                            addCreditsLabel.setVisible(false);
+                            addCreditsSpinner.setVisible(false); 
+                        }
 
-
-                        addCourseBtnClicked(btnAddCourse, addGradeSpinner.getValue(), mod, treeItem);
+                        addCourseBtnClicked(btnAddCourse, mod, treeItem);
 
                     }else{
                         addGradeSpinner.setVisible(false);
                         addGradeLabel.setVisible(false);
                         courseInfo.setVisible(false);
                         btnAddCourse.setVisible(false);
+                        addCreditsLabel.setVisible(false);
+                        addCreditsSpinner.setVisible(false);
                     }
                 }
             }
 
-            private void addCourseBtnClicked(Button btnAddCourse, Integer grade, StudyModule mod, TreeItem treeItem) {
+            private void addCourseBtnClicked(Button btnAddCourse, StudyModule mod, TreeItem treeItem) {
                 btnAddCourse.setOnAction(new EventHandler<ActionEvent>(){
             
                 @Override
                 public void handle(ActionEvent e){
+                    int grade = addGradeSpinner.getValue();
+                    int credits = Integer.parseInt(mod.getMinCredits());
 
+                    if (addCreditsSpinner.isVisible()) {
+                        credits = addCreditsSpinner.getValue();
+                    }
+                    
                     CourseUnit course = new CourseUnit(mod.getName(),
-                            mod.getGroupId(), mod.getCode(), Integer.valueOf(mod.getMinCredits()), Integer.valueOf(mod.getMaxCredits()), grade);
+                            mod.getGroupId(), mod.getCode(), credits, grade);
                     student.addCourse(course);
                     try {
                         progLabel.setText(student.getCompletedCredits() + "/"

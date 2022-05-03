@@ -73,7 +73,7 @@ public class Student {
         return courses;
     }
 
-    public void addCourse(CourseUnit newCourse) {//, Integer grade) {
+    public void addCourse(CourseUnit newCourse) {
 
         Boolean alreadyCompleted = false;
         for (CourseUnit completedCourse: courses) {
@@ -96,7 +96,7 @@ public class Student {
     public double getProgression(){
         double sumCredits = 0.0;
         for(var course : this.courses){
-            sumCredits += course.getMinCredits();
+            sumCredits += course.getCredits();
         }
         return sumCredits / this.degreeProgramme.getMinCredits();
     }
@@ -104,7 +104,7 @@ public class Student {
     public Integer getCompletedCredits(){
         int sumCredits = 0;
         for(var course : this.courses){
-            sumCredits += course.getMinCredits();
+            sumCredits += course.getCredits();
         }
         
         return sumCredits;
@@ -115,8 +115,8 @@ public class Student {
         double sumGrade = 0.00;
 
         for (CourseUnit course: courses) {
-            sumCompleted += course.getMinCredits();
-            sumGrade += course.getGrade()*course.getMinCredits();
+            sumCompleted += course.getCredits();
+            sumGrade += course.getGrade()*course.getCredits();
         }
         
         return sumGrade/sumCompleted;

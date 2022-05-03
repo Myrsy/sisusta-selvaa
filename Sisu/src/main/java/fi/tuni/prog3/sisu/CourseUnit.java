@@ -14,32 +14,30 @@ public class CourseUnit {
     private String name;
     private String groupId;
     private String code;
-    private int minCredits;
-    private int maxCredits;
+    //private int minCredits;
+    private int credits;
     private int grade;
     private String content;
     private String outcomes;
     private String gradeScaleId;
 
-    public CourseUnit(String name, String groupId, String code, int minCredits, int maxCredits, 
+    public CourseUnit(String name, String groupId, String code, int credits, 
              int grade, String content, String outcomes, String gradeScaleId) {
         this.name = name;
         this.groupId = groupId;
         this.code = code;
-        this.minCredits = minCredits;
-        this.maxCredits = maxCredits;
+        this.credits = credits;
         this.grade = grade;
         this.content = content;
         this.outcomes = outcomes;
         this.gradeScaleId = gradeScaleId;
     }
     
-    public CourseUnit(String name, String groupId, String code, int minCredits, int maxCredits, int grade) {
+    public CourseUnit(String name, String groupId, String code, int credits, int grade) {
         this.name = name;
         this.groupId = groupId;
         this.code = code;
-        this.minCredits = minCredits;
-        this.maxCredits = maxCredits;
+        this.credits = credits;
         this.grade = grade;
     }
     
@@ -57,12 +55,8 @@ public class CourseUnit {
         return code;
     }
 
-    public int getMinCredits() {
-        return minCredits;
-    }
-    
-    public int getMaxCredits() {
-        return maxCredits;
+    public int getCredits() {
+        return credits;
     }
     
     public int getGrade() {
