@@ -115,8 +115,10 @@ public class Student {
         double sumGrade = 0.00;
 
         for (CourseUnit course: courses) {
-            sumCompleted += course.getCredits();
-            sumGrade += course.getGrade()*course.getCredits();
+            if (course.getGrade() != -1) {
+                sumCompleted += course.getCredits();
+                sumGrade += course.getGrade()*course.getCredits();
+            }
         }
         
         return sumGrade/sumCompleted;

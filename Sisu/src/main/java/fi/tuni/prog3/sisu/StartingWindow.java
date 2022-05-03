@@ -283,6 +283,7 @@ public class StartingWindow extends Application {
                     String outcome = mod.getOutcomes();
                     String desc = mod.getDescription();
                     String type = mod.getType();
+                    String gradeScale = mod.getGradeScaleId();
                     String minCredits = mod.getMinCredits();
                     String maxCredits = mod.getMaxCredits();
                     String credits = "";
@@ -299,6 +300,12 @@ public class StartingWindow extends Application {
                         outcome = "\nOppismistavoitteet:\n" + mod.getOutcomes();
                     }
                     
+                    if(gradeScale == null){
+                        gradeScale = "";
+                    }else{
+                        gradeScale = "Arviointi: " + gradeScale.replace("sis-", "");
+                    }
+                    
                     if(minCredits != null && maxCredits != null){
                         if(!minCredits.equals(maxCredits) && !maxCredits.equals("999")){
                             credits = minCredits + "-" + maxCredits + " op";
@@ -309,8 +316,8 @@ public class StartingWindow extends Application {
                         }
                     }
 
-                    String text = String.format("%s (%s) %s \n%s\n%s",
-                            name, code, credits, content, outcome);
+                    String text = String.format("%s (%s)\n%s\n%s\n%s\n%s",
+                            name, code, credits, gradeScale, content, outcome);
                     if(name != null){
                         infoModule.setText(text);
                     }else if(desc != null){
@@ -335,6 +342,14 @@ public class StartingWindow extends Application {
                             addCreditsLabel.setVisible(false);
                             addCreditsSpinner.setVisible(false); 
                         }
+                        
+                        if (gradeScale.equals("Arviointi: 0-5")) {
+                            addGradeLabel.setVisible(true);
+                            addGradeSpinner.setVisible(true);
+                        } else {
+                            addGradeLabel.setVisible(false);
+                            addGradeSpinner.setVisible(false);
+                        }
 
                         addCourseBtnClicked(btnAddCourse, mod, treeItem);
 
@@ -354,9 +369,12 @@ public class StartingWindow extends Application {
             
                 @Override
                 public void handle(ActionEvent e){
-                    int grade = addGradeSpinner.getValue();
+                    int grade = -1;
                     int credits = Integer.parseInt(mod.getMinCredits());
 
+                    if (addGradeSpinner.isVisible()) {
+                        grade = addGradeSpinner.getValue();
+                    }
                     if (addCreditsSpinner.isVisible()) {
                         credits = addCreditsSpinner.getValue();
                     }
