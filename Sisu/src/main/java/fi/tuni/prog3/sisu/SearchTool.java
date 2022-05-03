@@ -133,6 +133,7 @@ public class SearchTool {
                    programme.addProperty("groupId",groupId.getAsString());
                    programme.addProperty("minCredits", minCredits.getAsString());
 
+
                    fileRoot.add(programme);
                 }
 
@@ -268,12 +269,19 @@ public class SearchTool {
                module.addProperty("code",code.getAsString());
             }
             JsonObject credits = jsonObj.getAsJsonObject("targetCredits");
-            JsonPrimitive minCredits = null;
+            JsonPrimitive minCredits = new JsonPrimitive("0");
+            JsonPrimitive maxCredits = new JsonPrimitive("999");
+
             if(credits != null){
-                minCredits = credits.getAsJsonPrimitive("min");
-                if(minCredits != null){
-                    module.addProperty("minCredits", minCredits.getAsString());
+                if(!(credits.get("min") instanceof JsonNull)){
+                    minCredits = credits.getAsJsonPrimitive("min");               
                 }
+                if(!(credits.get("max") instanceof JsonNull)){
+                    maxCredits = credits.getAsJsonPrimitive("max");
+                }
+                module.addProperty("minCredits", minCredits.getAsString());               
+                module.addProperty("maxCredits", maxCredits.getAsString());
+
             }
             JsonElement learningOutcomes = jsonObj.get("learningOutcomes");
             JsonPrimitive learningOutcomesFI = null;
@@ -317,6 +325,7 @@ public class SearchTool {
         JsonObject jsonObj = json.get(0).getAsJsonObject();
         JsonObject credits = jsonObj.getAsJsonObject("credits");
         JsonPrimitive minCredits = credits.getAsJsonPrimitive("min");
+        JsonPrimitive maxCredits = new JsonPrimitive("999");
         JsonPrimitive gradeScaleId = jsonObj.getAsJsonPrimitive("gradeScaleId");
         JsonObject name = jsonObj.getAsJsonObject("name");
         JsonPrimitive nameFI = name.getAsJsonPrimitive("fi");
@@ -335,9 +344,13 @@ public class SearchTool {
         if (nameFI != null){
             course.addProperty("name", parseString(nameFI.getAsString()));
         }
-        course.addProperty("code", code.getAsString());
+        course.addProperty("code", parseString(code.getAsString()));
         course.addProperty("gradeScaleId", gradeScaleId.getAsString());
         course.addProperty("minCredits", minCredits.getAsString());
+        if (!(credits.get("max") instanceof JsonNull)) {
+            maxCredits = credits.getAsJsonPrimitive("max");
+        }
+        course.addProperty("maxCredits", maxCredits.getAsString());
 
         if(contentFI != null){
             course.addProperty("content", parseString(contentFI.getAsString()));

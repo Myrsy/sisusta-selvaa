@@ -11,6 +11,7 @@ public class StudyModule extends Module {
     private String code;
     private String gradeScaleId;
     private String minCredits;
+    private String maxCredits;
     private String content;
     private String outcomes;
     private String description;
@@ -78,6 +79,10 @@ public class StudyModule extends Module {
 
     public String getMinCredits() {
         return minCredits;
+    }
+    
+    public String getMaxCredits() {
+        return maxCredits;
     }
 
     public String getContent() {

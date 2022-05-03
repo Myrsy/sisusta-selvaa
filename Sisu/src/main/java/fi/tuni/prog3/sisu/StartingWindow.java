@@ -324,7 +324,7 @@ public class StartingWindow extends Application {
                 public void handle(ActionEvent e){
 
                     CourseUnit course = new CourseUnit(mod.getName(),
-                            mod.getGroupId(), mod.getCode(), Integer.valueOf(mod.getMinCredits()), grade);
+                            mod.getGroupId(), mod.getCode(), Integer.valueOf(mod.getMinCredits()), Integer.valueOf(mod.getMaxCredits()), grade);
                     student.addCourse(course);
                     try {
                         progLabel.setText(student.getCompletedCredits() + "/"
