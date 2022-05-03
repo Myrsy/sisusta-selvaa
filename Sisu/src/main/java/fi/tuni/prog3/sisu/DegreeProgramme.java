@@ -15,7 +15,10 @@ public class DegreeProgramme extends Module{
     
     private String name;
     private String groupId;
-    private int minCredits;    
+    private String code;
+    private int minCredits; 
+    private int maxCredits;
+    private String learningOutcomes;
     private ArrayList<StudyModule> modules;
 
     public DegreeProgramme(String name, String groupId, int minCredits){
@@ -34,9 +37,17 @@ public class DegreeProgramme extends Module{
     public String getGroupId() {
         return groupId;
     }
+    
+    public String getCode() {
+        return code;
+    }
 
     public int getMinCredits() {
         return minCredits;
+    }
+    
+    public int getMaxCredits() {
+        return maxCredits;
     }
     
     public void addStudyModule(StudyModule module){
@@ -46,6 +57,10 @@ public class DegreeProgramme extends Module{
     @Override
     public String toString(){
         return this.name;
+    }
+    
+    public String getLearningOutcomes() {
+        return learningOutcomes;
     }
 
     public ArrayList<StudyModule> getModules() {

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
@@ -37,6 +38,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -240,7 +242,7 @@ public class StartingWindow extends Application {
         
         Label addGradeLabel = new Label("Syötä arvosana: ");
         addGradeLabel.setVisible(false);
-        Spinner<Integer> addGradeSpinner = new Spinner<>(1, 5, 0, 1);
+        Spinner<Integer> addGradeSpinner = new Spinner<>(1, 5, 1, 1);
         addGradeSpinner.setVisible(false);
         lowerControl.add(addGradeLabel, 0, 1, 1, 1);
         lowerControl.add(addGradeSpinner, 1, 1, 1, 1);
@@ -248,7 +250,7 @@ public class StartingWindow extends Application {
         
         Label addCreditsLabel = new Label("Syötä opintopisteet: ");
         addCreditsLabel.setVisible(false);
-        Spinner<Integer> addCreditsSpinner = new Spinner<>(1, 6, 0, 1);
+        Spinner<Integer> addCreditsSpinner = new Spinner<>();
         addCreditsSpinner.setVisible(false);
         lowerControl.add(addCreditsLabel, 0, 2, 1, 1);
         lowerControl.add(addCreditsSpinner, 1, 2, 1, 1);
@@ -274,6 +276,18 @@ public class StartingWindow extends Application {
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 
                 TreeItem treeItem = (TreeItem) newValue;
+                String infoText = "";
+                
+                if (treeItem.getValue() instanceof DegreeProgramme) {
+                    DegreeProgramme mod = (DegreeProgramme) treeItem.getValue();
+                    String name = mod.getName();
+                    String code = mod.getCode();
+                    int minCredits = mod.getMinCredits();
+                    String outcomes = mod.getLearningOutcomes();
+                    
+                    infoText = String.format("%s (%s)\nVäh. %d op\n%s",
+                            name, code, minCredits, outcomes);
+                }
                 
                 if (treeItem.getValue() instanceof StudyModule) {
                     StudyModule mod = (StudyModule) treeItem.getValue();
@@ -318,21 +332,18 @@ public class StartingWindow extends Application {
                         }
                     }
 
-                    String text = "";
+                    
                     if(name != null){
-                        text = String.format("%s (%s)\n%s\n%s\n%s\n%s",
+                        infoText = String.format("%s (%s)\n%s\n%s\n%s\n%s",
                             name, code, credits, gradeScale, content, outcome);
                     }else if((desc != null) && (minRequire != null) && (maxRequire != null)){
-                        text = String.format("Valittava vähintään %s ja enintään %s\n%s", minRequire, maxRequire, desc);
+                        infoText = String.format("Valittava vähintään %s ja enintään %s\n%s", minRequire, maxRequire, desc);
          //               upperControl.getChildren().add(scroll);
                     }else if((desc != null) && (minRequire != null)){
-                        text = String.format("Valittava vähintään %s\n%s", minRequire, desc);
+                        infoText = String.format("Valittava vähintään %s\n%s", minRequire, desc);
                     }else if ((desc != null)){
-                        text = desc;
+                        infoText = desc;
                     }
-                    infoModule.setText(text);
-
-
 
                     if(type.equals("CourseUnitRule")){
                         String textComplete = 
@@ -345,6 +356,13 @@ public class StartingWindow extends Application {
                         
                         if (!minCredits.equals(maxCredits)) {
                             addCreditsLabel.setVisible(true);
+                            // Asetetaan spinnerille kurssia vastaavat rajat
+                            addCreditsSpinner.setValueFactory(
+                                    new IntegerSpinnerValueFactory(
+                                            Integer.parseInt(minCredits), 
+                                            Integer.parseInt(maxCredits), 
+                                            Integer.parseInt(minCredits), 1));
+                            
                             addCreditsSpinner.setVisible(true);
                         } else {
                             addCreditsLabel.setVisible(false);
@@ -370,6 +388,9 @@ public class StartingWindow extends Application {
                         addCreditsSpinner.setVisible(false);
                     }
                 }
+                
+                infoModule.setText(infoText);
+
             }
 
             private void addCourseBtnClicked(Button btnAddCourse, StudyModule mod, TreeItem treeItem) {
