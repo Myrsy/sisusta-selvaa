@@ -161,7 +161,6 @@ public class StartingWindow extends Application {
             } catch (IOException ex) {
                 Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
-            ((Node)(e.getSource())).getScene().getWindow().hide();
         });
         
         saveExitBtn.setOnAction((ActionEvent e) -> {
