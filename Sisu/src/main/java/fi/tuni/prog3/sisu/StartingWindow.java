@@ -286,6 +286,8 @@ public class StartingWindow extends Application {
                     String gradeScale = mod.getGradeScaleId();
                     String minCredits = mod.getMinCredits();
                     String maxCredits = mod.getMaxCredits();
+                    String minRequire = mod.getMinRequire();
+                    String maxRequire = mod.getMaxRequire();
                     String credits = "";
 
                     if(content == null){
@@ -316,14 +318,20 @@ public class StartingWindow extends Application {
                         }
                     }
 
-                    String text = String.format("%s (%s)\n%s\n%s\n%s\n%s",
-                            name, code, credits, gradeScale, content, outcome);
+                    String text = "";
                     if(name != null){
-                        infoModule.setText(text);
-                    }else if(desc != null){
-                        infoModule.setText(desc);
+                        text = String.format("%s (%s)\n%s\n%s\n%s\n%s",
+                            name, code, credits, gradeScale, content, outcome);
+                    }else if((desc != null) && (minRequire != null) && (maxRequire != null)){
+                        text = String.format("Valittava vähintään %s ja enintään %s\n%s", minRequire, maxRequire, desc);
          //               upperControl.getChildren().add(scroll);
+                    }else if((desc != null) && (minRequire != null)){
+                        text = String.format("Valittava vähintään %s\n%s", minRequire, desc);
+                    }else if ((desc != null)){
+                        text = desc;
                     }
+                    infoModule.setText(text);
+
 
 
                     if(type.equals("CourseUnitRule")){

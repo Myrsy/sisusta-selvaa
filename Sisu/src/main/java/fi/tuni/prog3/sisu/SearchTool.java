@@ -209,6 +209,25 @@ public class SearchTool {
                     }
             }
             module.addProperty("description", desc);
+            
+            JsonObject require = null;
+            JsonPrimitive minRequire = null;
+            JsonPrimitive maxRequire = null;
+            if (!(jsonObj.get("require") instanceof JsonNull)) {
+                require = jsonObj.getAsJsonObject("require");
+                
+                if (!(require.get("min") instanceof JsonNull)) {
+                    minRequire = require.getAsJsonPrimitive("min");
+                    module.addProperty("minRequire", minRequire.getAsString());
+
+                }
+                if (!(require.get("max") instanceof JsonNull)) {
+                    maxRequire = require.getAsJsonPrimitive("max");
+                    module.addProperty("maxRequire", maxRequire.getAsString());
+
+                }
+            }
+
             JsonArray ruleArray = jsonObj.getAsJsonArray("rules");
             for (JsonElement subElement: ruleArray) {
                 JsonObject subObj = subElement.getAsJsonObject();

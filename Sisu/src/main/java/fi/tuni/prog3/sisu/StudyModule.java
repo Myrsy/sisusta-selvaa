@@ -15,6 +15,8 @@ public class StudyModule extends Module {
     private String content;
     private String outcomes;
     private String description;
+    private String minRequire;
+    private String maxRequire;
     private ArrayList<CourseUnit> courses;
     private ArrayList<StudyModule> modules;
     
@@ -42,7 +44,7 @@ public class StudyModule extends Module {
         } else if (this.allMandatory != null && this.allMandatory.equals("true")) {
             return "Kaikki suoritettava";
         }
-        return "Vain osa suoritettava";
+        return "Valitse osa";
     }
 
     public ArrayList<CourseUnit> getCourses() {
@@ -95,6 +97,14 @@ public class StudyModule extends Module {
 
     public String getDescription() {
         return description;
+    }
+    
+    public String getMinRequire() {
+        return minRequire;
+    }
+    
+    public String getMaxRequire() {
+        return maxRequire;
     }
     
     
