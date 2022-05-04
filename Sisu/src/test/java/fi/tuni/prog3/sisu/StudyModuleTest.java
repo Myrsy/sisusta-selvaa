@@ -38,6 +38,7 @@ public class StudyModuleTest {
     public void tearDown() {
     }
 
+    
     /**
      * Test of getGroupId method, of class StudyModule.
      */
@@ -60,24 +61,6 @@ public class StudyModuleTest {
         String expResult = "yhteinen";
         String result = instance.getName();
         assertEquals(expResult, result);
-
-    }
-
-    /**
-     * Test of getCourses method, of class StudyModule.
-     */
-    @Test
-    public void testGetCourses() {
-
-        StudyModule instance = new StudyModule("yhteinen", "q123");
-        ArrayList<CourseUnit> expResult = new ArrayList<>();
-        CourseUnit course = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        instance.addCourse(course);
-        expResult.add(course);
-        ArrayList<CourseUnit> result = instance.getCourses();
-        assertArrayEquals(expResult.toArray(), result.toArray());
-
     }
 
     /**
@@ -95,20 +78,7 @@ public class StudyModuleTest {
         assertArrayEquals(expResult.toArray(), result.toArray());
     }
 
-    /**
-     * Test of addCourse method, of class StudyModule.
-     */
-    @Test
-    public void testAddCourse() {
-        StudyModule instance = new StudyModule("yhteinen", "q123");
-        ArrayList<CourseUnit> expResult = new ArrayList<>();
-        CourseUnit course = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        expResult.add(course);
-        instance.addCourse(course);
-        ArrayList<CourseUnit> result = instance.getCourses();
-        assertArrayEquals(expResult.toArray(), result.toArray());
-    }
+
 
     /**
      * Test of addModule method, of class StudyModule.
@@ -123,5 +93,6 @@ public class StudyModuleTest {
         ArrayList<StudyModule> result = instance.getModules();
         assertArrayEquals(expResult.toArray(), result.toArray());
     }
+
     
 }
