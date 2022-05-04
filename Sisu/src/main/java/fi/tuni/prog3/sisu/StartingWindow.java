@@ -233,9 +233,7 @@ public class StartingWindow extends Application {
         
         ObservableList<DegreeProgramme> deg = FXCollections.observableList(degs);
         TreeItem rootItem = new TreeItem (deg.get(0));
-        if (student.getDegreeProgramme().getModules() == null) {
-            System.out.println("null");
-        } else {
+        if (student.getDegreeProgramme().getModules() != null) {
             rootItem.getChildren().add(getTree(student.getDegreeProgramme().getModules().get(0)));
         }
         TreeView tree = new TreeView (rootItem);
@@ -277,6 +275,11 @@ public class StartingWindow extends Application {
                 
                 TreeItem treeItem = (TreeItem) newValue;
                 String infoText = "";
+                ArrayList<CourseUnit> courses = student.getCourses();
+                HashMap<String, CourseUnit> completedCourses = new HashMap<>();
+                for (CourseUnit course: courses) {
+                    completedCourses.put(course.getCode(), course);
+                }
                 
                 if (treeItem.getValue() instanceof DegreeProgramme) {
                     DegreeProgramme mod = (DegreeProgramme) treeItem.getValue();
@@ -346,38 +349,61 @@ public class StartingWindow extends Application {
                     }
 
                     if(type.equals("CourseUnitRule")){
-                        String textComplete = 
-                                String.format("Merkitse kurssi suoritetuksi: %s", name);
-                        courseInfo.setText(textComplete);
-                        courseInfo.setVisible(true);
-                        addGradeSpinner.setVisible(true);
-                        addGradeLabel.setVisible(true);
-                        btnAddCourse.setVisible(true);
+                        String textComplete = "";
                         
-                        if (!minCredits.equals(maxCredits)) {
-                            addCreditsLabel.setVisible(true);
-                            // Asetetaan spinnerille kurssia vastaavat rajat
-                            addCreditsSpinner.setValueFactory(
-                                    new IntegerSpinnerValueFactory(
-                                            Integer.parseInt(minCredits), 
-                                            Integer.parseInt(maxCredits), 
-                                            Integer.parseInt(minCredits), 1));
-                            
-                            addCreditsSpinner.setVisible(true);
-                        } else {
-                            addCreditsLabel.setVisible(false);
-                            addCreditsSpinner.setVisible(false); 
-                        }
-                        
-                        if (gradeScale.equals("Arviointi: 0-5")) {
-                            addGradeLabel.setVisible(true);
-                            addGradeSpinner.setVisible(true);
-                        } else {
-                            addGradeLabel.setVisible(false);
+                        if (completedCourses.keySet().contains(code)) {
+                            btnAddCourse.setVisible(false);
                             addGradeSpinner.setVisible(false);
-                        }
+                            addGradeLabel.setVisible(false);
+                            addCreditsLabel.setVisible(false);
+                            addCreditsSpinner.setVisible(false);
+                            
+                            if (gradeScale.contains("hyl-hyv")) {
+                                textComplete = String.format("Kurssi %s suoritettu "
+                                        + "hyväksytysti\nOpintopisteitä saatu: %d", name, 
+                                        completedCourses.get(code).getCredits());
+                            } else if (gradeScale.contains("0-5")) {
+                                textComplete = String.format("Kurssista %s saatu "
+                                        + "arvosanaksi %d\nOpintopisteitä saatu: %d", name, 
+                                        completedCourses.get(code).getGrade(), 
+                                        completedCourses.get(code).getCredits());
+                            }
+                        } else {
+                            addGradeSpinner.setVisible(true);
+                            addGradeLabel.setVisible(true);
+                            btnAddCourse.setVisible(true);
+                            textComplete = String.format("Merkitse kurssi suoritetuksi: %s", name);
+                            
+                            if (!minCredits.equals(maxCredits)) {
+                                addCreditsLabel.setVisible(true);
+                                // Asetetaan spinnerille kurssia vastaavat rajat
+                                addCreditsSpinner.setValueFactory(
+                                        new IntegerSpinnerValueFactory(
+                                                Integer.parseInt(minCredits), 
+                                                Integer.parseInt(maxCredits), 
+                                                Integer.parseInt(minCredits), 1));
 
-                        addCourseBtnClicked(btnAddCourse, mod, treeItem);
+                                addCreditsSpinner.setVisible(true);
+                            } else {
+                                addCreditsLabel.setVisible(false);
+                                addCreditsSpinner.setVisible(false); 
+                            }
+
+                            if (gradeScale.equals("Arviointi: 0-5")) {
+                                addGradeLabel.setVisible(true);
+                                addGradeSpinner.setVisible(true);
+                            } else {
+                                addGradeLabel.setVisible(false);
+                                addGradeSpinner.setVisible(false);
+                            }
+
+                            addCourseBtnClicked(btnAddCourse, mod, treeItem);
+                        }
+                        courseInfo.setText(textComplete);
+                        courseInfo.setWrapText(true);
+                        courseInfo.setVisible(true);
+                                               
+                        
 
                     }else{
                         addGradeSpinner.setVisible(false);
@@ -398,19 +424,39 @@ public class StartingWindow extends Application {
             
                 @Override
                 public void handle(ActionEvent e){
+                    btnAddCourse.setVisible(false);
+
+                    // Alustetaan arvot arvioinnille hyl-hyv 
+                    // sekä minimiopintopisteille
                     int grade = -1;
                     int credits = Integer.parseInt(mod.getMinCredits());
-
-                    if (addGradeSpinner.isVisible()) {
-                        grade = addGradeSpinner.getValue();
-                    }
+                    
+                    // Jos kurssin opintopisteet poikkeavatkin
                     if (addCreditsSpinner.isVisible()) {
                         credits = addCreditsSpinner.getValue();
                     }
+                    String textComplete = String.format("Kurssi %s suoritettu "
+                                        + "hyväksytysti\nOpintopisteitä saatu: "
+                            + "%d", mod.getName(), credits);
+                    // Jos kurssin arvostelu onkin 0-5 
+                    if (addGradeSpinner.isVisible()) {
+                        grade = addGradeSpinner.getValue();
+                        textComplete = String.format("Kurssista %s saatu "
+                                        + "arvosanaksi %d\nOpintopisteitä saatu: "
+                                + "%d", mod.getName(), grade, credits);
+                    }
+                    courseInfo.setText(textComplete);
+
                     
                     CourseUnit course = new CourseUnit(mod.getName(),
                             mod.getGroupId(), mod.getCode(), credits, grade);
                     student.addCourse(course);
+                     
+                    addGradeSpinner.setVisible(false);
+                    addGradeLabel.setVisible(false);
+                    addCreditsLabel.setVisible(false);
+                    addCreditsSpinner.setVisible(false);
+                                       
                     try {
                         progLabel.setText(student.getCompletedCredits() + "/"
                                 + student.getDegreeProgramme().getMinCredits());
@@ -448,7 +494,7 @@ public class StartingWindow extends Application {
         if (root.getType().equals("CourseUnitRule")) {
             for (CourseUnit course: student.getCourses()) {
                 if (root.getCode().equals(course.getCode())) {
-                    result.setGraphic(new ImageView(CHECK_MARK));                    
+                    result.setGraphic(new ImageView(CHECK_MARK)); 
                 }
             }
         } 
