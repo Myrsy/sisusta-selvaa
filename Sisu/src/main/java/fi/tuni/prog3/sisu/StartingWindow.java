@@ -467,11 +467,12 @@ public class StartingWindow extends Application {
                                        
                     progLabel.setText(student.getCompletedCredits() + "/"
                             + student.getDegreeProgramme().getMinCredits());
-                    gpaLabel.setText("Keskiarvo: " + student.getGPA());
+                    String gpaStr = String.format("Keskiarvo: %.2f", student.getGPA());
+                    gpaLabel.setText(gpaStr);
                     treeItem.setGraphic(new ImageView(CHECK_MARK));
                                 
                     progression.setProgress(student.getProgression());
-                    //addGradeSpinner.
+                    addGradeSpinner.getValueFactory().setValue(1);
                 }
 
             });
