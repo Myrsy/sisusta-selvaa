@@ -24,10 +24,10 @@ public class StudentData {
         
     /**
      * Adds a new student to the map {@link #students} that keeps track of all 
-     * the students. The student's student number is added as a key and the
-     * {@link Student} object is added as the value.
-     * @param student the student that will be added to the map 
-     * {@link #students}.
+     * the students. The student's student number is added as a key and the 
+     * corresponding {@link Student} object is added as the value.
+     * @param student the student that will be added to the 
+     * {@link #students} map.
      */
     public static void addStudent(Student student) {
         students.put(student.getStudentNumber(), student);        
@@ -55,9 +55,10 @@ public class StudentData {
     
     /**
      * Reads student data from the {@link #STUDENTS_TO_JSON_FILENAME} file and 
-     * adds the students to the {@link #students} map. Because the students' 
-     * whole nested degree programmes are not stored in the 
-     * {@link #STUDENTS_TO_JSON_FILENAME} file, the 
+     * adds the students to the {@link #students} map by calling the 
+     * {@link #addStudent(fi.tuni.prog3.sisu.Student) addStudent(Student)} 
+     * method. Because the students' whole nested degree programmes are not 
+     * stored in the {@link #STUDENTS_TO_JSON_FILENAME} file, the 
      * {@link Student#setDegreeProgramme(java.lang.String) 
      * Student.setDegreeProgramme(degreeGroupId)} is called to set the nested 
      * degree programme.
