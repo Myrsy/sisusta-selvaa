@@ -33,15 +33,24 @@ import javafx.scene.layout.RowConstraints;
 
 
 
-
+/**
+ * 
+ * @author Omistaja
+ */
 public class Sisu extends Application {
     
     public Sisu(){
         
     }
             
-
+    /**
+     * 
+     */
     public class NewStudent extends Application {
+        /**
+         * 
+         * @param stage 
+         */
         @Override
         public void start(Stage stage) {
             
@@ -123,6 +132,9 @@ public class Sisu extends Application {
             btnAddStudent.setOnAction(new EventHandler<ActionEvent>(){
             
             @Override
+            /**
+             * 
+             */
             public void handle(ActionEvent e){
                                 
                String name = addNameField.getText();
@@ -153,7 +165,7 @@ public class Sisu extends Application {
                 System.out.println("tutkinto " + degrees.get(degree.getGroupId()));
                 Student student = new Student(name, number, degrees.get(degree.getGroupId()));
                 
-                if(StudentData.searchStudent(number) == true){
+                if(StudentData.getStudent(number) != null){
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Virhe");
                     alert.setHeaderText(null);
@@ -162,11 +174,7 @@ public class Sisu extends Application {
                     alert.showAndWait();
                 }else{
                     
-                   try {
-                       StudentData.addStudent(student);
-                   } catch (IOException ex) {
-                       Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                   }
+                    StudentData.addStudent(student);
                     
                     StartingWindow startingWindow = new StartingWindow(student);
                     Stage stage = new Stage();
@@ -200,6 +208,9 @@ public class Sisu extends Application {
     }*/
 
     @Override
+    /**
+     * 
+     */
     public void start(Stage stage) throws IOException {
        
         
@@ -246,10 +257,13 @@ public class Sisu extends Application {
         btnLogIn.setOnAction(new EventHandler<ActionEvent>(){
             
             @Override
+            /**
+             * 
+             */
             public void handle(ActionEvent e){
                 
                 String studentNumber = addNumberField.getText();
-                if(!StudentData.searchStudent(studentNumber)){
+                if(StudentData.getStudent(studentNumber) == null){
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Virhe!");
                     alert.setHeaderText(null);
@@ -278,6 +292,9 @@ public class Sisu extends Application {
         btnNewStudent.setOnAction(new EventHandler<ActionEvent>(){
             
             @Override
+            /**
+             * 
+             */
             public void handle(ActionEvent e){
                 Stage stage = new Stage();
                 NewStudent newStudent = new NewStudent();
@@ -294,7 +311,11 @@ public class Sisu extends Application {
         stage.show();
     }
     
-
+    /**
+     * 
+     * @param args
+     * @throws IOException 
+     */
     public static void main(String[] args) throws IOException {
         
         try{

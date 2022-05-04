@@ -1,60 +1,74 @@
-
 package fi.tuni.prog3.sisu;
-
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
 /**
- *
- * @author Emma
+ * A class for storing information of all the students. Because all the methods
+ * are static, it is not necessary to instantiate the class as an object in order
+ * to get access to the methods.
  */
 public class StudentData {
     
-    private static final String STUDENTS_TO_JSON_FILENAME = "studentsfile.txt";
+    private static final String STUDENTS_TO_JSON_FILENAME = "studentsfile.json";
     private static HashMap<String, Student> students = new HashMap<>();
-    
-    public StudentData(){
-    }
-    
-    public static void addStudent(Student student) throws IOException{
+        
+    /**
+     * Adds a new student to the map {@link #students} that keeps track of all 
+     * the students. The student's student number is added as a key and the
+     * {@link Student} object is added as the value.
+     * @param student the student that will be added to the map 
+     * {@link #students}.
+     */
+    public static void addStudent(Student student) {
         students.put(student.getStudentNumber(), student);        
     }
     
-    public static void changeStudentProgramme(Student student, DegreeProgramme degree) throws IOException {
+    /**
+     * Changes student's degree programme. First the method checks if the 
+     * desired student is in the {@link #students} map by comparing student 
+     * numbers. If the student is in the map, the student's method 
+     * {@link Student#changeDegreeProgramme(fi.tuni.prog3.sisu.DegreeProgramme) 
+     * Student.chageDegreeProgramme(DegreeProgramme)} is called. 
+     * Otherwise this method does nothing.
+     * @param student the student whose degree is being changed.
+     * @param degree student's new degree.
+     */
+    public static void changeStudentProgramme(Student student, DegreeProgramme degree) {
         if (students.keySet().contains(student.getStudentNumber())) {
             students.get(student.getStudentNumber()).changeDegreeProgramme(degree);
-           // studentsToFile();
         } else {
             System.out.println("Opiskelijaa " + student.getStudentNumber() 
                     + " ei löytynyt");
         }
     }
     
-    public static boolean searchStudent(String studentNumber){
-        if(students.containsKey(studentNumber)){
-            return true;
-        }
-        return false;
-    }
     
-    public static void getOldStudents() throws FileNotFoundException, IOException{
+    /**
+     * Reads student data from the {@link #STUDENTS_TO_JSON_FILENAME} file and 
+     * adds the students to the {@link #students} map. Because the students' 
+     * whole nested degree programmes are not stored in the 
+     * {@link #STUDENTS_TO_JSON_FILENAME} file, the 
+     * {@link Student#setDegreeProgramme(java.lang.String) 
+     * Student.setDegreeProgramme(degreeGroupId)} is called to set the nested 
+     * degree programme.
+     * <p>
+     * The student file is excepted to contain student's name, studentNumber, 
+     * degreeGroupId and courses in Json format. The program doesn't handle 
+     * erroneous fields. However, the file can be completely empty. 
+     * If the file doesn't exist when starting the program, it will be created.
+     * @throws IOException if there is an IO error.
+     */
+    public static void getOldStudents() throws IOException {
 
         Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
         
@@ -73,6 +87,12 @@ public class StudentData {
         
     }
     
+    /**
+     * Writes student objects from {@link #students} map to the 
+     * {@link #STUDENTS_TO_JSON_FILENAME} file. All the objects are written at 
+     * once and the existing file will be overwritten.
+     * @throws IOException if there is an IO error.
+     */
     public static void studentsToFile() throws IOException {
         
         try (FileWriter fw = new FileWriter(STUDENTS_TO_JSON_FILENAME, Charset.forName("UTF-8"))){
@@ -86,8 +106,19 @@ public class StudentData {
         }
     }
 
+    /**
+     * Returns student object with specified student number if the 
+     * {@link #students} map contains the specified student number. Otherwise 
+     * returns null.
+     * @param studentNumber student number of the student that is being searched.
+     * @return {@link Student} object if the student is in the map, otherwise 
+     * return null.
+     */
     public static Student getStudent(String studentNumber){
-        return students.get(studentNumber);
+        if (students.containsKey(studentNumber)) {
+            return students.get(studentNumber);
+        }
+        return null;
     }
     
 }

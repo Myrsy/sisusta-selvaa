@@ -37,7 +37,7 @@ public class Student {
      * by calling {@link DegreeObjectData#getDegreeMap() 
      * DegreeObjectData.getDegreeMap()}.
      * @param groupId the groupId of desired degree programme.
-     * @throws IOException if there is some kind of an IO error.
+     * @throws IOException if there is an IO error.
      */
     public void setDegreeProgramme(String groupId) throws IOException {
         if (DegreeObjectData.getDegreeMap().get(groupId) == null) {
@@ -159,7 +159,7 @@ public class Student {
     
     /**
      * Returns the student's GPA. The courses that have fail-pass-grading 
-     * (ie. the method (@link CourseUnit#getCredits() CourseUnit.getCredits()) 
+     * (ie. the method {@link CourseUnit#getCredits() CourseUnit.getCredits()} 
      * returns -1) are ignored.
      * @return the student's GPA
      */

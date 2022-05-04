@@ -71,6 +71,9 @@ public class StartingWindow extends Application {
 
     
     @Override
+    /**
+     * 
+     */
     public void start(Stage stage) throws IOException {
                 
         stage.setTitle("SISU");
@@ -188,11 +191,7 @@ public class StartingWindow extends Application {
                     Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            try {
-                StudentData.changeStudentProgramme(student, degrees1.get(degree.getGroupId()));
-            } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            StudentData.changeStudentProgramme(student, degrees1.get(degree.getGroupId()));
             StartingWindow startingWindow = new StartingWindow(student);
             Stage stage1 = new Stage();
             try {
@@ -271,6 +270,9 @@ public class StartingWindow extends Application {
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
          
             @Override
+            /**
+             * 
+             */
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 
                 TreeItem treeItem = (TreeItem) newValue;
@@ -419,6 +421,12 @@ public class StartingWindow extends Application {
 
             }
 
+            /**
+             * 
+             * @param btnAddCourse
+             * @param mod
+             * @param treeItem 
+             */
             private void addCourseBtnClicked(Button btnAddCourse, StudyModule mod, TreeItem treeItem) {
                 btnAddCourse.setOnAction(new EventHandler<ActionEvent>(){
             
@@ -457,12 +465,8 @@ public class StartingWindow extends Application {
                     addCreditsLabel.setVisible(false);
                     addCreditsSpinner.setVisible(false);
                                        
-                    try {
-                        progLabel.setText(student.getCompletedCredits() + "/"
-                                + student.getDegreeProgramme().getMinCredits());
-                    } catch (IOException ex) {
-                        Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    progLabel.setText(student.getCompletedCredits() + "/"
+                            + student.getDegreeProgramme().getMinCredits());
                     gpaLabel.setText("Keskiarvo: " + student.getGPA());
                     treeItem.setGraphic(new ImageView(CHECK_MARK));
                                 
@@ -488,6 +492,11 @@ public class StartingWindow extends Application {
     
     }
     
+    /**
+     * 
+     * @param root
+     * @return 
+     */
     private TreeItem<StudyModule> getTree(StudyModule root) {
         TreeItem<StudyModule> result = new TreeItem<>(root);
         
@@ -524,7 +533,10 @@ public class StartingWindow extends Application {
     }
    
     
-    
+    /**
+     * 
+     * @param args 
+     */
     public static void main(String args[]) {
        launch();
     }
