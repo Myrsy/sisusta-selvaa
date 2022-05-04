@@ -1,17 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.tuni.prog3.sisu;
 
 import java.util.ArrayList;
 
 /**
- *
- * @author pinja
+ * A class for saving degree programme's information. {@lin DegreeProgramme}
+ * objects will be created by Gson by deserializing Json. 
+ * A {@link DegreeProgramme} object will store all the submodules as a 
+ * {@link StudyModule}. 
  */
-public class DegreeProgramme extends Module{
+public class DegreeProgramme {
     
     private String name;
     private String groupId;
@@ -21,6 +18,15 @@ public class DegreeProgramme extends Module{
     private String learningOutcomes;
     private ArrayList<StudyModule> modules;
 
+    /**
+     * Construct a {@link DegreeProgramme} object. Since Gson will deserialize
+     * all the {@link DegreeProgramme} objects, the constructor is only for
+     * JUnit tests.
+     * @param name the name of the degree programme.
+     * @param groupId the gourpId of the degree programme.
+     * @param minCredits the minimum amount of credits that is required to 
+     * complete the degree programme.
+     */
     public DegreeProgramme(String name, String groupId, int minCredits){
         this.name = name;
         this.groupId = groupId;
@@ -28,41 +34,71 @@ public class DegreeProgramme extends Module{
         this.modules = new ArrayList<>();
     }
 
-    @Override
+    /**
+     * Returns the name of the degree programme.
+     * @return the name of the degree programme.
+     */
     public String getName() {
         return name;
     }
 
-    @Override
+    /**
+     * Returns the groupId of the degree programme.
+     * @return the groupId of the degree programme.
+     */
     public String getGroupId() {
         return groupId;
     }
     
+    /**
+     * Returns the code of the degree programme.
+     * @return the code of the degree programme.
+     */
     public String getCode() {
         return code;
     }
 
+    /**
+     * Returns the minimum amount of credits that is required to complete the 
+     * degree programme.
+     * @return the minimum amount of credits that is required to complete the
+     * degree programme.
+     */
     public int getMinCredits() {
         return minCredits;
     }
     
+    /**
+     * Returns the maximum amount of credits that is required to complete the 
+     * degree programme. Returns 999 if there is no maximum value.
+     * @return the maximum amount of credits that is required to complete the 
+     * degree programme or 999 if there is no maximum value.
+     */
     public int getMaxCredits() {
         return maxCredits;
     }
     
-    public void addStudyModule(StudyModule module){
-        this.modules.add(module);
-    }
-    
+    /**
+     * Overrides the toString method to return the name of the degree programme.
+     * @return the name of the degree programme.
+     */
     @Override
     public String toString(){
         return this.name;
     }
     
+    /**
+     * Returns the learning outcomes of the degree programme.
+     * @return the learning outcomes of the degree programme.
+     */
     public String getLearningOutcomes() {
         return learningOutcomes;
     }
 
+    /**
+     * Returns the list of submodules of the degree programme.
+     * @return the list of submodules of the degree programme.
+     */
     public ArrayList<StudyModule> getModules() {
         return modules;
     }

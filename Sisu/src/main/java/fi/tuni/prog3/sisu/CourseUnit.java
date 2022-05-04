@@ -16,7 +16,7 @@ public class CourseUnit {
     private final int grade;
 
     /**
-     * Constructs a CourseUnit object. 
+     * Constructs a {@link CourseUnit} object. 
      * @param name course's name.
      * @param code course's code.
      * @param credits credits that the student has got from the course.
