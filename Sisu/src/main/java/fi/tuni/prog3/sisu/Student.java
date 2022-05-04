@@ -107,15 +107,15 @@ public class Student {
      * Adds a new course to the list of courses that the student has completed.
      * Before adding the course to the list, it is checked that the new course 
      * if not already in the list by calling {@link CourseUnit#getGroupId() 
-     * CourseUnit.getGroupId()} and comparing the groupId of the new course to
-     * the groupIds of the completed courses.
+     * CourseUnit.getCode()} and comparing the code of the new course to
+     * the codes of the completed courses.
      * @param newCourse course that student has completed.
      */
     public void addCourse(CourseUnit newCourse) {
         Boolean alreadyCompleted = false;
         
         for (CourseUnit completedCourse: this.courses) {
-            if (completedCourse.getGroupId().equals(newCourse.getGroupId())) {
+            if (completedCourse.getCode().equals(newCourse.getCode())) {
                 alreadyCompleted = true;
             }
         }
