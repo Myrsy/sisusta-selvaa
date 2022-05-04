@@ -457,7 +457,7 @@ public class StartingWindow extends Application {
 
                     
                     CourseUnit course = new CourseUnit(mod.getName(),
-                            mod.getGroupId(), mod.getCode(), credits, grade);
+                            mod.getCode(), credits, grade);
                     student.addCourse(course);
                      
                     addGradeSpinner.setVisible(false);
