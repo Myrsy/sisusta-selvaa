@@ -79,35 +79,5 @@ public class DegreeProgrammeTest {
         assertEquals(expResult, result);
 
     }
-
-    /**
-     * Test of addStudyModule method, of class DegreeProgramme.
-     */
-    @Test
-    public void testAddStudyModule() {
-
-        StudyModule module = new StudyModule("yhteinen", "q123");
-        DegreeProgramme instance = new DegreeProgramme("Tuta", "tuta111", 180);
-        instance.addStudyModule(module);
-        
-        ArrayList<StudyModule> array = instance.getModules();
-        ArrayList<StudyModule> exp = new ArrayList<>();
-        exp.add(module);
-        
-        assertArrayEquals(exp.toArray(), array.toArray());
-        
-
-    }
-
-    /**
-     * Test of toString method, of class DegreeProgramme.
-     */
-    @Test
-    public void testToString() {
-        DegreeProgramme instance = new DegreeProgramme("Tuta", "tuta111", 180);
-        String expResult = "Tuta";;
-        String result = instance.toString();
-        assertEquals(expResult, result);
-    }
     
 }
