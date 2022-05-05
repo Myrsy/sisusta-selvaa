@@ -7,7 +7,8 @@ package fi.tuni.prog3.sisu;
  * object will store information about the credits and the grade that the 
  * student has got from the course. In the GUI and in the
  * {@link DegreeObjectData#degreeProgrammes} map the courses will be handled as
- * a {@link StudyModule} object.
+ * a {@link StudyModule} object. If the course's grading is failed-passed the 
+ * grade will be set to -1 when the course is marked as completed.
  */
 public class CourseUnit {
     

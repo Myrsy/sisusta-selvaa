@@ -40,6 +40,7 @@ public class SearchTool {
      * that is wanted to be written. The combined JsonArray will be written in
      * the file and the existing information will be overwritten. However, if
      * the file is empty the new JsonArray is written to the file directly.
+     * <p>
      * There is no need to check whether the specified file exists since
      * this method will called from methods that checks this already.
      * @param filename name of the file where the JsonArray will be written.
@@ -78,7 +79,9 @@ public class SearchTool {
      * {@link #writeArrayToFile(java.lang.String, com.google.gson.JsonArray) 
      * writeArrayToFile(filename, JsonArray)} in order to write the information
      * to the {@link #ALL_DEGREES_FILENAME} file if it doesn't already contain
-     * this information. If the file is empty or doesn't exist the method will 
+     * this information. 
+     * <p>
+     * If the file is empty or doesn't exist the method will 
      * create a new file and write the information in it. The file is expected 
      * to contain all the degree programmes if it is not empty and the file is 
      * assumed to not be empty if it contains at least one row.
@@ -140,17 +143,23 @@ public class SearchTool {
      * Searches the degree programme specified by the groupId from the API if 
      * it isn't in the {@link #FULL_DEGREES_FILENAME} file already. Because all
      * the degree programmes from the {@link #FULL_DEGREES_FILENAME} file are 
-     * instantiated ????when??? the degree programme is concluded to be in the 
+     * instantiated in the {@link Sisu#main(java.lang.String[]) Sisu.main(args)} 
+     * method the degree programme is concluded to be in the 
      * file if it's groupId is found from 
      * {@link DegreeObjectData#getDegreeMap() DegreeObjectData.getDegreeMap()}.
+     * <p>
      * If the degree programme is not found from the degree map 
      * (thus is not in the file) the method calls 
      * {@link #parseNestedDegree(com.google.gson.JsonObject, com.google.gson.JsonArray) 
      * parseNestedDegree(JsonObject, JsonArray)} in
-     * order to parse the full nested degree programme. After that the method 
+     * order to parse the full nested degree programme. 
+     * <p>
+     * After that the method 
      * calls {@link DegreeObjectData#jsonArrayToObject(com.google.gson.JsonArray) 
      * DegreeObjectData.jsonArrayToObject(JsonArray)} in order to instantiate an
-     * {@link DegreeProgramme} object from the Json array. Lastly, the 
+     * {@link DegreeProgramme} object from the Json array. 
+     * <p>
+     * Lastly, the 
      * {@link #writeArrayToFile(java.lang.String, com.google.gson.JsonArray) 
      * writeArrayToFIle(JsonArray)} method is called in order to write the new
      * degree programme to the {@link #FULL_DEGREES_FILENAME} file.
@@ -190,6 +199,7 @@ public class SearchTool {
     
     /**
      * Parses the submodules of a nested degree programme from given JsonObject. 
+     * <p>
      * The method works recursively by calling itself and searching the 
      * information about modules from API. When the method faces a course it 
      * will call {@link #parseCourseUnit(com.google.gson.JsonObject) 
@@ -199,7 +209,8 @@ public class SearchTool {
      * that contains the submodules and courses from the corresponding 
      * iteration. Sometimes the method calls {@link #parseString(java.lang.String) 
      * parseString(String)} in order to show certain characters correctly.
-     * The methos excpects the Json to be in format that is stated in
+     * <p>
+     * The method excpects the JSON to be in format that is stated in
      * the API documentation ({@see 
      * <a href = "https://sis-tuni.funidata.fi/kori/swagger-ui/index.html?configUrl=/kori/v3/api-docs/swagger-config&filter=true">
      * https://sis-tuni.funidata.fi/kori/swagger-ui/index.html</a>}).

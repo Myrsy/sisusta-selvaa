@@ -65,7 +65,7 @@ public class DegreeObjectData {
      * addProgramme(DegreeProgramme)} method. 
      * <p>
      * The JsonArray is excpected to contain one or several 
-     * {@link DegreeProgrammes} in Json format. The program doesn't handle 
+     * {@link DegreeProgramme} objects in Json format. The program doesn't handle 
      * erroneous JsonArray. 
      * @param jsonArray JsonArray that will be converted to degree object.
      */

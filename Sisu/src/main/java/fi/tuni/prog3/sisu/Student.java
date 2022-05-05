@@ -106,7 +106,7 @@ public class Student {
     /**
      * Adds a new course to the list of courses that the student has completed.
      * Before adding the course to the list, it is checked that the new course 
-     * if not already in the list by calling {@link CourseUnit#getGroupId() 
+     * if not already in the list by calling {@link CourseUnit#getCode() 
      * CourseUnit.getCode()} and comparing the code of the new course to
      * the codes of the completed courses.
      * @param newCourse course that student has completed.
