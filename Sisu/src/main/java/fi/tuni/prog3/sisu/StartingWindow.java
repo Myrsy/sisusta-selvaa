@@ -2,23 +2,18 @@
 package fi.tuni.prog3.sisu;
 
 import com.google.gson.Gson;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Observable;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
@@ -27,7 +22,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
@@ -42,19 +36,15 @@ import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -62,8 +52,8 @@ import javax.imageio.ImageIO;
  */
 public class StartingWindow extends Application {
 
-    private Image CHECK_MARK = new Image(new File("check.png").toURI().toString());
-    private Student student;
+    private final Image CHECK_MARK = new Image(new File("check.png").toURI().toString());
+    private final Student student;
     
     StartingWindow(Student student){
         this.student = student;
@@ -161,11 +151,7 @@ public class StartingWindow extends Application {
                 Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
             Sisu sisu = new Sisu();
-            try {
-                sisu.start(stage);
-            } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            sisu.start(stage);
         });
         
         saveExitBtn.setOnAction((ActionEvent e) -> {

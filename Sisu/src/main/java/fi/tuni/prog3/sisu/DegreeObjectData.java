@@ -36,9 +36,8 @@ public class DegreeObjectData {
      * empty, doesn't exist, or if some degree programme that a student has 
      * chosen is missing from the file when starting the program, all the 
      * missing degree programmes will be searched from the API. 
-     * @throws IOException if there is an IO error.
      */
-    public static void jsonFileToObjects() throws IOException {
+    public static void jsonFileToObjects() {
                    
         try (Reader reader = new FileReader(FULL_DEGREES_FILENAME, 
                 Charset.forName(ISO_STRING))) {
@@ -54,6 +53,8 @@ public class DegreeObjectData {
         } catch (FileNotFoundException ex) {
             System.err.println("Tiedostoa " + FULL_DEGREES_FILENAME + 
                     " ei löytynyt, joten tutkinnot haetaan API:sta");
+        } catch (IOException ex) {
+            System.err.println("Error: " + ex);
         }
     }
     
