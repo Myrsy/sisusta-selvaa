@@ -1,5 +1,6 @@
 package fi.tuni.prog3.sisu;
 
+
 /**
  * A class for saving course's information. A {@link CourseUnit} object will be created 
  * only when a student has marked the course as completed. A {@link CourseUnit} 

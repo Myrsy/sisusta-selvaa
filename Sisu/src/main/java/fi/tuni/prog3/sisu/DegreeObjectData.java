@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
+
 /**
  * A class for storing information about the degree programmes. Because all the 
  * methods are static, it is not necessary to instantiate the class as an object 

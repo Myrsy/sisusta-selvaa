@@ -2,11 +2,12 @@ package fi.tuni.prog3.sisu;
 
 import java.util.ArrayList;
 
+
 /**
- * A class for saving degree programme's information. {@lin DegreeProgramme}
- * objects will be created by Gson by deserializing Json. 
- * A {@link DegreeProgramme} object will store all the submodules as a 
- * {@link StudyModule}. 
+ * A class for saving degree programme's information. {@link DegreeProgramme}
+ * objects will be instantiated by Gson by deserializing Json. 
+ * A {@link DegreeProgramme} object will store all its submodules and courses 
+ * as a {@link StudyModule}. 
  */
 public class DegreeProgramme {
     
@@ -20,8 +21,8 @@ public class DegreeProgramme {
 
     /**
      * Construct a {@link DegreeProgramme} object. Since Gson will deserialize
-     * all the {@link DegreeProgramme} objects, the constructor is only for
-     * JUnit tests.
+     * all the {@link DegreeProgramme} objects without constructor, the constructor 
+     * is specified only for creating instances for JUnit tests.
      * @param name the name of the degree programme.
      * @param groupId the gourpId of the degree programme.
      * @param minCredits the minimum amount of credits that is required to 
@@ -84,7 +85,7 @@ public class DegreeProgramme {
      */
     @Override
     public String toString(){
-        return this.name;
+        return name;
     }
     
     /**
