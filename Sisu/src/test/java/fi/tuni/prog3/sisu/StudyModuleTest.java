@@ -63,36 +63,6 @@ public class StudyModuleTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of getModules method, of class StudyModule.
-     */
-    @Test
-    public void testGetModules() {
-
-        StudyModule instance = new StudyModule("yhteinen", "q123");
-        ArrayList<StudyModule> expResult = new ArrayList<>();
-        StudyModule mod = new StudyModule("omat", "c123");
-        expResult.add(mod);
-        instance.addModule(mod);        
-        ArrayList<StudyModule> result = instance.getModules();
-        assertArrayEquals(expResult.toArray(), result.toArray());
-    }
-
-
-
-    /**
-     * Test of addModule method, of class StudyModule.
-     */
-    @Test
-    public void testAddModule() {
-        StudyModule instance = new StudyModule("yhteinen", "q123");
-        ArrayList<StudyModule> expResult = new ArrayList<>();
-        StudyModule mod = new StudyModule("omat", "c123");
-        expResult.add(mod);
-        instance.addModule(mod);        
-        ArrayList<StudyModule> result = instance.getModules();
-        assertArrayEquals(expResult.toArray(), result.toArray());
-    }
 
     
 }

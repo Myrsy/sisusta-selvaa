@@ -5,6 +5,8 @@
  */
 package fi.tuni.prog3.sisu;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -73,7 +75,7 @@ public class StudentTest {
      * Test of getDegreeProgramme method, of class Student.
      */
     @Test
-    public void testGetDegreeProgramme() {
+    public void testGetDegreeProgramme() throws IOException {
 
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
@@ -87,12 +89,12 @@ public class StudentTest {
      * Test of setDegreeProgramme method, of class Student.
      */
     @Test
-    public void testSetDegreeProgramme() {
+    public void testSetDegreeProgramme() throws IOException {
 
         DegreeProgramme deg = new DegreeProgramme("Tijo", "tijo111", 180);
         DegreeProgramme prog = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
-        instance.setDegreeProgramme(prog);
+        instance.changeDegreeProgramme(prog);
         
         assertEquals(instance.getDegreeProgramme(), prog);
       
@@ -101,6 +103,7 @@ public class StudentTest {
     /**
      * Test of getCourses method, of class Student.
      */
+    /*
     @Test
     public void testGetCourses() {
 
@@ -126,26 +129,21 @@ public class StudentTest {
     @Test
     public void testAddCourse() {
 
-        CourseUnit tetapk = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        CourseUnit tijopk = new CourseUnit("tijopk", "zz3", "tijo123", 5, 
-             "jee", "pöö", "1-5");
-        Integer grade = 4;
+        CourseUnit tetapk = new CourseUnit("tetapk", "tuta123", 5, 5);
+        CourseUnit tijopk = new CourseUnit("tijopk", "tijo123", 5,5);
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
-        instance.addCourse(tetapk, grade);
+        instance.addCourse(tetapk);
+        instance.addCourse(tijopk);
         
-        HashMap map = instance.getCourses();
+        ArrayList result = instance.getCourses();
         
-        HashMap<CourseUnit, Integer> expected = new HashMap<>();
-        expected.put(tetapk, 4);
+        ArrayList<CourseUnit> expResult = new ArrayList<>();
+        expResult.add(tetapk);
+        expResult.add(tijopk);
         
-        assertThat(map, is(expected));
-        assertThat(map.size(), is(1));
-        assertThat(map, IsMapContaining.hasEntry(tetapk, 4));
-        assertThat(map, not(IsMapContaining.hasEntry(tijopk, 5)));
-        assertThat(map, IsMapContaining.hasKey(tetapk));
-        assertThat(map, IsMapContaining.hasValue(4));
+        assertArrayEquals(expResult.toArray(), result.toArray());
+
 
     }
 
@@ -159,10 +157,9 @@ public class StudentTest {
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
         Integer expResult = 5/180;
-        CourseUnit tetapk = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        instance.addCourse(tetapk, 5);
-        Integer result = instance.getProgression();
+        CourseUnit tetapk = new CourseUnit("tetapk", "tuta123", 5, 5);
+        instance.addCourse(tetapk);
+        Double result = instance.getProgression();
         
         assertEquals(expResult, result);
 
@@ -177,15 +174,69 @@ public class StudentTest {
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
         double expResult = 4.50;
-        CourseUnit tetapk = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        instance.addCourse(tetapk, 5);
-        CourseUnit tijopk = new CourseUnit("tijopk", "zz3", "tijo123", 5, 
-             "jee", "pöö", "1-5");
-        instance.addCourse(tijopk, 4);
+        CourseUnit tetapk = new CourseUnit("tetapk", "tuta123", 5, 5);
+        instance.addCourse(tetapk);
+        CourseUnit tijopk = new CourseUnit("tijopk", "tijo123", 5, 4);
+        instance.addCourse(tijopk);
         double result = instance.getGPA();
         assertEquals(expResult, result, 0.00);
         
     }
+
+    /**
+     * Test of getDegreeGroupId method, of class Student.
+     */
+    @Test
+    public void testGetDegreeGroupId() {
+        System.out.println("getDegreeGroupId");
+        Student instance = null;
+        String expResult = "";
+        String result = instance.getDegreeGroupId();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of changeDegreeProgramme method, of class Student.
+     */
+    @Test
+    public void testChangeDegreeProgramme() {
+        System.out.println("changeDegreeProgramme");
+        DegreeProgramme prog = null;
+        Student instance = null;
+        instance.changeDegreeProgramme(prog);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getCourses method, of class Student.
+     */
+    @Test
+    public void testGetCourses() {
+        System.out.println("getCourses");
+        Student instance = null;
+        ArrayList<CourseUnit> expResult = null;
+        ArrayList<CourseUnit> result = instance.getCourses();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getCompletedCredits method, of class Student.
+     */
+    @Test
+    public void testGetCompletedCredits() {
+        System.out.println("getCompletedCredits");
+        Student instance = null;
+        Integer expResult = null;
+        Integer result = instance.getCompletedCredits();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
     
 }

@@ -5,6 +5,7 @@
  */
 package fi.tuni.prog3.sisu;
 
+import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,39 +42,52 @@ public class StudentDataTest {
      * Test of addStudent method, of class StudentData.
      */
     @Test
-    public void testAddStudent() {
+    public void testAddStudent() throws IOException {
         System.out.println("addStudent");
         String studentNumber = "";
+        DegreeProgramme tuta = new DegreeProgramme("Tuta", "tuta111", 180);
+        Student student = new Student("Jaakko", "H123", tuta);
+        StudentData instance = new StudentData();
+        instance.addStudent(student);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+
+    /**
+     * Test of changeStudentProgramme method, of class StudentData.
+     */
+    @Test
+    public void testChangeStudentProgramme() throws Exception {
+        System.out.println("changeStudentProgramme");
         Student student = null;
-        StudentData instance = new StudentData();
-        instance.addStudent(studentNumber, student);
+        DegreeProgramme degree = null;
+        StudentData.changeStudentProgramme(student, degree);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of searchStudent method, of class StudentData.
+     * Test of studentsToFile method, of class StudentData.
      */
     @Test
-    public void testSearchStudent() {
-        System.out.println("searchStudent");
+    public void testStudentsToFile() throws Exception {
+        System.out.println("studentsToFile");
+        StudentData.studentsToFile();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getStudent method, of class StudentData.
+     */
+    @Test
+    public void testGetStudent() {
+        System.out.println("getStudent");
         String studentNumber = "";
-        StudentData instance = new StudentData();
-        boolean expResult = false;
-        boolean result = instance.searchStudent(studentNumber);
+        Student expResult = null;
+        Student result = StudentData.getStudent(studentNumber);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getOldStudents method, of class StudentData.
-     */
-    @Test
-    public void testGetOldStudents() {
-        System.out.println("getOldStudents");
-        StudentData instance = new StudentData();
-        instance.getOldStudents();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
