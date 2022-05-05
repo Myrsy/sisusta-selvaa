@@ -161,41 +161,66 @@ public class Sisu extends Application {
 
                     HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
 
-                    if (!(degrees.containsKey(degree.getGroupId()))) {
-                       try {
-                           SearchTool.searchDegreeURL(degree.getGroupId());
-                           degrees = DegreeObjectData.getDegreeMap();
-                       } catch (IOException ex) {
-                           Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                       }
+                    if (!(("").equals(name.strip())) && 
+                            !(("").equals(number.strip())) && 
+                            degree != null) {
+                       
+                        System.out.println("yritetään");
 
-                    }
+                        
+                        if (StudentData.getStudent(number) != null) {
+                            Alert alert = new Alert(AlertType.WARNING);
+                            alert.setTitle("Virhe");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Opiskelijanumero on varattu!");
 
-                    /*if(name == null){
+                            alert.showAndWait();
+                        } else {
+                                if (!(degrees.containsKey(degree.getGroupId()))) {
+                                    try {
+                                        SearchTool.searchDegreeURL(degree.getGroupId());
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    degrees = DegreeObjectData.getDegreeMap();
+                                }
+                                Student student = new Student(name, number, degrees.get(degree.getGroupId()));
+                                StudentData.addStudent(student);
 
-                    }*/
-                    Student student = new Student(name, number, degrees.get(degree.getGroupId()));
+                                StartingWindow startingWindow = new StartingWindow(student);
+                                Stage stage = new Stage();
+                                try {
+                                    startingWindow.start(stage);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                 ((Node)(e.getSource())).getScene().getWindow().hide(); 
+                        }
 
-                    if (StudentData.getStudent(number) != null) {
+                    } else if (("").equals(name.strip())) {
                         Alert alert = new Alert(AlertType.WARNING);
                         alert.setTitle("Virhe");
                         alert.setHeaderText(null);
-                        alert.setContentText("Opiskelijanumero on varattu!");
-
+                        alert.setContentText("Syötä nimi");
+                        
                         alert.showAndWait();
-                    } else {
-                        StudentData.addStudent(student);
-
-                        StartingWindow startingWindow = new StartingWindow(student);
-                        Stage stage = new Stage();
-                       try {
-                           startingWindow.start(stage);
-                       } catch (IOException ex) {
-                           Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                       }
-                        ((Node)(e.getSource())).getScene().getWindow().hide(); 
+                    } else if (("").equals(number.strip())) {
+                        Alert alert = new Alert(AlertType.WARNING);
+                        alert.setTitle("Virhe");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Syötä opiskelijanumero");
+                        
+                        alert.showAndWait();
+                    } else if (degree == null) {
+                        Alert alert = new Alert(AlertType.WARNING);
+                        alert.setTitle("Virhe");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Valitse tutkinto");
+                        
+                        alert.showAndWait();
                     }
-
+                    
+                    
                 }
 
             });
@@ -343,7 +368,7 @@ public class Sisu extends Application {
      */
     public static void main(String[] args) {
         
-        try{
+        try {
             DegreeObjectData.jsonFileToObjects();
             StudentData.getOldStudents();
             SearchTool.searchDegreeProgrammesURL();
