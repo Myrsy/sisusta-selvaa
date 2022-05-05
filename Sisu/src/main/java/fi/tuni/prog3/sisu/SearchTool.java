@@ -175,6 +175,10 @@ public class SearchTool {
         if (savedGroupIds.contains(newGroupId)) {
             System.out.println("tutkinto " + newGroupId + " on jo tiedostossa");
         } else {
+            
+            File file = new File(FULL_DEGREES_FILENAME);
+            file.createNewFile(); 
+            
             String urlStr = "https://sis-tuni.funidata.fi/kori/api/modules/by-group-id?groupId="
                     + newGroupId + "&universityId=tuni-university-root-id";
 
