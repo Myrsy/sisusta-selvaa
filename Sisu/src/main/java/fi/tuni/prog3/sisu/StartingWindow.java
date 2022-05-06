@@ -173,7 +173,7 @@ public class StartingWindow extends Application {
         ObservableList<DegreeProgramme> degreesObservable = FXCollections.observableList(values);
         ComboBox degreeComboBox = new ComboBox(degreesObservable);
         
-        Label gpaLabel = new Label("Keskiarvo: " + student.getGPA());
+        Label gpaLabel = new Label(String.format("Keskiarvo: %.2f", student.getGPA()));
         gpaLabel.setFont(new Font("Arial", 18));
         gridStart.add(gpaLabel, 1, 0);
         
