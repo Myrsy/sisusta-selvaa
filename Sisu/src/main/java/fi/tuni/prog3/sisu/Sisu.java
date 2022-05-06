@@ -314,8 +314,8 @@ public class Sisu extends Application {
      * {@link DegreeObjectData#jsonFileToObjects(java.lang.String) 
      * DegreeObjectData.jsonFileToObjects(filename)} in order to instantiate
      * the full nested degree programme objects from the file. 
-     * The method also calls {@link StudentData#getOldStudents(java.lang.String)  
-     * StudentData.getOldStudents(filename)}
+     * The method also calls {@link StudentData#getOldStudents(java.lang.String, java.lang.String)   
+     * StudentData.getOldStudents(studentFile, degreeFile)}
      * method in order to instantiate all the student objects from the
      * student file.
      * The method finally calls {@link SearchTool#searchDegreeProgrammesURL(java.lang.String)  
