@@ -29,8 +29,8 @@ public class Module {
     private ArrayList<Module> modules;
     
     /**
-     * Construct a {@link StudyModule} object. Since Gson will deserialize
-     * all the {@link StudyModule} objects without constructor, the constructor 
+     * Construct a {@link Module} object. Since Gson will deserialize
+     * all the {@link Module} objects without constructor, the constructor 
      * is specified only for creating instances for JUnit tests.
      * @param name the name of the module.
      * @param groupId the groupId of the module.

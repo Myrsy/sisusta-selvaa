@@ -311,16 +311,15 @@ public class Sisu extends Application {
     
     /**
      * Before launching the program the method calls for 
-     * {@link DegreeObjectData#jsonFileToObjects() 
-     * DegreeObjectData.jsonFileToObjects()} in order to instantiate
-     * the full nested degree programme objects from the 
-     * {@link DegreeObjectData#FULL_DEGREES_FILENAME} file. 
-     * The method also calls {@link StudentData#getOldStudents() 
-     * StudentData.getOldStudents()}
+     * {@link DegreeObjectData#jsonFileToObjects(java.lang.String) 
+     * DegreeObjectData.jsonFileToObjects(filename)} in order to instantiate
+     * the full nested degree programme objects from the file. 
+     * The method also calls {@link StudentData#getOldStudents(java.lang.String)  
+     * StudentData.getOldStudents(filename)}
      * method in order to instantiate all the student objects from the
      * student file.
-     * The method finally calls {@link SearchTool#searchDegreeProgrammesURL() 
-     * SearchTool.searchDegreeProgrammesURL()} in order to search and write 
+     * The method finally calls {@link SearchTool#searchDegreeProgrammesURL(java.lang.String)  
+     * SearchTool.searchDegreeProgrammesURL(filename)} in order to search and write 
      * all the degree programmes (reduced versions) to the file if they aren't
      * in the file already.
      * @param args args.

@@ -57,9 +57,9 @@ public class StudentData {
      * {@link #addStudent(fi.tuni.prog3.sisu.Student) addStudent(Student)} 
      * method.Because the students' whole nested degree programmes are not 
      * stored in the student file, the 
-     * {@link Student#setDegreeProgramme(java.lang.String) 
-     * Student.setDegreeProgramme(degreeGroupId)} is called to set the nested 
-     * degree programme.
+     * {@link Student#setDegreeProgramme(java.lang.String, java.lang.String)  
+     * Student.setDegreeProgramme(degreeGroupId, filename)} is called to set the 
+     * nested degree programme.
      * <p>
      * The student file is excepted to contain student's name, studentNumber, 
      * degreeGroupId and courses in Json format. The program doesn't handle 

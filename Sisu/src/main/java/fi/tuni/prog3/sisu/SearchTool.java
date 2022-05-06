@@ -140,8 +140,8 @@ public class SearchTool {
     
     /**
      * Searches the degree programme specified by the groupId from the API if 
-     * it isn't in the {@link #FULL_DEGREES_FILENAME} file already.Because all
-     * the degree programmes from the {@link #FULL_DEGREES_FILENAME} file are 
+     * it isn't in the full degrees file already. Because all
+     * the degree programmes from the full degrees file are 
      * instantiated in the {@link Sisu#main(java.lang.String[]) Sisu.main(args)} 
      * method the degree programme is concluded to be in the 
      * file if it's groupId is found from 
