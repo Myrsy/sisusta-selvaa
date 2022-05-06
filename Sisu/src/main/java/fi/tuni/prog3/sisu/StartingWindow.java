@@ -22,6 +22,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -209,25 +210,34 @@ public class StartingWindow extends Application {
         btnChangeDegree.setOnAction((ActionEvent e) -> {
             DegreeProgramme degree = (DegreeProgramme) degreeComboBox.getValue();
 
-            HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
-            if (!(degrees.containsKey(degree.getGroupId()))) {
+            if (degree == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Virhe");
+                alert.setHeaderText(null);
+                alert.setContentText("Valitse tutkinto");
+
+                alert.showAndWait();
+            } else {
+                HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
+                if (!(degrees.containsKey(degree.getGroupId()))) {
+                    try {
+                        SearchTool.searchDegreeURL(degree.getGroupId(), FULL_DEGREES_FILENAME);
+                        DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
+                        degrees = DegreeObjectData.getDegreeMap();
+                    }catch (IOException ex) {
+                        System.err.println("Error: " + ex);
+                    }
+                }
+                StudentData.changeStudentProgramme(student, degrees.get(degree.getGroupId()));
+                StartingWindow startingWindow = new StartingWindow(student);
+                Stage stage1 = new Stage();
                 try {
-                    SearchTool.searchDegreeURL(degree.getGroupId(), FULL_DEGREES_FILENAME);
-                    DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
-                    degrees = DegreeObjectData.getDegreeMap();
-                }catch (IOException ex) {
+                    startingWindow.start(stage1);
+                } catch (IOException ex) {
                     System.err.println("Error: " + ex);
                 }
+                ((Node)(e.getSource())).getScene().getWindow().hide();
             }
-            StudentData.changeStudentProgramme(student, degrees.get(degree.getGroupId()));
-            StartingWindow startingWindow = new StartingWindow(student);
-            Stage stage1 = new Stage();
-            try {
-                startingWindow.start(stage1);
-            } catch (IOException ex) {
-                System.err.println("Error: " + ex);
-            }
-            ((Node)(e.getSource())).getScene().getWindow().hide();
         });
         
         startPage.setContent(gridStart);
