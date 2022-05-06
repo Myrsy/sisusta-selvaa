@@ -1,4 +1,3 @@
-
 package fi.tuni.prog3.sisu;
 
 import com.google.gson.Gson;
@@ -47,6 +46,49 @@ import javafx.stage.Stage;
 
 /**
  * A class for creating the main window and the degree programme tree.
+* <p>
+* The student's information tab shows student's name, 
+* student number, progression (credits the student have completed and the 
+* degree's minimum credit requirement) and GPA. The user can save and quit
+* in which case the program writes student's information to the JSON-file
+* and closes the windows. The user can also save and return to menu for 
+* logging and signing in. If the user quits the program without saving
+* first, the changes the user have made won't be saved. The user can also
+* change the student's degree by selecting a new degree from the ComboBox.
+* The degree programme will be changed by calling 
+* {@link StudentData#changeStudentProgramme(fi.tuni.prog3.sisu.Student, 
+* fi.tuni.prog3.sisu.DegreeProgramme) 
+* StudentData.changeStudentProgramme(DegreeProgramme)} method.
+* <p>
+* The degree programme tab shows the student's degree programme in a tree
+* view. User can view additional information about the modules and courses
+* by clicking it in the tree view. For example some modules show the amount
+* of credits that is required to complete the module. Other modules might
+* instruct the user to choose certain amount of submodules or to complete
+* certain amount of credits from submodules. The program doesn't keep track
+* of for example if the student has completed enough credits for the module or
+* whether the student has completed correct amount of submodules for the
+* module. The user has to keep track of these.
+* <p>
+* Information about the course is shown when the course is clicked. 
+* Courses name, course code, credits, grading scale, contents and possibly
+* outcomes are shown. If the student hasn't completed the selected course
+* yet, the user can mark the course as completed. If the course have 
+* 0-5 grading the user can select the grade for the course. Otherwise the
+* course is marked as passed. If the course can be completed with varying
+* amounts of credits the user can select the amount of credits. When the
+* user has marked the course as completed, the student can't complete the 
+* course again. The "Lisää kurssi"-button will be removed and the grade and
+* credits that the student has got from course will be shown. Also, a check
+* mark will appear in front of the course name in the tree view. 
+* <p>
+* When searching modules from API some fields might turn out as null. The
+* program doesn't always handle these cases well. For example, if courses
+* name turns out to be null the program doesn't check it and a "empty" (i.e.
+* without a name) module will appear in tree view.
+* <p>
+* Free-choice modules and courses are not listed and the student can't add
+* or mark those as completed. User can't mark courses as failed.
  */
 public class StartingWindow extends Application {
 
@@ -65,46 +107,8 @@ public class StartingWindow extends Application {
     }
 
     /**
-     * Creates two tabs: the student's information tab and the degree 
+     * Creates the two tabs: the student's information tab and the degree 
      * programme tree tab. 
-     * <p>
-     * The student's information tab shows student's name, 
-     * student number, progression (credits the student have completed and the 
-     * degree's minimum credit requirement) and GPA. The user can save and quit
-     * in which case the program writes student's information to the JSON-file
-     * and closes the windows. The user can also save and return to menu for 
-     * logging and signing in. If the user quits the program without saving
-     * first, the changes the user have made won't be saved. The user can also
-     * change the student's degree by selecting a new degree from the ComboBox.
-     * The degree programme will be changed by calling 
-     * {@link StudentData#changeStudentProgramme(fi.tuni.prog3.sisu.Student, 
-     * fi.tuni.prog3.sisu.DegreeProgramme) 
-     * StudentData.changeStudentProgramme(DegreeProgramme)} method.
-     * <p>
-     * The degree programme tab shows the student's degree programme in a tree
-     * view. User can view additional information about the modules and courses
-     * by clicking it in the tree view. For example some modules show the amount
-     * of credits that is required to complete the module. Other modules might
-     * instruct the user to choose certain amount of submodules or to complete
-     * certain amount of credits from submodules. The program doesn't keep track
-     * of for example if the student has completed enough credits for the module or
-     * whether the student has completed correct amount of submodules for the
-     * module. The user has to keep track of these.
-     * <p>
-     * Information about the course is shown when the course is clicked. 
-     * Courses name, course code, credits, grading scale, contents and possibly
-     * outcomes are shown. If the student hasn't completed the selected course
-     * yet, the user can mark the course as completed. If the course have 
-     * 1-5 grading the user can select the grade for the course. Otherwise the
-     * course is marked as passed. If the course can be completed with varying
-     * amounts of credits the user can select the amount of credits. When the
-     * user has marked the course as completed, the student can't complete the 
-     * course again. The "Lisää kurssi"-button will be removed and the grade and
-     * credits that the student has got from course will be shown. Also, a check
-     * mark will appear in front of the course name in the tree view. 
-     * <p>
-     * Free-choice modules and courses are not listed and the student can't add
-     * or mark those as completed. User can't mark courses as failed.
      * @param stage Stage object.
      * @throws IOException if there is an IO error.
      */
@@ -544,8 +548,8 @@ public class StartingWindow extends Application {
     /**
      * Creates the TreeItem that will show the tree view. The method works 
      * recursively based on the {@link Module} object's hierarchy. 
- The method reaches it's base case when the Module 
- object doesn't have any submodules.
+     * The method reaches it's base case when the Module 
+     * object doesn't have any submodules.
      * @param root a {@link Module} object that represents a submodule 
      * or a course. 
      * @return TreeItem that contains all the modules and courses so far 
