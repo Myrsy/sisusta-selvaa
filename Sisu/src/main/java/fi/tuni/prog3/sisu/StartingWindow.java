@@ -320,8 +320,8 @@ public class StartingWindow extends Application {
                             name, code, minCredits, outcomes);
                 }
                 
-                if (treeItem.getValue() instanceof StudyModule) {
-                    StudyModule mod = (StudyModule) treeItem.getValue();
+                if (treeItem.getValue() instanceof Module) {
+                    Module mod = (Module) treeItem.getValue();
                     String name = mod.getName();
                     String code = mod.getCode();
                     String content = mod.getContent();
@@ -448,10 +448,10 @@ public class StartingWindow extends Application {
             /**
              * Method for handling the "Lisää kurssi"-button.
              * @param btnAddCourse "Lisää kurssi"-button.
-             * @param mod selected course as a StudyModule object.
+             * @param mod selected course as a Module object.
              * @param treeItem selected course as a TreeItem object.
              */
-            private void addCourseBtnClicked(Button btnAddCourse, StudyModule 
+            private void addCourseBtnClicked(Button btnAddCourse, Module 
                     mod, TreeItem treeItem) {
                 btnAddCourse.setOnAction(new EventHandler<ActionEvent>(){
             
@@ -533,16 +533,16 @@ public class StartingWindow extends Application {
     
     /**
      * Creates the TreeItem that will show the tree view. The method works 
-     * recursively based on the {@link StudyModule} object's hierarchy. 
-     * The method reaches it's base case when the StudyModule 
-     * object doesn't have any submodules.
-     * @param root a {@link StudyModule} object that represents a submodule 
+     * recursively based on the {@link Module} object's hierarchy. 
+ The method reaches it's base case when the Module 
+ object doesn't have any submodules.
+     * @param root a {@link Module} object that represents a submodule 
      * or a course. 
      * @return TreeItem that contains all the modules and courses so far 
      * (i.e. the current nested tree)
      */
-    private TreeItem<StudyModule> getTree(StudyModule root) {
-        TreeItem<StudyModule> result = new TreeItem<>(root);
+    private TreeItem<Module> getTree(Module root) {
+        TreeItem<Module> result = new TreeItem<>(root);
         
         if (root.getType().equals("CourseUnitRule")) {
             for (CourseUnit course: student.getCourses()) {
@@ -554,13 +554,13 @@ public class StartingWindow extends Application {
 
         if (root.getModules() != null) {
             if (root.getName() != null) {
-                for (StudyModule module: root.getModules()) {
+                for (Module module: root.getModules()) {
                     result.getChildren().add(getTree(module));
                 }
                 
             } else if (root.getType().equals("CompositeRule")) {
                 if (root.getModules().size() > 1) {
-                    for (StudyModule module: root.getModules()) {
+                    for (Module module: root.getModules()) {
                         result.getChildren().add(getTree(module));
                     }
                 } else if (root.getModules().size() == 1) {

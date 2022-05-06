@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * A class for saving degree programme's information. {@link DegreeProgramme}
  * objects will be instantiated by Gson by deserializing Json. 
  * A {@link DegreeProgramme} object will store all its submodules and courses 
- * as a {@link StudyModule}. 
+ * as a {@link Module}. 
  */
 public class DegreeProgramme {
     
@@ -17,7 +17,7 @@ public class DegreeProgramme {
     private int minCredits; 
     private int maxCredits;
     private String learningOutcomes;
-    private ArrayList<StudyModule> modules;
+    private ArrayList<Module> modules;
 
     /**
      * Construct a {@link DegreeProgramme} object. Since Gson will deserialize
@@ -100,7 +100,7 @@ public class DegreeProgramme {
      * Returns the list of submodules of the degree programme.
      * @return the list of submodules of the degree programme.
      */
-    public ArrayList<StudyModule> getModules() {
+    public ArrayList<Module> getModules() {
         return modules;
     }
 

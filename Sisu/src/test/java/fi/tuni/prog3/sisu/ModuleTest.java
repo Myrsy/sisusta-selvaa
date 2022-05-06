@@ -4,14 +4,14 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 
-public class StudyModuleTest {
+public class ModuleTest {
     
     /**
-     * Test of getGroupId method, of class StudyModule.
+     * Test of getGroupId method, of class Module.
      */
     @Test
     public void testGetGroupId() {
-        StudyModule instance = new StudyModule("yhteinen", "q123");
+        Module instance = new Module("yhteinen", "q123");
         String expResult = "q123";
         String result = instance.getGroupId();
         assertEquals(expResult, result);
@@ -19,12 +19,12 @@ public class StudyModuleTest {
     }
 
     /**
-     * Test of getName method, of class StudyModule.
+     * Test of getName method, of class Module.
      */
     @Test
     public void testGetName() {
 
-        StudyModule instance = new StudyModule("yhteinen", "q123");
+        Module instance = new Module("yhteinen", "q123");
         String expResult = "yhteinen";
         String result = instance.getName();
         assertEquals(expResult, result);

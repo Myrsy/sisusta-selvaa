@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 /**
  * A class for storing the degree programme's information about its submodules.
- * {@link StudyModule} objects will be instantiated by Gson by desrerializing
- * Json. A {@link StudyModule} object will store all its submodules and courses 
- * as a {@link StudyModule}. Since a {@link StudyModule} object represents all
+ * {@link Module} objects will be instantiated by Gson by desrerializing
+ * Json. A {@link Module} object will store all its submodules and courses 
+ * as a {@link Module}. Since a {@link Module} object represents all
  * the other types of modules, rules and courses, apart from degree programme,
  * that are found from the API, there might be unnecessary fields that are not
  * used when instantiating a object. Calling a getter on such field will return
  * null. 
  */
-public class StudyModule {
+public class Module {
     private String allMandatory;
     private String type;
     private String groupId;
@@ -26,7 +26,7 @@ public class StudyModule {
     private String description;
     private String minRequire;
     private String maxRequire;
-    private ArrayList<StudyModule> modules;
+    private ArrayList<Module> modules;
     
     /**
      * Construct a {@link StudyModule} object. Since Gson will deserialize
@@ -35,7 +35,7 @@ public class StudyModule {
      * @param name the name of the module.
      * @param groupId the groupId of the module.
      */
-    public StudyModule(String name, String groupId) {
+    public Module(String name, String groupId) {
         this.name = name;
         this.groupId = groupId;
         this.modules = new ArrayList<>();
@@ -84,7 +84,7 @@ public class StudyModule {
      * Returns the list of submodules of the module.
      * @return the list of submodules of the module.
      */
-    public ArrayList<StudyModule> getModules() {
+    public ArrayList<Module> getModules() {
         return modules;
     }
     
