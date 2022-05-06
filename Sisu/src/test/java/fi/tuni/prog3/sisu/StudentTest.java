@@ -1,46 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.tuni.prog3.sisu;
 
-import java.util.HashMap;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import org.hamcrest.collection.IsMapContaining;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
-/**
- *
- * @author pinja
- */
+
 public class StudentTest {
     
-    public StudentTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of getName method, of class Student.
      */
@@ -87,35 +56,37 @@ public class StudentTest {
      * Test of setDegreeProgramme method, of class Student.
      */
     @Test
-    public void testSetDegreeProgramme() {
+    public void testSetDegreeProgramme() throws IOException {
 
-        DegreeProgramme deg = new DegreeProgramme("Tijo", "tijo111", 180);
-        DegreeProgramme prog = new DegreeProgramme("Tuta", "tuta111", 180);
+        DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
+        String groupId = "otm-16bba6b3-0557-4ac8-b33a-6acdcf7d6e23";
         Student instance = new Student("Jaakko", "Q123", deg);
-        instance.setDegreeProgramme(prog);
+        String filename = "testSetDegreeProgramme.json";
+        instance.setDegreeProgramme(groupId, filename);
         
-        assertEquals(instance.getDegreeProgramme(), prog);
+        Files.deleteIfExists(Paths.get(filename));
+                
+        assertEquals(instance.getDegreeProgramme().getGroupId(), groupId);
       
     }
 
     /**
      * Test of getCourses method, of class Student.
+     *
      */
     @Test
     public void testGetCourses() {
 
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
-        CourseUnit tetapk = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-            "jee", "pöö", "1-5");
-        CourseUnit tijopk = new CourseUnit("tijopk", "zz3", "tijo123", 5, 
-             "jee", "pöö", "1-5");
-        instance.addCourse(tetapk, 4);
-        instance.addCourse(tijopk, 5);
-        HashMap<CourseUnit, Integer> expResult = new HashMap<>();
-        expResult.put(tetapk, 4);
-        expResult.put(tijopk, 5);
-        HashMap<CourseUnit, Integer> result = instance.getCourses();
+        CourseUnit tetapk = new CourseUnit("tetapk", "tuta123", 5, 5);
+        CourseUnit tijopk = new CourseUnit("tijopk", "tijo123", 10, 3);
+        instance.addCourse(tetapk);
+        instance.addCourse(tijopk);
+        ArrayList<CourseUnit> expResult = new ArrayList<>();
+        expResult.add(tetapk);
+        expResult.add(tijopk);
+        ArrayList<CourseUnit> result = instance.getCourses();
         assertEquals(expResult, result);
         
     }
@@ -126,26 +97,20 @@ public class StudentTest {
     @Test
     public void testAddCourse() {
 
-        CourseUnit tetapk = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        CourseUnit tijopk = new CourseUnit("tijopk", "zz3", "tijo123", 5, 
-             "jee", "pöö", "1-5");
-        Integer grade = 4;
+        CourseUnit tetapk = new CourseUnit("tetapk", "tuta123", 5, 5);
+        CourseUnit tijopk = new CourseUnit("tijopk", "tijo123", 5,5);
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
-        instance.addCourse(tetapk, grade);
+        instance.addCourse(tetapk);
+        instance.addCourse(tijopk);
         
-        HashMap map = instance.getCourses();
+        ArrayList result = instance.getCourses();
         
-        HashMap<CourseUnit, Integer> expected = new HashMap<>();
-        expected.put(tetapk, 4);
+        ArrayList<CourseUnit> expResult = new ArrayList<>();
+        expResult.add(tetapk);
+        expResult.add(tijopk);
         
-        assertThat(map, is(expected));
-        assertThat(map.size(), is(1));
-        assertThat(map, IsMapContaining.hasEntry(tetapk, 4));
-        assertThat(map, not(IsMapContaining.hasEntry(tijopk, 5)));
-        assertThat(map, IsMapContaining.hasKey(tetapk));
-        assertThat(map, IsMapContaining.hasValue(4));
+        assertArrayEquals(expResult.toArray(), result.toArray());
 
     }
 
@@ -158,13 +123,18 @@ public class StudentTest {
         
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
-        Integer expResult = 5/180;
-        CourseUnit tetapk = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        instance.addCourse(tetapk, 5);
-        Integer result = instance.getProgression();
+        CourseUnit tetapk = new CourseUnit("tetapk", "tuta123", 5, 5);
+        CourseUnit tijopk = new CourseUnit("tijopk", "tijo123", 5, 4);
+        CourseUnit tetapk2 = new CourseUnit("tijopk2", "tuta321", 5, 1);
+        CourseUnit tijopk2 = new CourseUnit("tijopk2", "tijo321", 5, 3);
+        instance.addCourse(tetapk);
+        instance.addCourse(tijopk);
+        instance.addCourse(tetapk2);
+        instance.addCourse(tijopk2);
+        Double expResult = 0.1111111;
+        Double result = instance.getProgression();
         
-        assertEquals(expResult, result);
+        assertEquals(expResult, result, 0.00001);
 
     }
 
@@ -177,15 +147,62 @@ public class StudentTest {
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         Student instance = new Student("Jaakko", "Q123", deg);
         double expResult = 4.50;
-        CourseUnit tetapk = new CourseUnit("tetapk", "zz2", "tuta123", 5, 
-             "jee", "pöö", "1-5");
-        instance.addCourse(tetapk, 5);
-        CourseUnit tijopk = new CourseUnit("tijopk", "zz3", "tijo123", 5, 
-             "jee", "pöö", "1-5");
-        instance.addCourse(tijopk, 4);
+        CourseUnit tetapk = new CourseUnit("tetapk", "tuta123", 5, 5);
+        CourseUnit tijopk = new CourseUnit("tijopk", "tijo123", 5, 4);
+        instance.addCourse(tetapk);
+        instance.addCourse(tijopk);
         double result = instance.getGPA();
-        assertEquals(expResult, result, 0.00);
         
+        assertEquals(expResult, result, 0.01);
     }
+
+    /**
+     * Test of getDegreeGroupId method, of class Student.
+     */
+    @Test
+    public void testGetDegreeGroupId() {
+        
+        DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
+        Student instance = new Student("Jaakko", "Q123", deg);
+        String expResult = "tuta111";
+        String result = instance.getDegreeGroupId();
+        
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of changeDegreeProgramme method, of class Student.
+     */
+    @Test
+    public void testChangeDegreeProgramme() {
+        
+        DegreeProgramme deg = new DegreeProgramme("Tijo", "tijo111", 180);
+        DegreeProgramme prog = new DegreeProgramme("Tuta", "tuta111", 180);
+        Student instance = new Student("Jaakko", "Q123", deg);
+        instance.changeDegreeProgramme(prog);
+        DegreeProgramme result = instance.getDegreeProgramme();
+        
+        assertEquals(result, prog);
+    }
+
+
+    /**
+     * Test of getCompletedCredits method, of class Student.
+     */
+    @Test
+    public void testGetCompletedCredits() {
+        
+        DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
+        Student instance = new Student("Jaakko", "Q123", deg);
+        CourseUnit tetapk = new CourseUnit("tetapk", "tuta123", 5, 5);
+        CourseUnit tijopk = new CourseUnit("tijopk", "tijo123", 5, 4);
+        instance.addCourse(tetapk);
+        instance.addCourse(tijopk);
+        int expResult = 10;
+        int result = instance.getCompletedCredits();
+        
+        assertEquals(result, expResult);
+    }
+    
     
 }

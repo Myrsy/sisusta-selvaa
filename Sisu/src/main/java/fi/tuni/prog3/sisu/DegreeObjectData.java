@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
+
 /**
  * A class for storing information about the degree programmes. Because all the 
  * methods are static, it is not necessary to instantiate the class as an object 
@@ -17,29 +18,27 @@ import java.util.HashMap;
  */
 public class DegreeObjectData {
     
-    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
-    private static final String OBJECTS_TO_JSON_FILENAME = "objsJson.txt";
     private static final String ISO_STRING = "ISO-8859-15";
     private static HashMap<String, DegreeProgramme> 
             degreeProgrammes = new HashMap<>();
 
     /**
-     * Reads degree programme data from the {@link #FULL_DEGREES_FILENAME} file
+     * Reads degree programme data from the specified file
      * and adds the corresponding {@link DegreeProgramme} objects to the 
      * {@link #degreeProgrammes} map by calling 
      * {@link #addProgramme(fi.tuni.prog3.sisu.DegreeProgramme) 
      * addProgramme(DegreeProgramme)} method.
      * <p>
-     * The degree file is excepted to contain the full nested degree trees in 
-     * Json format. The program doesn't handle erroneous fields. If the file is
+     * The file is excepted to contain the full nested degree trees in 
+     * JSON format. The program doesn't handle erroneous fields. If the file is
      * empty, doesn't exist, or if some degree programme that a student has 
      * chosen is missing from the file when starting the program, all the 
      * missing degree programmes will be searched from the API. 
-     * @throws IOException if there is an IO error.
+     * @param filename the file that will be read.
      */
-    public static void jsonFileToObjects() throws IOException {
+    public static void jsonFileToObjects(String filename) {
                    
-        try (Reader reader = new FileReader(FULL_DEGREES_FILENAME, 
+        try (Reader reader = new FileReader(filename, 
                 Charset.forName(ISO_STRING))) {
            Gson gson = new GsonBuilder().disableHtmlEscaping()
                    .setPrettyPrinting().create();
@@ -51,8 +50,10 @@ public class DegreeObjectData {
                 }
             }
         } catch (FileNotFoundException ex) {
-            System.err.println("Tiedostoa " + FULL_DEGREES_FILENAME + 
+            System.err.println("Tiedostoa " + filename + 
                     " ei löytynyt, joten tutkinnot haetaan API:sta");
+        } catch (IOException ex) {
+            System.err.println("Error: " + ex);
         }
     }
     
@@ -63,7 +64,7 @@ public class DegreeObjectData {
      * addProgramme(DegreeProgramme)} method. 
      * <p>
      * The JsonArray is excpected to contain one or several 
-     * {@link DegreeProgrammes} in Json format. The program doesn't handle 
+     * {@link DegreeProgramme} objects in Json format. The program doesn't handle 
      * erroneous JsonArray. 
      * @param jsonArray JsonArray that will be converted to degree object.
      */
@@ -97,23 +98,4 @@ public class DegreeObjectData {
     }
     
     
-    /*private static void addStudyModuleToDegree(String groupIdParent, 
-    StudyModule mod){
-        degreeProgrammes.get(groupIdParent).addStudyModule(mod);
-    }*/
-    /*
-    private static void objectsToJson() throws IOException {     
-                
-        try (FileWriter fw = new FileWriter(OBJECTS_TO_JSON_FILENAME,
-    Charset.forName(ISO_STRING))){
-            ArrayList<DegreeProgramme> degreeObjs = new ArrayList<>();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            for (String id: degreeProgrammes.keySet()) {
-                degreeObjs.add(degreeProgrammes.get(id));
-            }
-            gson.toJson(degreeObjs, fw);
-            
-        }
-    }*/
-            
 }

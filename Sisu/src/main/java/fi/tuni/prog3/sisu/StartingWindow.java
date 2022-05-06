@@ -1,39 +1,30 @@
-
 package fi.tuni.prog3.sisu;
 
 import com.google.gson.Gson;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Observable;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
@@ -42,44 +33,93 @@ import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javax.imageio.ImageIO;
+import javafx.stage.Stage;
 
 /**
- *
- * @author Emma
+ * A class for creating the main window and the degree programme tree.
+* <p>
+* The student's information tab shows student's name, 
+* student number, progression (credits the student have completed and the 
+* degree's minimum credit requirement) and GPA. The user can save and quit
+* in which case the program writes student's information to the JSON-file
+* and closes the windows. The user can also save and return to menu for 
+* logging and signing in. If the user quits the program without saving
+* first, the changes the user have made won't be saved. The user can also
+* change the student's degree by selecting a new degree from the ComboBox.
+* The degree programme will be changed by calling 
+* {@link StudentData#changeStudentProgramme(fi.tuni.prog3.sisu.Student, 
+* fi.tuni.prog3.sisu.DegreeProgramme) 
+* StudentData.changeStudentProgramme(DegreeProgramme)} method.
+* <p>
+* The degree programme tab shows the student's degree programme in a tree
+* view. User can view additional information about the modules and courses
+* by clicking it in the tree view. For example some modules show the amount
+* of credits that is required to complete the module. Other modules might
+* instruct the user to choose certain amount of submodules or to complete
+* certain amount of credits from submodules. The program doesn't keep track
+* of for example if the student has completed enough credits for the module or
+* whether the student has completed correct amount of submodules for the
+* module. The user has to keep track of these.
+* <p>
+* Information about the course is shown when the course is clicked. 
+* Courses name, course code, credits, grading scale, contents and possibly
+* outcomes are shown. If the student hasn't completed the selected course
+* yet, the user can mark the course as completed. If the course have 
+* 0-5 grading the user can select the grade for the course. Otherwise the
+* course is marked as passed. If the course can be completed with varying
+* amounts of credits the user can select the amount of credits. When the
+* user has marked the course as completed, the student can't complete the 
+* course again. The "Lisää kurssi"-button will be removed and the grade and
+* credits that the student has got from course will be shown. Also, a check
+* mark will appear in front of the course name in the tree view. 
+* <p>
+* When searching modules from API some fields might turn out as null. The
+* program doesn't always handle these cases well. For example, if courses
+* name turns out to be null the program doesn't check it and a "empty" (i.e.
+* without a name) module will appear in tree view.
+* <p>
+* Free-choice modules and courses are not listed and the student can't add
+* or mark those as completed. User can't mark courses as failed.
  */
 public class StartingWindow extends Application {
 
-    private Image CHECK_MARK = new Image(new File("check.png").toURI().toString());
-    private Student student;
+    private static final String STUDENTS_JSON_FILENAME = "studentsfile.json";
+    private static final String ALL_DEGREES_FILENAME = "alldegreesfile.json";
+    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
+    private final Image CHECK_MARK = new Image(new File("check.png").toURI().toString());
+    private final Student student;
     
+    /**
+     * Constructs the object.
+     * @param student Student who has logged in.
+     */
     StartingWindow(Student student){
         this.student = student;
     }
 
-    
-    @Override
     /**
-     * 
+     * Creates the two tabs: the student's information tab and the degree 
+     * programme tree tab. 
+     * @param stage Stage object.
+     * @throws IOException if there is an IO error.
      */
-    public void start(Stage stage) throws IOException {
+    @Override
+    public void start(Stage stage) 
+            throws IOException {
                 
         stage.setTitle("SISU");
         GridPane gridStart = new GridPane();
         TabPane tabPane = new TabPane();
-        Tab startPage = new Tab("Aloitus");
+        Tab startPage = new Tab("Opiskelijan tiedot");
         tabPane.getTabs().add(startPage);
         startPage.setClosable(false); 
         
@@ -100,7 +140,6 @@ public class StartingWindow extends Application {
         progBox.getChildren().add(progression);
         progBox.getChildren().add(progLabel);
         
-        
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setPercentWidth(100);
         ColumnConstraints column2 = new ColumnConstraints();
@@ -120,21 +159,21 @@ public class StartingWindow extends Application {
         List<DegreeProgramme> values = new ArrayList<>();
             
         Gson gson = new Gson();
-        try (Reader reader = new FileReader("degreeprogrammesfile.txt")) {
+        try (Reader reader = new FileReader(ALL_DEGREES_FILENAME)) {
            DegreeProgramme[] progs = gson.fromJson(reader, DegreeProgramme[].class);
            for (DegreeProgramme prog: progs) {
                values.add(prog);
            }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error: " + ex);
         } catch (IOException ex) {
-            Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error: " + ex);
         }
 
-        ObservableList<DegreeProgramme> degrees = FXCollections.observableList(values);
-        ComboBox degreeComboBox = new ComboBox(degrees);
+        ObservableList<DegreeProgramme> degreesObservable = FXCollections.observableList(values);
+        ComboBox degreeComboBox = new ComboBox(degreesObservable);
         
-        Label gpaLabel = new Label("Keskiarvo: " + student.getGPA());
+        Label gpaLabel = new Label(String.format("Keskiarvo: %.2f", student.getGPA()));
         gpaLabel.setFont(new Font("Arial", 18));
         gridStart.add(gpaLabel, 1, 0);
         
@@ -155,25 +194,19 @@ public class StartingWindow extends Application {
         
         saveBackBtn.setOnAction((ActionEvent e) -> {
             try {
-                //Tallennus tähän väliin
-                StudentData.studentsToFile();
+                StudentData.studentsToFile(STUDENTS_JSON_FILENAME);
             } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error: " + ex);
             }
             Sisu sisu = new Sisu();
-            try {
-                sisu.start(stage);
-            } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            sisu.start(stage);
         });
         
         saveExitBtn.setOnAction((ActionEvent e) -> {
             try {
-                //Tallennus tähän väliin
-                StudentData.studentsToFile();
+                StudentData.studentsToFile(STUDENTS_JSON_FILENAME);
             } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error: " + ex);
             }
             ((Node)(e.getSource())).getScene().getWindow().hide();
         });
@@ -181,33 +214,37 @@ public class StartingWindow extends Application {
         btnChangeDegree.setOnAction((ActionEvent e) -> {
             DegreeProgramme degree = (DegreeProgramme) degreeComboBox.getValue();
 
-            HashMap<String, DegreeProgramme> degrees1 = DegreeObjectData.getDegreeMap();
-            if (!(degrees1.containsKey(degree.getGroupId()))) {
-                try {
-                    SearchTool.searchDegreeURL(degree.getGroupId());
-                    DegreeObjectData.jsonFileToObjects();
-                    degrees1 = DegreeObjectData.getDegreeMap();
-                }catch (IOException ex) {
-                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+            if (degree == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Virhe");
+                alert.setHeaderText(null);
+                alert.setContentText("Valitse tutkinto");
+
+                alert.showAndWait();
+            } else {
+                HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
+                if (!(degrees.containsKey(degree.getGroupId()))) {
+                    try {
+                        SearchTool.searchDegreeURL(degree.getGroupId(), FULL_DEGREES_FILENAME);
+                        DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
+                        degrees = DegreeObjectData.getDegreeMap();
+                    }catch (IOException ex) {
+                        System.err.println("Error: " + ex);
+                    }
                 }
+                StudentData.changeStudentProgramme(student, degrees.get(degree.getGroupId()));
+                StartingWindow startingWindow = new StartingWindow(student);
+                Stage stage1 = new Stage();
+                try {
+                    startingWindow.start(stage1);
+                } catch (IOException ex) {
+                    System.err.println("Error: " + ex);
+                }
+                ((Node)(e.getSource())).getScene().getWindow().hide();
             }
-            StudentData.changeStudentProgramme(student, degrees1.get(degree.getGroupId()));
-            StartingWindow startingWindow = new StartingWindow(student);
-            Stage stage1 = new Stage();
-            try {
-                startingWindow.start(stage1);
-            } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            ((Node)(e.getSource())).getScene().getWindow().hide();
         });
         
-        
-        
-        
         startPage.setContent(gridStart);
-        
-        
         
         Tab degreePage = new Tab("Tutkinto");
         tabPane.getTabs().add(degreePage);
@@ -244,7 +281,6 @@ public class StartingWindow extends Application {
         lowerControl.add(addGradeLabel, 0, 1, 1, 1);
         lowerControl.add(addGradeSpinner, 1, 1, 1, 1);
 
-        
         Label addCreditsLabel = new Label("Syötä opintopisteet: ");
         addCreditsLabel.setVisible(false);
         Spinner<Integer> addCreditsSpinner = new Spinner<>();
@@ -265,14 +301,18 @@ public class StartingWindow extends Application {
         lowerControl.add(courseInfo, 0, 0, 2, 1);
         upperControl.getChildren().add(scroll);
         
-        
         tree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
          
-            @Override
             /**
-             * 
+             * Method that is called when a tree item is clicked in the degree
+             * tree view. The method shows information based on what type of 
+             * tree item was clicked.
+             * @param observable the ObservableValue which value was changed.
+             * @param oldValue old tree item.
+             * @param newValue tree item that was clicked.
              */
+            @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 
                 TreeItem treeItem = (TreeItem) newValue;
@@ -294,8 +334,8 @@ public class StartingWindow extends Application {
                             name, code, minCredits, outcomes);
                 }
                 
-                if (treeItem.getValue() instanceof StudyModule) {
-                    StudyModule mod = (StudyModule) treeItem.getValue();
+                if (treeItem.getValue() instanceof Module) {
+                    Module mod = (Module) treeItem.getValue();
                     String name = mod.getName();
                     String code = mod.getCode();
                     String content = mod.getContent();
@@ -309,48 +349,49 @@ public class StartingWindow extends Application {
                     String maxRequire = mod.getMaxRequire();
                     String credits = "";
 
-                    if(content == null){
+                    if (content == null) {
                         content = "";
-                    }else{
+                    } else {
                         content = "\nSisältö:\n" + mod.getContent();
                     }
 
-                    if(outcome == null){
+                    if (outcome == null) {
                         outcome = "";
-                    }else{
+                    } else {
                         outcome = "\nOppismistavoitteet:\n" + mod.getOutcomes();
                     }
                     
-                    if(gradeScale == null){
+                    if (gradeScale == null) {
                         gradeScale = "";
-                    }else{
+                    } else {
                         gradeScale = "Arviointi: " + gradeScale.replace("sis-", "");
                     }
                     
-                    if(minCredits != null && maxCredits != null){
-                        if(!minCredits.equals(maxCredits) && !maxCredits.equals("999")){
+                    if (minCredits != null && maxCredits != null) {
+                        if (!minCredits.equals(maxCredits) && !maxCredits.equals("999")) {
                             credits = minCredits + "-" + maxCredits + " op";
-                        } else if (maxCredits.equals("999")){
+                        } else if (maxCredits.equals("999")) {
                             credits = "väh. " + minCredits + " op";
                         } else {
                             credits = minCredits + " op";
                         }
                     }
-
                     
-                    if(name != null){
+                    if (name != null) {
                         infoText = String.format("%s (%s)\n%s\n%s\n%s\n%s",
                             name, code, credits, gradeScale, content, outcome);
-                    }else if((desc != null) && (minRequire != null) && (maxRequire != null)){
-                        infoText = String.format("Valittava vähintään %s ja enintään %s\n%s", minRequire, maxRequire, desc);
-         //               upperControl.getChildren().add(scroll);
-                    }else if((desc != null) && (minRequire != null)){
-                        infoText = String.format("Valittava vähintään %s\n%s", minRequire, desc);
-                    }else if ((desc != null)){
+                    } else if ((desc != null) && (minRequire != null) && 
+                            (maxRequire != null)) {
+                        infoText = String.format("Valittava vähintään %s ja "
+                                + "enintään %s\n%s", minRequire, maxRequire, desc);
+                    } else if((desc != null) && (minRequire != null)) {
+                        infoText = String.format("Valittava vähintään %s\n%s", 
+                                minRequire, desc);
+                    } else if ((desc != null)) {
                         infoText = desc;
                     }
 
-                    if(type.equals("CourseUnitRule")){
+                    if (type.equals("CourseUnitRule")) {
                         String textComplete = "";
                         
                         if (completedCourses.keySet().contains(code)) {
@@ -378,13 +419,11 @@ public class StartingWindow extends Application {
                             
                             if (!minCredits.equals(maxCredits)) {
                                 addCreditsLabel.setVisible(true);
-                                // Asetetaan spinnerille kurssia vastaavat rajat
                                 addCreditsSpinner.setValueFactory(
                                         new IntegerSpinnerValueFactory(
                                                 Integer.parseInt(minCredits), 
                                                 Integer.parseInt(maxCredits), 
                                                 Integer.parseInt(minCredits), 1));
-
                                 addCreditsSpinner.setVisible(true);
                             } else {
                                 addCreditsLabel.setVisible(false);
@@ -404,10 +443,9 @@ public class StartingWindow extends Application {
                         courseInfo.setText(textComplete);
                         courseInfo.setWrapText(true);
                         courseInfo.setVisible(true);
-                                               
+                           
                         
-
-                    }else{
+                    } else {
                         addGradeSpinner.setVisible(false);
                         addGradeLabel.setVisible(false);
                         courseInfo.setVisible(false);
@@ -422,66 +460,81 @@ public class StartingWindow extends Application {
             }
 
             /**
-             * 
-             * @param btnAddCourse
-             * @param mod
-             * @param treeItem 
+             * Method for handling the "Lisää kurssi"-button.
+             * @param btnAddCourse "Lisää kurssi"-button.
+             * @param mod selected course as a Module object.
+             * @param treeItem selected course as a TreeItem object.
              */
-            private void addCourseBtnClicked(Button btnAddCourse, StudyModule mod, TreeItem treeItem) {
+            private void addCourseBtnClicked(Button btnAddCourse, Module 
+                    mod, TreeItem treeItem) {
                 btnAddCourse.setOnAction(new EventHandler<ActionEvent>(){
             
-                @Override
-                public void handle(ActionEvent e){
-                    btnAddCourse.setVisible(false);
+                    /**
+                     * Method that is called when "Lisää kurssi"-button is 
+                     * clicked. Instantiates new {@link CourseUnit} objects
+                     * based on the grade and credits that student got.
+                     * The completed course is assigned to the student by
+                     * calling {@link Student#addCourse(fi.tuni.prog3.sisu.CourseUnit) 
+                     * Student.addCourse(CourseUnit)}.
+                     * <p> 
+                     * The method checks if spinners are visible in order to 
+                     * determine whether a course's grading is 0-5 or fail-pass
+                     * and to determine how many credits the course is worth.
+                     * A visible spinner indicates that the user has had the 
+                     * option to choose the grade and/or credits. If a spinner
+                     * is hidden, a default value will be used. Default value
+                     * for grade is -1 (this means course is passed) and for
+                     * credits is the courses minimum credits (which will be 
+                     * the same as the maximum credits).
+                     * @param e ActionEvent object.
+                     */
+                    @Override
+                    public void handle(ActionEvent e){
+                        btnAddCourse.setVisible(false);
+                        
+                        int grade = -1;
+                        int credits = Integer.parseInt(mod.getMinCredits());
 
-                    // Alustetaan arvot arvioinnille hyl-hyv 
-                    // sekä minimiopintopisteille
-                    int grade = -1;
-                    int credits = Integer.parseInt(mod.getMinCredits());
-                    
-                    // Jos kurssin opintopisteet poikkeavatkin
-                    if (addCreditsSpinner.isVisible()) {
-                        credits = addCreditsSpinner.getValue();
+                        if (addCreditsSpinner.isVisible()) {
+                            credits = addCreditsSpinner.getValue();
+                        }
+                        String textComplete = String.format("Kurssi %s suoritettu "
+                                            + "hyväksytysti\nOpintopisteitä saatu: "
+                                + "%d", mod.getName(), credits);
+
+                        if (addGradeSpinner.isVisible()) {
+                            grade = addGradeSpinner.getValue();
+                            textComplete = String.format("Kurssista %s saatu "
+                                            + "arvosanaksi %d\nOpintopisteitä saatu: "
+                                    + "%d", mod.getName(), grade, credits);
+                        }
+                        courseInfo.setText(textComplete);
+
+
+                        CourseUnit course = new CourseUnit(mod.getName(),
+                                mod.getCode(), credits, grade);
+                        student.addCourse(course);
+
+                        addGradeSpinner.setVisible(false);
+                        addGradeLabel.setVisible(false);
+                        addCreditsLabel.setVisible(false);
+                        addCreditsSpinner.setVisible(false);
+
+                        progLabel.setText(student.getCompletedCredits() + "/"
+                                + student.getDegreeProgramme().getMinCredits());
+                        String gpaStr = String.format("Keskiarvo: %.2f", student.getGPA());
+                        gpaLabel.setText(gpaStr);
+                        treeItem.setGraphic(new ImageView(CHECK_MARK));
+
+                        progression.setProgress(student.getProgression());
+                        addGradeSpinner.getValueFactory().setValue(1);
                     }
-                    String textComplete = String.format("Kurssi %s suoritettu "
-                                        + "hyväksytysti\nOpintopisteitä saatu: "
-                            + "%d", mod.getName(), credits);
-                    // Jos kurssin arvostelu onkin 0-5 
-                    if (addGradeSpinner.isVisible()) {
-                        grade = addGradeSpinner.getValue();
-                        textComplete = String.format("Kurssista %s saatu "
-                                        + "arvosanaksi %d\nOpintopisteitä saatu: "
-                                + "%d", mod.getName(), grade, credits);
-                    }
-                    courseInfo.setText(textComplete);
 
-                    
-                    CourseUnit course = new CourseUnit(mod.getName(),
-                            mod.getCode(), credits, grade);
-                    student.addCourse(course);
-                     
-                    addGradeSpinner.setVisible(false);
-                    addGradeLabel.setVisible(false);
-                    addCreditsLabel.setVisible(false);
-                    addCreditsSpinner.setVisible(false);
-                                       
-                    progLabel.setText(student.getCompletedCredits() + "/"
-                            + student.getDegreeProgramme().getMinCredits());
-                    String gpaStr = String.format("Keskiarvo: %.2f", student.getGPA());
-                    gpaLabel.setText(gpaStr);
-                    treeItem.setGraphic(new ImageView(CHECK_MARK));
-                                
-                    progression.setProgress(student.getProgression());
-                    addGradeSpinner.getValueFactory().setValue(1);
-                }
-
-            });
+                });
             }
-            
-            
+                
         });
  
-        
         leftControl.getChildren().add(tree);
         splitPaneR.getItems().addAll(upperControl, lowerControl);
         splitPane.getItems().addAll(leftControl, rightControl);
@@ -490,16 +543,20 @@ public class StartingWindow extends Application {
         stage.setScene(scene);
         stage.show();
     
-    
     }
     
     /**
-     * 
-     * @param root
-     * @return 
+     * Creates the TreeItem that will show the tree view. The method works 
+     * recursively based on the {@link Module} object's hierarchy. 
+     * The method reaches it's base case when the Module 
+     * object doesn't have any submodules.
+     * @param root a {@link Module} object that represents a submodule 
+     * or a course. 
+     * @return TreeItem that contains all the modules and courses so far 
+     * (i.e. the current nested tree)
      */
-    private TreeItem<StudyModule> getTree(StudyModule root) {
-        TreeItem<StudyModule> result = new TreeItem<>(root);
+    private TreeItem<Module> getTree(Module root) {
+        TreeItem<Module> result = new TreeItem<>(root);
         
         if (root.getType().equals("CourseUnitRule")) {
             for (CourseUnit course: student.getCourses()) {
@@ -511,15 +568,16 @@ public class StartingWindow extends Application {
 
         if (root.getModules() != null) {
             if (root.getName() != null) {
-                for (StudyModule module: root.getModules()) {
+                for (Module module: root.getModules()) {
                     result.getChildren().add(getTree(module));
                 }
-            } else if (root.getType().equals("CompositeRule")){
+                
+            } else if (root.getType().equals("CompositeRule")) {
                 if (root.getModules().size() > 1) {
-                    for (StudyModule module: root.getModules()) {
+                    for (Module module: root.getModules()) {
                         result.getChildren().add(getTree(module));
                     }
-                } else if (root.getModules().size() == 1){
+                } else if (root.getModules().size() == 1) {
                     result = getTree(root.getModules().get(0));
                 }
 
@@ -534,11 +592,4 @@ public class StartingWindow extends Application {
     }
    
     
-    /**
-     * 
-     * @param args 
-     */
-    public static void main(String args[]) {
-       launch();
-    }
 }

@@ -1,13 +1,8 @@
 package fi.tuni.prog3.sisu;
 
 import com.google.gson.Gson;
-import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -15,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,37 +19,48 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.Stage;
 
 
 
 /**
- * 
- * @author Omistaja
+ * A class for creating the GUI menu for logging and signing in.
  */
 public class Sisu extends Application {
     
-    public Sisu(){
+    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
+    private static final String STUDENTS_JSON_FILENAME = "studentsfile.json";
+    private static final String ALL_DEGREES_FILENAME = "alldegreesfile.json";
+    /*public Sisu(){
         
-    }
+    }*/
             
-    /**
-     * 
-     */
-    public class NewStudent extends Application {
+    private class NewStudent extends Application {
+                
         /**
-         * 
-         * @param stage 
+         * Sets up a new window for logging in based on the student number.
+         * If the student number is not found from the student file a warning
+         * message will appear.
+         * User can create a new account by pressing "Uusi opiskelija"-button.
+         * User needs to input the student's name and student number. If the 
+         * student number is already used a warning message will appear. 
+         * User also needs to select degree programme from the ComboBox. The 
+         * degree programmes are searched from the {@link #ALL_DEGREES_FILE} so
+         * the objects will be instantiated only with name, groupId and minimum 
+         * credits.
+         * @param stage the stage object.
          */
         @Override
         public void start(Stage stage) {
-            
             
             GridPane grid = new GridPane();
             stage.setTitle("Lisää uusi opiskelija");
@@ -77,38 +84,23 @@ public class Sisu extends Application {
             row1.setPrefHeight(30);
             RowConstraints row2 = new RowConstraints();
             row2.setPrefHeight(30);
-            /*RowConstraints row3 = new RowConstraints();
-            row3.setPrefHeight(20);
-            RowConstraints row4 = new RowConstraints();
-            row4.setPrefHeight(40);*/
             grid.getRowConstraints().addAll(row1, row2);
             grid.setHgap(10);
-            grid.setVgap(10);
-            
-            /*
-            DegreeObjectData degreeObjectData = new DegreeObjectData();
-            try{
-                degreeObjectData.jsonToObjects();
-
-            }catch(Exception e){
-
-            }
-            */
-            
+            grid.setVgap(10);            
            
             List<DegreeProgramme> values = new ArrayList<>();
             
             Gson gson = new Gson();
-                try (Reader reader = new FileReader("degreeprogrammesfile.txt")) {
-                   DegreeProgramme[] progs = gson.fromJson(reader, DegreeProgramme[].class);
-                   for (DegreeProgramme prog: progs) {
-                       values.add(prog);
-                   }
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try (Reader reader = new FileReader(ALL_DEGREES_FILENAME)) {
+               DegreeProgramme[] progs = gson.fromJson(reader, DegreeProgramme[].class);
+               for (DegreeProgramme prog: progs) {
+                   values.add(prog);
+               }
+            } catch (FileNotFoundException ex) {
+                System.err.println("Error: " + ex);
+            } catch (IOException ex) {
+                System.err.println("Error: " + ex);
+            }
             
             ObservableList<DegreeProgramme> degrees = FXCollections.observableList(values);
             ComboBox degreeComboBox = new ComboBox(degrees);
@@ -119,77 +111,92 @@ public class Sisu extends Application {
             row3.setPrefHeight(80);
             grid.getRowConstraints().addAll(row3);
             
-            
-            
-            //grid.add(degreeComboBox, 1, 2, 1, 1);
-            
             Button btnAddStudent = new Button("Lisää opiskelija");
             grid.add(btnAddStudent, 1, 3, 1, 1);
             
-            //Label errorLabel = new Label("");
-            //errorLabel.setTextFill(Color.RED);
-            //grid.add(errorLabel, )
             btnAddStudent.setOnAction(new EventHandler<ActionEvent>(){
             
-            @Override
-            /**
-             * 
-             */
-            public void handle(ActionEvent e){
-                                
-               String name = addNameField.getText();
-               String number = addNumberField.getText();
-               DegreeProgramme degree =(DegreeProgramme) degreeComboBox.getValue();
-               
-                try {
-                    DegreeObjectData.jsonFileToObjects();
-                } catch (IOException ex) {
-                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
-               
-                if(!(degrees.containsKey(degree.getGroupId()))){
-                   try {
-                       SearchTool.searchDegreeURL(degree.getGroupId());
-                       degrees = DegreeObjectData.getDegreeMap();
-                   } catch (IOException ex) {
-                       Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                   }
+                /**
+                 * Method that is called when "Lisää opiskelija"-button is 
+                 * pressed. If the specified degree programme is not found from 
+                 * the {@link DegreeObjectData#degreeProgrammes} map the
+                 * method will call 
+                 * {@link SearchTool#searchDegreeURL(java.lang.String) 
+                 * SearchTool.searchDegreeUrl(groupId)} method in order to 
+                 * search, parse and save the specified degree programme as an
+                 * object. After that the new degree programme is included in 
+                 * {@link DegreeObjectData#degreeProgrammes} map.
+                 * @param e the ActionEvent.
+                 */
+                @Override
+                public void handle(ActionEvent e){
 
-                }
+                    String name = addNameField.getText();
+                    String number = addNumberField.getText();
+                    DegreeProgramme degree = (DegreeProgramme) degreeComboBox.getValue();
+                    HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
 
-                if(name == null){
+                    if (!(("").equals(name.strip())) && 
+                            !(("").equals(number.strip())) && 
+                            degree != null) {
+                       
+                        if (StudentData.getStudent(number) != null) {
+                            Alert alert = new Alert(AlertType.WARNING);
+                            alert.setTitle("Virhe");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Opiskelijanumero on varattu!");
 
-                }
-                System.out.println("tutkinto " + degrees.get(degree.getGroupId()));
-                Student student = new Student(name, number, degrees.get(degree.getGroupId()));
-                
-                if(StudentData.getStudent(number) != null){
-                    Alert alert = new Alert(AlertType.WARNING);
-                    alert.setTitle("Virhe");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Opiskelijanumero on varattu!");
+                            alert.showAndWait();
+                        } else {
+                                if (!(degrees.containsKey(degree.getGroupId()))) {
+                                    try {
+                                        SearchTool.searchDegreeURL(degree.getGroupId(), 
+                                                FULL_DEGREES_FILENAME);
+                                    } catch (IOException ex) {
+                                        System.err.println("Error: " + ex);
+                                    }
+                                    degrees = DegreeObjectData.getDegreeMap();
+                                }
+                                Student student = new Student(name, number, 
+                                        degrees.get(degree.getGroupId()));
+                                StudentData.addStudent(student);
 
-                    alert.showAndWait();
-                }else{
-                    
-                    StudentData.addStudent(student);
-                    
-                    StartingWindow startingWindow = new StartingWindow(student);
-                    Stage stage = new Stage();
-                   try {
-                       startingWindow.start(stage);
-                   } catch (IOException ex) {
-                       Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
-                   }
-                    ((Node)(e.getSource())).getScene().getWindow().hide(); 
+                                StartingWindow startingWindow = new StartingWindow(student);
+                                Stage stage = new Stage();
+                                try {
+                                    startingWindow.start(stage);
+                                } catch (IOException ex) {
+                                    System.err.println("Error: " + ex);
+                                }
+                                 ((Node)(e.getSource())).getScene().getWindow().hide(); 
+                        }
+
+                    } else if (("").equals(name.strip())) {
+                        Alert alert = new Alert(AlertType.WARNING);
+                        alert.setTitle("Virhe");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Syötä nimi");
+                        
+                        alert.showAndWait();
+                    } else if (("").equals(number.strip())) {
+                        Alert alert = new Alert(AlertType.WARNING);
+                        alert.setTitle("Virhe");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Syötä opiskelijanumero");
+                        
+                        alert.showAndWait();
+                    } else if (degree == null) {
+                        Alert alert = new Alert(AlertType.WARNING);
+                        alert.setTitle("Virhe");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Valitse tutkinto");
+                        
+                        alert.showAndWait();
                     }
-                
-            }
+                    
+                }
 
-        });
-            
+            });
 
             Scene scene = new Scene(grid, 800, 200);
             stage.setScene(scene);
@@ -198,36 +205,17 @@ public class Sisu extends Application {
         }
     }
     
-
-    
-    
-    /*public StudentData findStudentData() throws IOException{
-        StudentData studentData = new StudentData();
-        studentData.getOldStudents();
-        return studentData;
-    }*/
-
-    @Override
     /**
-     * 
+     * Sets up a GUI for logging in.
+     * @param stage new Stage object.
      */
-    public void start(Stage stage) throws IOException {
-       
-        
-        //StudentData studentData = findStudentData();
-        //StudentData studentData = new StudentData();
-        DegreeObjectData.jsonFileToObjects();
-        StudentData.getOldStudents();
-        
+    @Override
+    public void start(Stage stage)  {
+              
         GridPane grid = new GridPane();
-
         
-
         Label logInLabel = new Label("  Kirjaudu sisään:");
-        //Label logInErrorLabel = new Label("");
-        grid.add(logInLabel, 0, 0, 1, 1);
-        //grid.add(logInErrorLabel, 1, 0, 2, 1);
-        
+        grid.add(logInLabel, 0, 0, 1, 1);       
         
         Label numberLabel = new Label("  Opiskelijanumero:");
         grid.add(numberLabel, 0, 1, 1, 1);
@@ -235,7 +223,6 @@ public class Sisu extends Application {
         grid.add(addNumberField, 1, 1, 1, 1);
         Label newStudentLabel = new Label("Lisää uusi opiskelija:");
         grid.add(newStudentLabel, 0, 2, 1, 1);
-
 
         Button btnLogIn = new Button("Kirjaudu sisään");
         Button btnNewStudent = new Button("Uusi opiskelija");
@@ -256,45 +243,56 @@ public class Sisu extends Application {
         
         btnLogIn.setOnAction(new EventHandler<ActionEvent>(){
             
-            @Override
             /**
-             * 
+             * Method that is called when "Kirjaudu sisään"-button is 
+             * pressed. It calls the 
+             * {@link StudentData#getStudent(java.lang.String) 
+             * StudentData.getStudent(studentNumber)} in order to find out 
+             * whether the student is in the {@link StudentData#students} map.
+             * If it isn't a warning message will be shown. If it is the 
+             * {@link StartingWindow} is activated and the current window will be 
+             * hidden.
              */
+            @Override
             public void handle(ActionEvent e){
                 
                 String studentNumber = addNumberField.getText();
-                if(StudentData.getStudent(studentNumber) == null){
+                if (StudentData.getStudent(studentNumber) == null) {
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Virhe!");
                     alert.setHeaderText(null);
-                    alert.setContentText("Opiskelijanumerolla ei löytynyt opiskelijaa.");
+                    alert.setContentText("Opiskelijanumerolla ei löytynyt "
+                            + "opiskelijaa.");
 
                     alert.showAndWait();
 
                     
-                }else{
+                } else {
                     Stage stage = new Stage();
                     StartingWindow start = 
                             new StartingWindow(StudentData.getStudent(studentNumber));
                     try {
                         start.start(stage);
                     } catch (IOException ex) {
-                        Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                        System.err.println("Error: " + ex);
                     }
 
                     ((Node)(e.getSource())).getScene().getWindow().hide();
                 }
                 
-                
             }
 
         });
+        
         btnNewStudent.setOnAction(new EventHandler<ActionEvent>(){
             
-            @Override
             /**
-             * 
+             * Method that is called when "Uusi opiskelija"-button is pressed.
+             * It instantiates a new subclass {@link NewStudent} and hides the
+             * current window.
+             * @param e ActionEvent object.
              */
+            @Override
             public void handle(ActionEvent e){
                 Stage stage = new Stage();
                 NewStudent newStudent = new NewStudent();
@@ -312,18 +310,29 @@ public class Sisu extends Application {
     }
     
     /**
-     * 
-     * @param args
-     * @throws IOException 
+     * Before launching the program the method calls for 
+     * {@link DegreeObjectData#jsonFileToObjects(java.lang.String) 
+     * DegreeObjectData.jsonFileToObjects(filename)} in order to instantiate
+     * the full nested degree programme objects from the file. 
+     * The method also calls {@link StudentData#getOldStudents(java.lang.String, java.lang.String)   
+     * StudentData.getOldStudents(studentFile, degreeFile)}
+     * method in order to instantiate all the student objects from the
+     * student file.
+     * The method finally calls {@link SearchTool#searchDegreeProgrammesURL(java.lang.String)  
+     * SearchTool.searchDegreeProgrammesURL(filename)} in order to search and write 
+     * all the degree programmes (reduced versions) to the file if they aren't
+     * in the file already.
+     * @param args args.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         
-        try{
-            SearchTool.searchDegreeProgrammesURL();
-        }catch(IOException e){
-                
+        try {
+            DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
+            StudentData.getOldStudents(STUDENTS_JSON_FILENAME, FULL_DEGREES_FILENAME);
+            SearchTool.searchDegreeProgrammesURL(ALL_DEGREES_FILENAME);
+        } catch(IOException ex) {
+            System.err.println("Error: " + ex);
         }
-        
         
         launch();
     }
