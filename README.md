@@ -1,11 +1,7 @@
-# Programming 3 project template
+# Sisusta selvää
 
-Make sure you have setup ssh-key for your GitLab account.
+Ohjelmaan liittyvä dokumentti sijaitsee Documentation-kansiossa. Siinä kerrotaan ohjelman toiminnasta tarkemmin. 
 
-Code will be published soon.
+Ohjelma generoi tarvittavat tiedostot ajon yhteydessä ja ne ilmestyvät kansioon Sisu.
 
-Note! The .gitlab-ci.yml is offline at the moment.
-
-# You are allowed (and probably should) make changes to this file after you have started your project. :)
-
-Now on branch work
+Ohjelmaan on kirjoitettu Javadoc, joka pitää itse generoida.
