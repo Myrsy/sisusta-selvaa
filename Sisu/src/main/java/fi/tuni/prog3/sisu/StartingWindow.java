@@ -51,7 +51,9 @@ import javafx.stage.Stage;
  */
 public class StartingWindow extends Application {
 
+    private static final String STUDENTS_JSON_FILENAME = "studentsfile.json";
     private static final String ALL_DEGREES_FILENAME = "alldegreesfile.json";
+    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
     private final Image CHECK_MARK = new Image(new File("check.png").toURI().toString());
     private final Student student;
     
@@ -190,7 +192,7 @@ public class StartingWindow extends Application {
         
         saveBackBtn.setOnAction((ActionEvent e) -> {
             try {
-                StudentData.studentsToFile();
+                StudentData.studentsToFile(STUDENTS_JSON_FILENAME);
             } catch (IOException ex) {
                 Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -200,7 +202,7 @@ public class StartingWindow extends Application {
         
         saveExitBtn.setOnAction((ActionEvent e) -> {
             try {
-                StudentData.studentsToFile();
+                StudentData.studentsToFile(STUDENTS_JSON_FILENAME);
             } catch (IOException ex) {
                 Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -214,7 +216,7 @@ public class StartingWindow extends Application {
             if (!(degrees.containsKey(degree.getGroupId()))) {
                 try {
                     SearchTool.searchDegreeURL(degree.getGroupId());
-                    DegreeObjectData.jsonFileToObjects();
+                    DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
                     degrees = DegreeObjectData.getDegreeMap();
                 }catch (IOException ex) {
                     Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);

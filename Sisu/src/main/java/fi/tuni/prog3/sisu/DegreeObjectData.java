@@ -37,9 +37,9 @@ public class DegreeObjectData {
      * chosen is missing from the file when starting the program, all the 
      * missing degree programmes will be searched from the API. 
      */
-    public static void jsonFileToObjects() {
+    public static void jsonFileToObjects(String filename) {
                    
-        try (Reader reader = new FileReader(FULL_DEGREES_FILENAME, 
+        try (Reader reader = new FileReader(filename, 
                 Charset.forName(ISO_STRING))) {
            Gson gson = new GsonBuilder().disableHtmlEscaping()
                    .setPrettyPrinting().create();
@@ -51,7 +51,7 @@ public class DegreeObjectData {
                 }
             }
         } catch (FileNotFoundException ex) {
-            System.err.println("Tiedostoa " + FULL_DEGREES_FILENAME + 
+            System.err.println("Tiedostoa " + filename + 
                     " ei löytynyt, joten tutkinnot haetaan API:sta");
         } catch (IOException ex) {
             System.err.println("Error: " + ex);

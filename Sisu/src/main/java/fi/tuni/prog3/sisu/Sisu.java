@@ -37,14 +37,15 @@ import javafx.stage.Stage;
  */
 public class Sisu extends Application {
     
+    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
+    private static final String STUDENTS_JSON_FILENAME = "studentsfile.json";
+    private static final String ALL_DEGREES_FILE = "alldegreesfile.json";
     /*public Sisu(){
         
     }*/
             
     private class NewStudent extends Application {
-        
-        private static final String ALL_DEGREES_FILE = "alldegreesfile.json";
-        
+                
         /**
          * Sets up a new window for logging in based on the student number.
          * If the student number is not found from the student file a warning
@@ -369,8 +370,8 @@ public class Sisu extends Application {
     public static void main(String[] args) {
         
         try {
-            DegreeObjectData.jsonFileToObjects();
-            StudentData.getOldStudents();
+            DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
+            StudentData.getOldStudents(STUDENTS_JSON_FILENAME);
             SearchTool.searchDegreeProgrammesURL();
         } catch(IOException ex) {
             System.err.println("Error: " + ex);

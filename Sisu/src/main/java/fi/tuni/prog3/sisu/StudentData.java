@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class StudentData {
     
-    private static final String STUDENTS_TO_JSON_FILENAME = "studentsfile.json";
+    private static final String STUDENTS_JSON_FILENAME = "studentsfile.json";
     private static HashMap<String, Student> students = new HashMap<>();
         
     /**
@@ -53,11 +53,11 @@ public class StudentData {
     }
     
     /**
-     * Reads student data from the {@link #STUDENTS_TO_JSON_FILENAME} file and 
+     * Reads student data from the {@link #STUDENTS_JSON_FILENAME} file and 
      * adds the students to the {@link #students} map by calling the 
      * {@link #addStudent(fi.tuni.prog3.sisu.Student) addStudent(Student)} 
      * method. Because the students' whole nested degree programmes are not 
-     * stored in the {@link #STUDENTS_TO_JSON_FILENAME} file, the 
+     * stored in the {@link #STUDENTS_JSON_FILENAME} file, the 
      * {@link Student#setDegreeProgramme(java.lang.String) 
      * Student.setDegreeProgramme(degreeGroupId)} is called to set the nested 
      * degree programme.
@@ -68,11 +68,11 @@ public class StudentData {
      * If the file doesn't exist when starting the program, it will be created.
      * @throws IOException if there is an IO error.
      */
-    public static void getOldStudents() throws IOException {
+    public static void getOldStudents(String filename) throws IOException {
 
         Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
         
-        try (Reader reader = new FileReader(STUDENTS_TO_JSON_FILENAME, Charset.forName("UTF-8"))) {
+        try (Reader reader = new FileReader(filename, Charset.forName("UTF-8"))) {
            Student[] studentsList = gson.fromJson(reader, Student[].class);
             if (studentsList != null) {
                 for (Student student: studentsList) {
@@ -81,7 +81,7 @@ public class StudentData {
                 }
             }
         } catch (FileNotFoundException ex) {
-            System.err.println("Tiedostoa " + STUDENTS_TO_JSON_FILENAME + 
+            System.err.println("Tiedostoa " + filename + 
                     " ei löytynyt, joten se luodaan.");
         }
         
@@ -89,13 +89,14 @@ public class StudentData {
     
     /**
      * Writes student objects from {@link #students} map to the 
-     * {@link #STUDENTS_TO_JSON_FILENAME} file. All the objects are written at 
+     * specified file.All the objects are written at 
      * once and the existing file will be overwritten.
+     * @param filename the file where the student data will be written.
      * @throws IOException if there is an IO error.
      */
-    public static void studentsToFile() throws IOException {
+    public static void studentsToFile(String filename) throws IOException {
         
-        try (FileWriter fw = new FileWriter(STUDENTS_TO_JSON_FILENAME, Charset.forName("UTF-8"))){
+        try (FileWriter fw = new FileWriter(filename, Charset.forName("UTF-8"))){
             ArrayList<Student> studentObjs = new ArrayList<>();
             Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
             for (String id: students.keySet()) {
