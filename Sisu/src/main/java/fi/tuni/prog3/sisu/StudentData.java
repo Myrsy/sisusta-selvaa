@@ -52,7 +52,7 @@ public class StudentData {
     }
     
     /**
-     * Reads student data from the specified file and 
+     * Reads student data from the specified student file and 
      * adds the students to the {@link #students} map by calling the 
      * {@link #addStudent(fi.tuni.prog3.sisu.Student) addStudent(Student)} 
      * method.Because the students' whole nested degree programmes are not 
@@ -62,26 +62,28 @@ public class StudentData {
      * nested degree programme.
      * <p>
      * The student file is excepted to contain student's name, studentNumber, 
-     * degreeGroupId and courses in Json format. The program doesn't handle 
+     * degreeGroupId and courses in JSON format. The program doesn't handle 
      * erroneous fields. However, the file can be completely empty. 
      * If the file doesn't exist when starting the program, it will be created.
-     * @param filename the name of the file where the student data will be written.
+     * @param studentFile the name of the file where the student data will be written.
+     * @param degreeFile the name of the file where the full degrees will be written.
      * @throws IOException if there is an IO error.
      */
-    public static void getOldStudents(String filename) throws IOException {
+    public static void getOldStudents(String studentFile, String degreeFile) 
+            throws IOException {
 
         Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
         
-        try (Reader reader = new FileReader(filename, Charset.forName("UTF-8"))) {
+        try (Reader reader = new FileReader(studentFile, Charset.forName("UTF-8"))) {
            Student[] studentsList = gson.fromJson(reader, Student[].class);
             if (studentsList != null) {
                 for (Student student: studentsList) {
-                    student.setDegreeProgramme(student.getDegreeGroupId(), filename);
+                    student.setDegreeProgramme(student.getDegreeGroupId(), degreeFile);
                     addStudent(student);
                 }
             }
         } catch (FileNotFoundException ex) {
-            System.err.println("Tiedostoa " + filename + 
+            System.err.println("Tiedostoa " + studentFile + 
                     " ei löytynyt, joten se luodaan.");
         }
         

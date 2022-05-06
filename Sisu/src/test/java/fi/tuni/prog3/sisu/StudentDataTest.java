@@ -63,13 +63,15 @@ public class StudentDataTest {
         Student student2 = new Student("Jaana", "K432", degree2);
         StudentData.addStudent(student1);
         StudentData.addStudent(student2);
-        String filename = "testStudentsToFileToObjects.json";
-        StudentData.studentsToFile(filename);
-        StudentData.getOldStudents(filename);
+        String studentFile = "testStudentsToFileToObjects.json";
+        String degFile = "testDegFile.json";
+        StudentData.studentsToFile(studentFile);
+        StudentData.getOldStudents(studentFile, degFile);
         Student result1 = StudentData.getStudent("H123");
         Student result2 = StudentData.getStudent("K432");
         
-        Files.deleteIfExists(Paths.get(filename));
+        Files.deleteIfExists(Paths.get(studentFile));
+        Files.deleteIfExists(Paths.get(degFile));
         
         assertEquals(student1.getName(), result1.getName());
         assertEquals(student2.getName(), result2.getName());

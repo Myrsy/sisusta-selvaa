@@ -328,7 +328,7 @@ public class Sisu extends Application {
         
         try {
             DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
-            StudentData.getOldStudents(STUDENTS_JSON_FILENAME);
+            StudentData.getOldStudents(STUDENTS_JSON_FILENAME, FULL_DEGREES_FILENAME);
             SearchTool.searchDegreeProgrammesURL(ALL_DEGREES_FILENAME);
         } catch(IOException ex) {
             System.err.println("Error: " + ex);
