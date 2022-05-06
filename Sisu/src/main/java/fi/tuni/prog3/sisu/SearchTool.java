@@ -48,6 +48,7 @@ public class SearchTool {
     private static void writeArrayToFile(String filename, JsonArray array) 
             throws IOException {
                 
+        System.out.println("Kirjoitetaan tiedostoon: " + filename);
         String data = new String(Files.readAllBytes(Paths.get(filename)));
         byte[] bytes = StringUtils.getBytesUtf8(data);
         String utf8data = StringUtils.newStringUtf8(bytes);
@@ -408,7 +409,10 @@ public class SearchTool {
         if (!(content instanceof JsonNull)) {
             contentFI = content.getAsJsonObject().getAsJsonPrimitive("fi");
         }
-        if (nameFI != null) {
+        if (nameFI == null) {
+            JsonPrimitive nameEN = name.getAsJsonPrimitive("en");
+            course.addProperty("name", parseString(nameEN.getAsString()));
+        } else {
             course.addProperty("name", parseString(nameFI.getAsString()));
         }
         course.addProperty("code", parseString(code.getAsString()));
