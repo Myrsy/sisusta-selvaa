@@ -39,7 +39,7 @@ public class Sisu extends Application {
     
     private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
     private static final String STUDENTS_JSON_FILENAME = "studentsfile.json";
-    private static final String ALL_DEGREES_FILE = "alldegreesfile.json";
+    private static final String ALL_DEGREES_FILENAME = "alldegreesfile.json";
     /*public Sisu(){
         
     }*/
@@ -61,7 +61,6 @@ public class Sisu extends Application {
          */
         @Override
         public void start(Stage stage) {
-            
             
             GridPane grid = new GridPane();
             stage.setTitle("Lisää uusi opiskelija");
@@ -85,37 +84,22 @@ public class Sisu extends Application {
             row1.setPrefHeight(30);
             RowConstraints row2 = new RowConstraints();
             row2.setPrefHeight(30);
-            /*RowConstraints row3 = new RowConstraints();
-            row3.setPrefHeight(20);
-            RowConstraints row4 = new RowConstraints();
-            row4.setPrefHeight(40);*/
             grid.getRowConstraints().addAll(row1, row2);
             grid.setHgap(10);
-            grid.setVgap(10);
-            
-            /*
-            DegreeObjectData degreeObjectData = new DegreeObjectData();
-            try{
-                degreeObjectData.jsonToObjects();
-
-            }catch(Exception e){
-
-            }
-            */
-            
+            grid.setVgap(10);            
            
             List<DegreeProgramme> values = new ArrayList<>();
             
             Gson gson = new Gson();
-            try (Reader reader = new FileReader(ALL_DEGREES_FILE)) {
+            try (Reader reader = new FileReader(ALL_DEGREES_FILENAME)) {
                DegreeProgramme[] progs = gson.fromJson(reader, DegreeProgramme[].class);
                for (DegreeProgramme prog: progs) {
                    values.add(prog);
                }
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error: " + ex);
             } catch (IOException ex) {
-                Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error: " + ex);
             }
             
             ObservableList<DegreeProgramme> degrees = FXCollections.observableList(values);
@@ -127,16 +111,9 @@ public class Sisu extends Application {
             row3.setPrefHeight(80);
             grid.getRowConstraints().addAll(row3);
             
-            
-            
-            //grid.add(degreeComboBox, 1, 2, 1, 1);
-            
             Button btnAddStudent = new Button("Lisää opiskelija");
             grid.add(btnAddStudent, 1, 3, 1, 1);
             
-            //Label errorLabel = new Label("");
-            //errorLabel.setTextFill(Color.RED);
-            //grid.add(errorLabel, )
             btnAddStudent.setOnAction(new EventHandler<ActionEvent>(){
             
                 /**
@@ -157,18 +134,12 @@ public class Sisu extends Application {
                     String name = addNameField.getText();
                     String number = addNumberField.getText();
                     DegreeProgramme degree = (DegreeProgramme) degreeComboBox.getValue();
-
-                    //DegreeObjectData.jsonFileToObjects();
-
                     HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
 
                     if (!(("").equals(name.strip())) && 
                             !(("").equals(number.strip())) && 
                             degree != null) {
                        
-                        System.out.println("yritetään");
-
-                        
                         if (StudentData.getStudent(number) != null) {
                             Alert alert = new Alert(AlertType.WARNING);
                             alert.setTitle("Virhe");
@@ -179,13 +150,15 @@ public class Sisu extends Application {
                         } else {
                                 if (!(degrees.containsKey(degree.getGroupId()))) {
                                     try {
-                                        SearchTool.searchDegreeURL(degree.getGroupId());
+                                        SearchTool.searchDegreeURL(degree.getGroupId(), 
+                                                FULL_DEGREES_FILENAME);
                                     } catch (IOException ex) {
-                                        Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                                        System.err.println("Error: " + ex);
                                     }
                                     degrees = DegreeObjectData.getDegreeMap();
                                 }
-                                Student student = new Student(name, number, degrees.get(degree.getGroupId()));
+                                Student student = new Student(name, number, 
+                                        degrees.get(degree.getGroupId()));
                                 StudentData.addStudent(student);
 
                                 StartingWindow startingWindow = new StartingWindow(student);
@@ -193,7 +166,7 @@ public class Sisu extends Application {
                                 try {
                                     startingWindow.start(stage);
                                 } catch (IOException ex) {
-                                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                                    System.err.println("Error: " + ex);
                                 }
                                  ((Node)(e.getSource())).getScene().getWindow().hide(); 
                         }
@@ -221,11 +194,9 @@ public class Sisu extends Application {
                         alert.showAndWait();
                     }
                     
-                    
                 }
 
             });
-            
 
             Scene scene = new Scene(grid, 800, 200);
             stage.setScene(scene);
@@ -234,15 +205,6 @@ public class Sisu extends Application {
         }
     }
     
-
-    
-    
-    /*public StudentData findStudentData() throws IOException{
-        StudentData studentData = new StudentData();
-        studentData.getOldStudents();
-        return studentData;
-    }*/
-
     /**
      * Sets up a GUI for logging in.
      * @param stage new Stage object.
@@ -253,10 +215,7 @@ public class Sisu extends Application {
         GridPane grid = new GridPane();
         
         Label logInLabel = new Label("  Kirjaudu sisään:");
-        //Label logInErrorLabel = new Label("");
-        grid.add(logInLabel, 0, 0, 1, 1);
-        //grid.add(logInErrorLabel, 1, 0, 2, 1);
-        
+        grid.add(logInLabel, 0, 0, 1, 1);       
         
         Label numberLabel = new Label("  Opiskelijanumero:");
         grid.add(numberLabel, 0, 1, 1, 1);
@@ -264,7 +223,6 @@ public class Sisu extends Application {
         grid.add(addNumberField, 1, 1, 1, 1);
         Label newStudentLabel = new Label("Lisää uusi opiskelija:");
         grid.add(newStudentLabel, 0, 2, 1, 1);
-
 
         Button btnLogIn = new Button("Kirjaudu sisään");
         Button btnNewStudent = new Button("Uusi opiskelija");
@@ -303,7 +261,8 @@ public class Sisu extends Application {
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setTitle("Virhe!");
                     alert.setHeaderText(null);
-                    alert.setContentText("Opiskelijanumerolla ei löytynyt opiskelijaa.");
+                    alert.setContentText("Opiskelijanumerolla ei löytynyt "
+                            + "opiskelijaa.");
 
                     alert.showAndWait();
 
@@ -315,12 +274,11 @@ public class Sisu extends Application {
                     try {
                         start.start(stage);
                     } catch (IOException ex) {
-                        Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                        System.err.println("Error: " + ex);
                     }
 
                     ((Node)(e.getSource())).getScene().getWindow().hide();
                 }
-                
                 
             }
 
@@ -360,7 +318,7 @@ public class Sisu extends Application {
      * The method also calls {@link StudentData#getOldStudents() 
      * StudentData.getOldStudents()}
      * method in order to instantiate all the student objects from the
-     * {@link StudentData#STUDENTS_TO_JSON_FILENAME} file.
+     * student file.
      * The method finally calls {@link SearchTool#searchDegreeProgrammesURL() 
      * SearchTool.searchDegreeProgrammesURL()} in order to search and write 
      * all the degree programmes (reduced versions) to the file if they aren't
@@ -372,11 +330,10 @@ public class Sisu extends Application {
         try {
             DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
             StudentData.getOldStudents(STUDENTS_JSON_FILENAME);
-            SearchTool.searchDegreeProgrammesURL();
+            SearchTool.searchDegreeProgrammesURL(ALL_DEGREES_FILENAME);
         } catch(IOException ex) {
             System.err.println("Error: " + ex);
         }
-        
         
         launch();
     }

@@ -1,48 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.tuni.prog3.sisu;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import org.hamcrest.collection.IsMapContaining;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
-/**
- *
- * @author pinja
- */
+
 public class StudentTest {
     
-    public StudentTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of getName method, of class Student.
      */
@@ -94,7 +61,10 @@ public class StudentTest {
         DegreeProgramme deg = new DegreeProgramme("Tuta", "tuta111", 180);
         String groupId = "otm-16bba6b3-0557-4ac8-b33a-6acdcf7d6e23";
         Student instance = new Student("Jaakko", "Q123", deg);
-        instance.setDegreeProgramme(groupId);
+        String filename = "testSetDegreeProgramme.json";
+        instance.setDegreeProgramme(groupId, filename);
+        
+        Files.deleteIfExists(Paths.get(filename));
                 
         assertEquals(instance.getDegreeProgramme().getGroupId(), groupId);
       

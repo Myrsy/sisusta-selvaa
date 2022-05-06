@@ -19,7 +19,6 @@ import java.util.HashMap;
  */
 public class StudentData {
     
-    private static final String STUDENTS_JSON_FILENAME = "studentsfile.json";
     private static HashMap<String, Student> students = new HashMap<>();
         
     /**
@@ -53,11 +52,11 @@ public class StudentData {
     }
     
     /**
-     * Reads student data from the {@link #STUDENTS_JSON_FILENAME} file and 
+     * Reads student data from the specified file and 
      * adds the students to the {@link #students} map by calling the 
      * {@link #addStudent(fi.tuni.prog3.sisu.Student) addStudent(Student)} 
-     * method. Because the students' whole nested degree programmes are not 
-     * stored in the {@link #STUDENTS_JSON_FILENAME} file, the 
+     * method.Because the students' whole nested degree programmes are not 
+     * stored in the student file, the 
      * {@link Student#setDegreeProgramme(java.lang.String) 
      * Student.setDegreeProgramme(degreeGroupId)} is called to set the nested 
      * degree programme.
@@ -66,6 +65,7 @@ public class StudentData {
      * degreeGroupId and courses in Json format. The program doesn't handle 
      * erroneous fields. However, the file can be completely empty. 
      * If the file doesn't exist when starting the program, it will be created.
+     * @param filename the name of the file where the student data will be written.
      * @throws IOException if there is an IO error.
      */
     public static void getOldStudents(String filename) throws IOException {
@@ -76,7 +76,7 @@ public class StudentData {
            Student[] studentsList = gson.fromJson(reader, Student[].class);
             if (studentsList != null) {
                 for (Student student: studentsList) {
-                    student.setDegreeProgramme(student.getDegreeGroupId());
+                    student.setDegreeProgramme(student.getDegreeGroupId(), filename);
                     addStudent(student);
                 }
             }

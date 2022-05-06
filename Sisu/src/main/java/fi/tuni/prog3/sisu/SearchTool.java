@@ -29,8 +29,6 @@ import org.apache.commons.codec.binary.StringUtils;
  */
 public class SearchTool {
     
-    private static final String ALL_DEGREES_FILENAME = "alldegreesfile.json";
-    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
     private static final String ISO_STRING = "ISO-8859-15";
     
     /**
@@ -74,30 +72,31 @@ public class SearchTool {
     }
     
     /**
-     * Searches and parses all the degree programmes from API and saves the name, groupId 
-     * and minimum credits of each degree programme and calls 
+     * Searches and parses all the degree programmes from API and saves the name,
+     * groupId and minimum credits of each degree programme and calls 
      * {@link #writeArrayToFile(java.lang.String, com.google.gson.JsonArray) 
      * writeArrayToFile(filename, JsonArray)} in order to write the information
-     * to the {@link #ALL_DEGREES_FILENAME} file if it doesn't already contain
+     * to the specified file if it doesn't already contain
      * this information. 
      * <p>
      * If the file is empty or doesn't exist the method will 
      * create a new file and write the information in it. The file is expected 
      * to contain all the degree programmes if it is not empty and the file is 
      * assumed to not be empty if it contains at least one row.
+     * @param filename name of the file where the degrees will be written.
      * @throws IOException if there is an IO error.
      */
-    public static void searchDegreeProgrammesURL() 
+    public static void searchDegreeProgrammesURL(String filename) 
             throws IOException {        
         
         try {
-            File file = new File(ALL_DEGREES_FILENAME);
+            File file = new File(filename);
             file.createNewFile(); 
             
-            BufferedReader br = new BufferedReader(new FileReader(ALL_DEGREES_FILENAME));
+            BufferedReader br = new BufferedReader(new FileReader(filename));
             if (br.readLine() != null) {
                 System.out.println("Kaikki tutkinnot ovat jo tiedostossa " + 
-                        ALL_DEGREES_FILENAME);
+                        filename);
             } else {
                 URL url = new URL(
                         "https://sis-tuni.funidata.fi/kori/api/module-search?"
@@ -130,18 +129,18 @@ public class SearchTool {
                    fileRoot.add(programme);
                 }
 
-                writeArrayToFile(ALL_DEGREES_FILENAME, fileRoot);
+                writeArrayToFile(filename, fileRoot);
             }
             
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.err.println("An error occurred.");
         }
     
     }
     
     /**
      * Searches the degree programme specified by the groupId from the API if 
-     * it isn't in the {@link #FULL_DEGREES_FILENAME} file already. Because all
+     * it isn't in the {@link #FULL_DEGREES_FILENAME} file already.Because all
      * the degree programmes from the {@link #FULL_DEGREES_FILENAME} file are 
      * instantiated in the {@link Sisu#main(java.lang.String[]) Sisu.main(args)} 
      * method the degree programme is concluded to be in the 
@@ -162,12 +161,13 @@ public class SearchTool {
      * Lastly, the 
      * {@link #writeArrayToFile(java.lang.String, com.google.gson.JsonArray) 
      * writeArrayToFIle(JsonArray)} method is called in order to write the new
-     * degree programme to the {@link #FULL_DEGREES_FILENAME} file.
+     * degree programme to the specified file.
      * @param newGroupId groupId of the searched degree programme.
+     * @param filename name of the file where the nested degrees will be written.
      * @throws MalformedURLException if the API url is erroneous.
      * @throws IOException if there is an IO error.
      */
-    public static void searchDegreeURL(String newGroupId) 
+    public static void searchDegreeURL(String newGroupId, String filename) 
             throws MalformedURLException, IOException{
         
         Set<String> savedGroupIds = DegreeObjectData.getDegreeMap().keySet();
@@ -176,7 +176,7 @@ public class SearchTool {
             System.out.println("tutkinto " + newGroupId + " on jo tiedostossa");
         } else {
             
-            File file = new File(FULL_DEGREES_FILENAME);
+            File file = new File(filename);
             file.createNewFile(); 
             
             String urlStr = "https://sis-tuni.funidata.fi/kori/api/modules/by-group-id?groupId="
@@ -195,7 +195,7 @@ public class SearchTool {
             array = parseNestedDegree(jsonObj, array);
             
             DegreeObjectData.jsonArrayToObject(array);
-            writeArrayToFile(FULL_DEGREES_FILENAME, array);
+            writeArrayToFile(filename, array);
             
         }
         
@@ -349,9 +349,10 @@ public class SearchTool {
             }
             JsonElement learningOutcomes = jsonObj.get("learningOutcomes");
             JsonPrimitive learningOutcomesFI = null;
-            if(!(learningOutcomes instanceof JsonNull) && learningOutcomes != null){
+            if (!(learningOutcomes instanceof JsonNull) 
+                    && learningOutcomes != null) {
                 learningOutcomesFI = learningOutcomes.getAsJsonObject().getAsJsonPrimitive("fi");
-                if(learningOutcomesFI != null){
+                if (learningOutcomesFI != null) {
                     module.addProperty("learningOutcomes",parseString(learningOutcomesFI.getAsString()));
                 }
             }

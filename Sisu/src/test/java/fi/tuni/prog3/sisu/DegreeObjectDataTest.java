@@ -1,14 +1,15 @@
 package fi.tuni.prog3.sisu;
 
 import java.util.HashMap;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class DegreeObjectDataTest {
     
     
     /**
-     * Test of jsonFileToObjects method, of class DegreeObjectData.
+     * Test of jsonFileToObjects and getDegreeMap methods,
+     * of class DegreeObjectData.
      */
     @Test
     public void testAddProgrammeGetDegreeMap() {

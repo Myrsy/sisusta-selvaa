@@ -10,8 +10,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -137,7 +135,6 @@ public class StartingWindow extends Application {
         progBox.getChildren().add(progression);
         progBox.getChildren().add(progLabel);
         
-        
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setPercentWidth(100);
         ColumnConstraints column2 = new ColumnConstraints();
@@ -163,9 +160,9 @@ public class StartingWindow extends Application {
                values.add(prog);
            }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error: " + ex);
         } catch (IOException ex) {
-            Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error: " + ex);
         }
 
         ObservableList<DegreeProgramme> degreesObservable = FXCollections.observableList(values);
@@ -194,7 +191,7 @@ public class StartingWindow extends Application {
             try {
                 StudentData.studentsToFile(STUDENTS_JSON_FILENAME);
             } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error: " + ex);
             }
             Sisu sisu = new Sisu();
             sisu.start(stage);
@@ -204,7 +201,7 @@ public class StartingWindow extends Application {
             try {
                 StudentData.studentsToFile(STUDENTS_JSON_FILENAME);
             } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error: " + ex);
             }
             ((Node)(e.getSource())).getScene().getWindow().hide();
         });
@@ -215,11 +212,11 @@ public class StartingWindow extends Application {
             HashMap<String, DegreeProgramme> degrees = DegreeObjectData.getDegreeMap();
             if (!(degrees.containsKey(degree.getGroupId()))) {
                 try {
-                    SearchTool.searchDegreeURL(degree.getGroupId());
+                    SearchTool.searchDegreeURL(degree.getGroupId(), FULL_DEGREES_FILENAME);
                     DegreeObjectData.jsonFileToObjects(FULL_DEGREES_FILENAME);
                     degrees = DegreeObjectData.getDegreeMap();
                 }catch (IOException ex) {
-                    Logger.getLogger(Sisu.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Error: " + ex);
                 }
             }
             StudentData.changeStudentProgramme(student, degrees.get(degree.getGroupId()));
@@ -228,17 +225,12 @@ public class StartingWindow extends Application {
             try {
                 startingWindow.start(stage1);
             } catch (IOException ex) {
-                Logger.getLogger(StartingWindow.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error: " + ex);
             }
             ((Node)(e.getSource())).getScene().getWindow().hide();
         });
         
-        
-        
-        
         startPage.setContent(gridStart);
-        
-        
         
         Tab degreePage = new Tab("Tutkinto");
         tabPane.getTabs().add(degreePage);
@@ -275,7 +267,6 @@ public class StartingWindow extends Application {
         lowerControl.add(addGradeLabel, 0, 1, 1, 1);
         lowerControl.add(addGradeSpinner, 1, 1, 1, 1);
 
-        
         Label addCreditsLabel = new Label("Syötä opintopisteet: ");
         addCreditsLabel.setVisible(false);
         Spinner<Integer> addCreditsSpinner = new Spinner<>();
@@ -295,7 +286,6 @@ public class StartingWindow extends Application {
         lowerControl.add(btnAddCourse, 0, 3, 1, 1);
         lowerControl.add(courseInfo, 0, 0, 2, 1);
         upperControl.getChildren().add(scroll);
-        
         
         tree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
@@ -380,7 +370,6 @@ public class StartingWindow extends Application {
                             (maxRequire != null)) {
                         infoText = String.format("Valittava vähintään %s ja "
                                 + "enintään %s\n%s", minRequire, maxRequire, desc);
-         //               upperControl.getChildren().add(scroll);
                     } else if((desc != null) && (minRequire != null)) {
                         infoText = String.format("Valittava vähintään %s\n%s", 
                                 minRequire, desc);
@@ -530,10 +519,8 @@ public class StartingWindow extends Application {
                 });
             }
                 
-            
         });
  
-        
         leftControl.getChildren().add(tree);
         splitPaneR.getItems().addAll(upperControl, lowerControl);
         splitPane.getItems().addAll(leftControl, rightControl);
@@ -541,7 +528,6 @@ public class StartingWindow extends Application {
         Scene scene = new Scene(tabPane, 1000, 500);
         stage.setScene(scene);
         stage.show();
-    
     
     }
     

@@ -18,24 +18,23 @@ import java.util.HashMap;
  */
 public class DegreeObjectData {
     
-    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
-    private static final String OBJECTS_TO_JSON_FILENAME = "objsJson.txt";
     private static final String ISO_STRING = "ISO-8859-15";
     private static HashMap<String, DegreeProgramme> 
             degreeProgrammes = new HashMap<>();
 
     /**
-     * Reads degree programme data from the {@link #FULL_DEGREES_FILENAME} file
+     * Reads degree programme data from the specified file
      * and adds the corresponding {@link DegreeProgramme} objects to the 
      * {@link #degreeProgrammes} map by calling 
      * {@link #addProgramme(fi.tuni.prog3.sisu.DegreeProgramme) 
      * addProgramme(DegreeProgramme)} method.
      * <p>
-     * The degree file is excepted to contain the full nested degree trees in 
-     * Json format. The program doesn't handle erroneous fields. If the file is
+     * The file is excepted to contain the full nested degree trees in 
+     * JSON format. The program doesn't handle erroneous fields. If the file is
      * empty, doesn't exist, or if some degree programme that a student has 
      * chosen is missing from the file when starting the program, all the 
      * missing degree programmes will be searched from the API. 
+     * @param filename the file that will be read.
      */
     public static void jsonFileToObjects(String filename) {
                    
@@ -99,23 +98,4 @@ public class DegreeObjectData {
     }
     
     
-    /*private static void addStudyModuleToDegree(String groupIdParent, 
-    StudyModule mod){
-        degreeProgrammes.get(groupIdParent).addStudyModule(mod);
-    }*/
-    /*
-    private static void objectsToJson() throws IOException {     
-                
-        try (FileWriter fw = new FileWriter(OBJECTS_TO_JSON_FILENAME,
-    Charset.forName(ISO_STRING))){
-            ArrayList<DegreeProgramme> degreeObjs = new ArrayList<>();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            for (String id: degreeProgrammes.keySet()) {
-                degreeObjs.add(degreeProgrammes.get(id));
-            }
-            gson.toJson(degreeObjs, fw);
-            
-        }
-    }*/
-            
 }

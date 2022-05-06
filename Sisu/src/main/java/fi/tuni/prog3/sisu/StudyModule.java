@@ -79,11 +79,7 @@ public class StudyModule {
         
         return "";
     }
-/*
-    public ArrayList<CourseUnit> getCourses() {
-        return courses;
-    }
-*/
+
     /**
      * Returns the list of submodules of the module.
      * @return the list of submodules of the module.
@@ -92,18 +88,6 @@ public class StudyModule {
         return modules;
     }
     
-    /*
-    public void addCourse(CourseUnit course){
-        courses.add(course);
-    }
-*/
-    /*
-     * 
-     *
-    public void addModule(StudyModule mod){
-        modules.add(mod);
-    }*/
-
     /**
      * Returns the boolean if all the submodules are mandatory as a string.
      * @return the boolean if all the submodules are mandatory as a string.
@@ -195,7 +179,5 @@ public class StudyModule {
     public String getMaxRequire() {
         return maxRequire;
     }
-    
-    
     
 }

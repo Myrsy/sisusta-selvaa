@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class Student {
     
+    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
     private String name;
     private String studentNumber;
     private transient DegreeProgramme degreeProgramme;
@@ -33,15 +34,18 @@ public class Student {
     }
 
     /**
-     * Sets student's degree programme. The correct degree programme is fetched 
-     * by calling {@link DegreeObjectData#getDegreeMap() 
-     * DegreeObjectData.getDegreeMap()}.
+     * Sets student's degree programme. The correct degree programme is fetched
+     * by calling {@link DegreeObjectData#getDegreeMap() DegreeObjectData.getDegreeMap()}.
+     * If the degree is not already saved in the map it will be searched by 
+     * calling {@link SearchTool#searchDegreeURL(java.lang.String, java.lang.String) 
+     * SearchTool.searchDegreeURL(groupId, filename)}.
      * @param groupId the groupId of desired degree programme.
+     * @param filename the name of the file where the nested degree will be written.
      * @throws IOException if there is an IO error.
      */
-    public void setDegreeProgramme(String groupId) throws IOException {
+    public void setDegreeProgramme(String groupId, String filename) throws IOException {
         if (DegreeObjectData.getDegreeMap().get(groupId) == null) {
-            SearchTool.searchDegreeURL(groupId);
+            SearchTool.searchDegreeURL(groupId, filename);
         }
         this.degreeProgramme = DegreeObjectData.getDegreeMap().get(groupId);
     }
