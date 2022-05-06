@@ -40,9 +40,6 @@ public class Sisu extends Application {
     private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
     private static final String STUDENTS_JSON_FILENAME = "studentsfile.json";
     private static final String ALL_DEGREES_FILENAME = "alldegreesfile.json";
-    /*public Sisu(){
-        
-    }*/
             
     private class NewStudent extends Application {
                 

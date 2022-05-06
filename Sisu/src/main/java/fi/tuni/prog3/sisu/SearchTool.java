@@ -48,7 +48,6 @@ public class SearchTool {
     private static void writeArrayToFile(String filename, JsonArray array) 
             throws IOException {
                 
-        System.out.println("Kirjoitetaan tiedostoon: " + filename);
         String data = new String(Files.readAllBytes(Paths.get(filename)));
         byte[] bytes = StringUtils.getBytesUtf8(data);
         String utf8data = StringUtils.newStringUtf8(bytes);
