@@ -95,10 +95,8 @@ public class SearchTool {
             file.createNewFile(); 
             
             BufferedReader br = new BufferedReader(new FileReader(filename));
-            if (br.readLine() != null) {
-                System.out.println("Kaikki tutkinnot ovat jo tiedostossa " + 
-                        filename);
-            } else {
+           
+            if (br.readLine() == null) {
                 URL url = new URL(
                         "https://sis-tuni.funidata.fi/kori/api/module-search?"
                                 + "curriculumPeriodId=uta-lvv-2021&universityId"
@@ -173,10 +171,7 @@ public class SearchTool {
         
         Set<String> savedGroupIds = DegreeObjectData.getDegreeMap().keySet();
         
-        if (savedGroupIds.contains(newGroupId)) {
-            System.out.println("tutkinto " + newGroupId + " on jo tiedostossa");
-        } else {
-            
+        if (!savedGroupIds.contains(newGroupId)) {
             File file = new File(filename);
             file.createNewFile(); 
             

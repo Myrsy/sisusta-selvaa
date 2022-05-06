@@ -9,7 +9,6 @@ import java.util.ArrayList;
  */
 public class Student {
     
-    private static final String FULL_DEGREES_FILENAME = "fulldegreesfile.json";
     private String name;
     private String studentNumber;
     private transient DegreeProgramme degreeProgramme;
@@ -123,11 +122,8 @@ public class Student {
                 alreadyCompleted = true;
             }
         }
-        if (alreadyCompleted) {
-            System.out.println("kurssi " + newCourse.toString() + " on jo käyty");
-        } else {
+        if (!alreadyCompleted) {
             courses.add(newCourse);
-            System.out.println("kurssi " + newCourse.toString() + " lisätty");
         }
         
     }
